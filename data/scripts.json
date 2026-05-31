@@ -1,23 +1,5 @@
 {
-  "scripts": [
-    {
-      "id": "example-2",
-      "name": "Auto Farm Pro",
-      "description": "Automated farming for popular simulators with anti-AFK and teleport support.",
-      "category": "Farming",
-      "tags": [
-        "farm",
-        "automation",
-        "simulator"
-      ],
-      "pricing": "paid",
-      "downloadUrl": "https://linkvertise.com/example",
-      "linkType": "linkvertise",
-      "featured": false,
-      "createdAt": "2026-05-31T00:00:00.000Z",
-      "updatedAt": "2026-05-31T00:00:00.000Z"
-    }
-  ],
+  "scripts": [],
   "categories": [
     "Admin",
     "Combat",
