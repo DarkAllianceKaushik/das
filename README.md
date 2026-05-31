@@ -4,7 +4,8 @@ A red-themed Roblox script storefront with a secure admin panel. List script nam
 
 ## Features
 
-- **Public store** — Browse scripts with search, category, and free/paid filters
+- **Public store** — Two modes: **Dark Alliance Scripts** (your curated list) and **Online Scripts** (live ScriptBlox + RScripts API search)
+- **Filters** — Search, category, and free/paid on Alliance scripts; source filter (Both / ScriptBlox / RScripts) on online mode
 - **Script cards** — Name, description (uses), tags, category, pricing badge, featured highlight
 - **Download links** — Pastebin, Linkvertise, direct, or other
 - **Admin panel** (`/admin`) — Single owner login; post, edit, delete scripts

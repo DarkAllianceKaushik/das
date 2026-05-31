@@ -1,4 +1,4 @@
-import { StoreClient } from "@/components/StoreClient";
+import { StoreSwitcher } from "@/components/StoreSwitcher";
 import { DiscordButton } from "@/components/DiscordButton";
 import { getScriptsData } from "@/lib/scripts";
 import { Flame } from "lucide-react";
@@ -26,9 +26,8 @@ export default async function HomePage() {
           </span>
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-base text-alliance-muted sm:text-lg">
-          Browse premium and free Roblox scripts. Each listing shows what it
-          does — grab the script via Pastebin, Linkvertise, or your link of
-          choice.
+          Browse Dark Alliance curated scripts or search live results from
+          ScriptBlox and RScripts — all in one place.
         </p>
 
         {settings.discordUrl && (
@@ -65,7 +64,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <StoreClient scripts={scripts} categories={categories} />
+      <StoreSwitcher scripts={scripts} categories={categories} />
     </div>
   );
 }
