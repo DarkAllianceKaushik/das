@@ -1,0 +1,31 @@
+{
+  "scripts": [
+    {
+      "id": "example-1",
+      "name": "Infinite Yield Admin",
+      "description": "Classic admin panel script for server management, fly, noclip, and player tools.",
+      "category": "Admin",
+      "tags": ["admin", "utility", "popular"],
+      "pricing": "free",
+      "downloadUrl": "https://pastebin.com/example",
+      "linkType": "pastebin",
+      "featured": true,
+      "createdAt": "2026-05-31T00:00:00.000Z",
+      "updatedAt": "2026-05-31T00:00:00.000Z"
+    },
+    {
+      "id": "example-2",
+      "name": "Auto Farm Pro",
+      "description": "Automated farming for popular simulators with anti-AFK and teleport support.",
+      "category": "Farming",
+      "tags": ["farm", "automation", "simulator"],
+      "pricing": "paid",
+      "downloadUrl": "https://linkvertise.com/example",
+      "linkType": "linkvertise",
+      "featured": false,
+      "createdAt": "2026-05-31T00:00:00.000Z",
+      "updatedAt": "2026-05-31T00:00:00.000Z"
+    }
+  ],
+  "categories": ["Admin", "Combat", "Farming", "Visual", "Utility", "Misc"]
+}
