@@ -15,7 +15,8 @@ import {
 export function AdminDashboard() {
   const [scripts, setScripts] = useState<Script[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
-  const [githubConfigured, setGithubConfigured] = useState(false);
+  const [githubWrite, setGithubWrite] = useState(false);
+  const [githubRepo, setGithubRepo] = useState(false);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<Script | null>(null);
@@ -35,7 +36,8 @@ export function AdminDashboard() {
 
     if (meRes.ok) {
       const me = await meRes.json();
-      setGithubConfigured(me.githubConfigured);
+      setGithubWrite(me.githubConfigured);
+      setGithubRepo(me.githubRepoConfigured ?? me.githubConfigured);
     }
 
     setLoading(false);
@@ -123,20 +125,26 @@ export function AdminDashboard() {
 
       <div
         className={`flex items-center gap-2 rounded-lg border px-4 py-3 text-sm ${
-          githubConfigured
+          githubWrite
             ? "border-emerald-900/50 bg-emerald-950/30 text-emerald-300"
-            : "border-amber-900/50 bg-amber-950/30 text-amber-300"
+            : githubRepo
+              ? "border-amber-900/50 bg-amber-950/30 text-amber-300"
+              : "border-amber-900/50 bg-amber-950/30 text-amber-300"
         }`}
       >
         <Github className="h-4 w-4 shrink-0" />
-        {githubConfigured ? (
+        {githubWrite ? (
           <span>
             GitHub connected — script changes auto-commit to your repo.
           </span>
+        ) : githubRepo ? (
+          <span>
+            GitHub token invalid — store can read scripts, but admin saves will
+            fail until you fix GITHUB_TOKEN in Vercel (repo scope) and redeploy.
+          </span>
         ) : (
           <span>
-            GitHub not configured — changes save locally in dev only. Set env
-            vars on Vercel for production persistence.
+            GitHub not configured — set GITHUB_REPO and GITHUB_TOKEN in Vercel.
           </span>
         )}
       </div>

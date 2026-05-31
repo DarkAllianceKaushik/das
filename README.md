@@ -45,19 +45,23 @@ Open [http://localhost:3000](http://localhost:3000) — Admin at [http://localho
 | `ADMIN_USERNAME` | Your admin login username |
 | `ADMIN_PASSWORD` | Your admin login password |
 | `SESSION_SECRET` | Random string, 32+ characters |
-| `GITHUB_TOKEN` | [Personal Access Token](https://github.com/settings/tokens) with `repo` scope |
-| `GITHUB_REPO` | `your-username/your-repo-name` |
+| `GITHUB_TOKEN` | [Classic PAT](https://github.com/settings/tokens) with **repo** scope (not expired; no extra spaces) |
+| `GITHUB_REPO` | `DarkAllianceKaushik/das` |
 | `GITHUB_BRANCH` | `main` (or your default branch) |
 | `GITHUB_DATA_PATH` | `data/scripts.json` |
 
 4. Deploy. The site reads/writes scripts through the GitHub API so data survives serverless restarts and each change creates a commit.
 
-### GitHub token setup
+### GitHub token setup (fixes 401 Bad credentials)
 
-1. GitHub → Settings → Developer settings → Personal access tokens
-2. Create a token with **repo** access (classic token is fine)
-3. Paste into Vercel as `GITHUB_TOKEN`
-4. Set `GITHUB_REPO` to the same repo Vercel deploys from
+1. Open [GitHub → Settings → Developer settings → Personal access tokens](https://github.com/settings/tokens)
+2. **Generate new token (classic)** — not fine-grained unless you grant Contents read/write on `das`
+3. Check the **repo** scope (full control of private repositories)
+4. Copy the token once (`ghp_...`) — paste into Vercel as `GITHUB_TOKEN` with **no spaces** before/after
+5. Set `GITHUB_REPO` to `DarkAllianceKaushik/das` and `GITHUB_BRANCH` to `main`
+6. **Redeploy** Vercel after changing env vars (Deployments → ⋯ → Redeploy)
+
+If you see **401 Bad credentials**, the token is wrong, expired, or revoked — create a new one and redeploy.
 
 ## Project structure
 

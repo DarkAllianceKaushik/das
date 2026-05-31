@@ -1,7 +1,7 @@
 import { promises as fs } from "fs";
 import path from "path";
 import {
-  isGitHubConfigured,
+  isGitHubRepoConfigured,
   readFileFromGitHub,
   writeFileToGitHub,
 } from "./github";
@@ -40,13 +40,18 @@ async function writeLocalFile(data: ScriptsData): Promise<void> {
 let githubSha: string | undefined;
 
 async function loadData(): Promise<ScriptsData> {
-  if (isGitHubConfigured()) {
-    const file = await readFileFromGitHub();
-    if (file) {
-      githubSha = file.sha;
-      return normalizeData(JSON.parse(file.content));
+  if (isGitHubRepoConfigured()) {
+    try {
+      const file = await readFileFromGitHub();
+      if (file) {
+        githubSha = file.sha || undefined;
+        return normalizeData(JSON.parse(file.content));
+      }
+      return { scripts: [], categories: DEFAULT_CATEGORIES };
+    } catch (error) {
+      console.error("GitHub read failed:", error);
+      return { scripts: [], categories: DEFAULT_CATEGORIES };
     }
-    return { scripts: [], categories: DEFAULT_CATEGORIES };
   }
 
   return readLocalFile();
@@ -58,7 +63,7 @@ async function saveData(
 ): Promise<void> {
   const content = JSON.stringify(data, null, 2);
 
-  if (isGitHubConfigured()) {
+  if (isGitHubRepoConfigured()) {
     await writeFileToGitHub(content, commitMessage, githubSha);
     const refreshed = await readFileFromGitHub();
     if (refreshed) {
