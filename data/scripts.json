@@ -1,5 +1,19 @@
 {
-  "scripts": [],
+  "scripts": [
+    {
+      "id": "script-1780238213567-aizdg1u",
+      "name": "Suna",
+      "description": "111111",
+      "category": "Admin",
+      "tags": [],
+      "pricing": "paid",
+      "downloadUrl": "https://gemini.google.com/app",
+      "linkType": "pastebin",
+      "featured": false,
+      "createdAt": "2026-05-31T14:36:53.567Z",
+      "updatedAt": "2026-05-31T14:36:53.567Z"
+    }
+  ],
   "categories": [
     "Admin",
     "Combat",
@@ -7,8 +21,5 @@
     "Visual",
     "Utility",
     "Misc"
-  ],
-  "settings": {
-    "discordUrl": ""
-  }
+  ]
 }
