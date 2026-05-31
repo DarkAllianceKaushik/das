@@ -1,7 +1,12 @@
 import Link from "next/link";
 import { Shield, Swords } from "lucide-react";
+import { DiscordButton } from "./DiscordButton";
 
-export function Header() {
+interface HeaderProps {
+  discordUrl?: string;
+}
+
+export function Header({ discordUrl = "" }: HeaderProps) {
   return (
     <header className="relative z-20 border-b border-alliance-border/80 bg-alliance-black/90 backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
@@ -17,7 +22,8 @@ export function Header() {
           </div>
         </Link>
 
-        <nav className="flex items-center gap-4 sm:gap-6">
+        <nav className="flex items-center gap-3 sm:gap-4">
+          <DiscordButton discordUrl={discordUrl} size="sm" className="hidden sm:inline-flex" />
           <Link
             href="/"
             className="text-sm text-alliance-muted transition hover:text-white"

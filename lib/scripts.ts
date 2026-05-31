@@ -5,7 +5,12 @@ import {
   readFileFromGitHub,
   writeFileToGitHub,
 } from "./github";
-import type { Script, ScriptInput, ScriptsData } from "./types";
+import type {
+  Script,
+  ScriptInput,
+  ScriptsData,
+  SiteSettings,
+} from "./types";
 
 const DATA_PATH = path.join(process.cwd(), "data", "scripts.json");
 
@@ -18,14 +23,24 @@ const DEFAULT_CATEGORIES = [
   "Misc",
 ];
 
+const DEFAULT_SETTINGS = { discordUrl: "" };
+
 function normalizeData(parsed: Partial<ScriptsData>): ScriptsData {
   const scripts = Array.isArray(parsed.scripts) ? parsed.scripts : [];
   const categories =
     Array.isArray(parsed.categories) && parsed.categories.length > 0
       ? parsed.categories
       : DEFAULT_CATEGORIES;
+  const discordUrl =
+    typeof parsed.settings?.discordUrl === "string"
+      ? parsed.settings.discordUrl.trim()
+      : DEFAULT_SETTINGS.discordUrl;
 
-  return { scripts, categories };
+  return {
+    scripts,
+    categories,
+    settings: { discordUrl },
+  };
 }
 
 async function readLocalFile(): Promise<ScriptsData> {
@@ -47,10 +62,18 @@ async function loadData(): Promise<ScriptsData> {
         githubSha = file.sha || undefined;
         return normalizeData(JSON.parse(file.content));
       }
-      return { scripts: [], categories: DEFAULT_CATEGORIES };
+      return {
+        scripts: [],
+        categories: DEFAULT_CATEGORIES,
+        settings: DEFAULT_SETTINGS,
+      };
     } catch (error) {
       console.error("GitHub read failed:", error);
-      return { scripts: [], categories: DEFAULT_CATEGORIES };
+      return {
+        scripts: [],
+        categories: DEFAULT_CATEGORIES,
+        settings: DEFAULT_SETTINGS,
+      };
     }
   }
 
@@ -179,4 +202,11 @@ export async function addCategory(name: string): Promise<string[]> {
   data.categories = mergeCategories(data, name);
   await saveData(data, `Add category: ${name.trim()}`);
   return data.categories;
+}
+
+export async function updateDiscordUrl(url: string): Promise<SiteSettings> {
+  const data = await loadData();
+  data.settings.discordUrl = url.trim();
+  await saveData(data, "Update Discord invite link");
+  return data.settings;
 }

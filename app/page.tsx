@@ -1,11 +1,12 @@
 import { StoreClient } from "@/components/StoreClient";
+import { DiscordButton } from "@/components/DiscordButton";
 import { getScriptsData } from "@/lib/scripts";
 import { Flame } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const { scripts, categories } = await getScriptsData();
+  const { scripts, categories, settings } = await getScriptsData();
 
   const freeCount = scripts.filter((s) => s.pricing === "free").length;
   const paidCount = scripts.filter((s) => s.pricing === "paid").length;
@@ -29,6 +30,12 @@ export default async function HomePage() {
           does — grab the script via Pastebin, Linkvertise, or your link of
           choice.
         </p>
+
+        {settings.discordUrl && (
+          <div className="mt-6 flex justify-center">
+            <DiscordButton discordUrl={settings.discordUrl} className="sm:hidden" />
+          </div>
+        )}
 
         <div className="mt-8 flex flex-wrap justify-center gap-4">
           <div className="card-surface px-6 py-3">

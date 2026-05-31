@@ -15,3 +15,15 @@ export const loginSchema = z.object({
   username: z.string().min(1),
   password: z.string().min(1),
 });
+
+export const discordSettingsSchema = z.object({
+  discordUrl: z
+    .string()
+    .trim()
+    .refine(
+      (val) =>
+        val === "" ||
+        /^https:\/\/(discord\.gg|discord\.com\/invite)\/.+/i.test(val),
+      "Use a valid Discord invite link (discord.gg/... or discord.com/invite/...)"
+    ),
+});

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import type { Script } from "@/lib/types";
 import { ScriptForm } from "./ScriptForm";
+import { DiscordSettings } from "./DiscordSettings";
 import {
   Github,
   LogOut,
@@ -21,6 +22,7 @@ export function AdminDashboard() {
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<Script | null>(null);
   const [newCatName, setNewCatName] = useState("");
+  const [discordUrl, setDiscordUrl] = useState("");
 
   const loadData = useCallback(async () => {
     const [scriptsRes, meRes] = await Promise.all([
@@ -32,6 +34,7 @@ export function AdminDashboard() {
       const data = await scriptsRes.json();
       setScripts(data.scripts || []);
       setCategories(data.categories || []);
+      setDiscordUrl(data.settings?.discordUrl || "");
     }
 
     if (meRes.ok) {
@@ -102,7 +105,7 @@ export function AdminDashboard() {
         <div>
           <h1 className="font-display text-3xl font-bold">Admin Panel</h1>
           <p className="mt-1 text-sm text-alliance-muted">
-            Post, edit, or delete Roblox scripts
+            Manage scripts, categories, and your Discord invite link
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -148,6 +151,11 @@ export function AdminDashboard() {
           </span>
         )}
       </div>
+
+      <DiscordSettings
+        initialUrl={discordUrl}
+        onSaved={loadData}
+      />
 
       {(showForm || editing) && (
         <ScriptForm

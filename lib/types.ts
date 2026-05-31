@@ -15,9 +15,14 @@ export interface Script {
   updatedAt: string;
 }
 
+export interface SiteSettings {
+  discordUrl: string;
+}
+
 export interface ScriptsData {
   scripts: Script[];
   categories: string[];
+  settings: SiteSettings;
 }
 
 export interface ScriptInput {
