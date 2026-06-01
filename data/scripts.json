@@ -7,5 +7,8 @@
     "Visual",
     "Utility",
     "Misc"
-  ]
+  ],
+  "settings": {
+    "discordUrl": "https://discord.gg/nigga"
+  }
 }
