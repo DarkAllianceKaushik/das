@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ScriptCard } from "./ScriptCard";
+import { ScriptCardEnhanced } from "./ScriptCardEnhanced";
 import { StoreFilters } from "./StoreFilters";
 import type { Script } from "@/lib/types";
 import { PackageOpen } from "lucide-react";
@@ -68,7 +68,7 @@ export function StoreClient({ scripts, categories }: StoreClientProps) {
               </h2>
               <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {featured.map((script) => (
-                  <ScriptCard key={script.id} script={script} />
+                  <ScriptCardEnhanced key={script.id} script={script} />
                 ))}
               </div>
             </section>
@@ -83,7 +83,7 @@ export function StoreClient({ scripts, categories }: StoreClientProps) {
               )}
               <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {rest.map((script) => (
-                  <ScriptCard key={script.id} script={script} />
+                  <ScriptCardEnhanced key={script.id} script={script} />
                 ))}
               </div>
             </section>
