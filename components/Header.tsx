@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Shield, Swords } from "lucide-react";
+import { Shield, Skull, Swords } from "lucide-react";
 import { DiscordButton } from "./DiscordButton";
 
 interface HeaderProps {
@@ -29,6 +29,13 @@ export function Header({ discordUrl = "" }: HeaderProps) {
             className="text-sm text-alliance-muted transition hover:text-white"
           >
             Scripts
+          </Link>
+          <Link
+            href="/obfuscator"
+            className="flex items-center gap-1.5 text-sm text-alliance-muted transition hover:text-alliance-red-bright"
+          >
+            <Skull className="h-4 w-4" />
+            <span className="hidden sm:inline">Obfuscator</span>
           </Link>
           <Link
             href="/admin"
