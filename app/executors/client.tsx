@@ -3,13 +3,14 @@
 import { useState, useMemo } from "react";
 import { ExecutorCard } from "@/components/executor/ExecutorCard";
 import type { Executor } from "@/lib/executor-types";
-import { Wifi, Skull, PackageOpen, Search } from "lucide-react";
+import { Wifi, Skull, PackageOpen, Search, AlertTriangle, RefreshCw } from "lucide-react";
 
 interface Props {
   executors: Executor[];
 }
 
 export function ExecutorPageClient({ executors }: Props) {
+  const [errored, setErrored] = useState(executors.length === 0);
   const [search, setSearch] = useState("");
   const [platform, setPlatform] = useState("");
   const [status, setStatus] = useState("");
@@ -98,7 +99,16 @@ export function ExecutorPageClient({ executors }: Props) {
         </div>
       </div>
 
-      {filtered.length === 0 ? (
+      {errored && executors.length === 0 ? (
+        <div className="card-surface flex flex-col items-center justify-center border border-amber-800/40 py-16 text-center">
+          <AlertTriangle className="mb-3 h-12 w-12 text-amber-400/60" />
+          <p className="font-display text-lg text-amber-400">Unable to fetch executor data</p>
+          <p className="mt-1 text-sm text-alliance-muted/70">WEAO API might be down or rate-limited. Data will load automatically once available.</p>
+          <button onClick={() => window.location.reload()} className="btn-secondary mt-4">
+            <RefreshCw className="h-4 w-4" /> Retry
+          </button>
+        </div>
+      ) : filtered.length === 0 ? (
         <div className="card-surface flex flex-col items-center justify-center py-16 text-center">
           <PackageOpen className="h-12 w-12 text-alliance-muted/40" />
           <p className="mt-4 font-display text-lg text-alliance-muted">No executors found</p>

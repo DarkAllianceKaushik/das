@@ -1,24 +1,28 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { ScriptCard } from "./ScriptCard";
+import Link from "next/link";
 import type { Script } from "@/lib/types";
 import { isFavorite, toggleFavorite } from "@/lib/favorites";
 import { getViewCount, trackView } from "@/lib/analytics";
 import { submitReport } from "@/lib/reporting";
-import { Heart, Flag, Eye, X } from "lucide-react";
+import { Heart, Flag, Eye, X, Copy, Check, TrendingUp, Sparkles } from "lucide-react";
+
+const TRENDING_THRESHOLD = 10;
 
 interface Props {
   script: Script;
+  onTagClick?: (tag: string) => void;
 }
 
-export function ScriptCardEnhanced({ script }: Props) {
+export function ScriptCardEnhanced({ script, onTagClick }: Props) {
   const [faved, setFaved] = useState(false);
   const [views, setViews] = useState(0);
   const [showReport, setShowReport] = useState(false);
   const [reportReason, setReportReason] = useState("");
   const [reportDetail, setReportDetail] = useState("");
   const [reported, setReported] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     setFaved(isFavorite(script.id));
@@ -26,7 +30,9 @@ export function ScriptCardEnhanced({ script }: Props) {
     trackView(script.id);
   }, [script.id]);
 
-  const handleFav = useCallback(() => {
+  const handleFav = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     const now = toggleFavorite(script.id);
     setFaved(now);
     setViews(getViewCount(script.id));
@@ -41,34 +47,110 @@ export function ScriptCardEnhanced({ script }: Props) {
     setReportDetail("");
   }, [script.id, reportReason, reportDetail]);
 
+  const handleCopy = useCallback(async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      const res = await fetch(script.downloadUrl);
+      const text = await res.text();
+      await navigator.clipboard.writeText(text);
+    } catch {
+      await navigator.clipboard.writeText(script.downloadUrl);
+    }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }, [script.downloadUrl]);
+
+  const handleTagClickWrapper = useCallback((tag: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (onTagClick) onTagClick(tag);
+  }, [onTagClick]);
+
+  const isTrending = views >= TRENDING_THRESHOLD;
+
   return (
     <div className="relative">
-      <ScriptCard script={script} />
+      <Link href={`/scripts/${script.id}`} className="block">
+        <div className="card-surface group flex flex-col p-5 transition hover:border-alliance-red/40 hover:shadow-glow-sm">
+          <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
+            <div className="flex flex-wrap items-center gap-2">
+              {script.featured && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-alliance-red/20 px-2 py-0.5 text-xs font-medium text-alliance-red-bright">
+                  <Sparkles className="h-3 w-3" />
+                  Featured
+                </span>
+              )}
+              {isTrending && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-amber-950/60 px-2 py-0.5 text-xs font-medium text-amber-400 ring-1 ring-amber-800/50">
+                  <TrendingUp className="h-3 w-3" />
+                  Trending
+                </span>
+              )}
+              <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide ${
+                script.pricing === "free"
+                  ? "bg-emerald-950/60 text-emerald-400 ring-1 ring-emerald-800/50"
+                  : "bg-amber-950/60 text-amber-400 ring-1 ring-amber-800/50"
+              }`}>
+                {script.pricing === "free" ? "Free" : "Paid"}
+              </span>
+              {script.version && (
+                <span className="rounded-full bg-alliance-darker px-2 py-0.5 text-xs text-alliance-muted ring-1 ring-alliance-border/50">
+                  v{script.version}
+                </span>
+              )}
+            </div>
+            <span className="rounded-md bg-alliance-darker px-2 py-1 text-xs text-alliance-muted">
+              {script.category}
+            </span>
+          </div>
+
+          <h3 className="font-display text-lg font-bold text-white transition group-hover:text-alliance-red-bright">
+            {script.name}
+          </h3>
+
+          <p className="mt-2 flex-1 text-sm leading-relaxed text-alliance-muted line-clamp-2">
+            {script.description}
+          </p>
+
+          {script.tags.length > 0 && (
+            <div className="mt-4 flex flex-wrap gap-1.5">
+              {script.tags.map((tag) => (
+                <span
+                  key={tag}
+                  onClick={(e) => handleTagClickWrapper(tag, e)}
+                  className="inline-flex cursor-pointer items-center gap-1 rounded-md bg-alliance-darker px-2 py-0.5 text-xs text-alliance-muted transition hover:bg-alliance-red/20 hover:text-alliance-red-bright"
+                >
+                  <span className="text-alliance-red/60">#</span>
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+
+          <div className="mt-5 flex items-center gap-2 text-xs text-alliance-muted">
+            <span className="inline-flex items-center gap-1 rounded-md bg-alliance-black/60 px-2 py-1">
+              <Eye className="h-3 w-3" />
+              {views}
+            </span>
+          </div>
+        </div>
+      </Link>
 
       <div className="absolute right-3 top-3 flex gap-1">
-        <button
-          onClick={handleFav}
-          className="rounded-md bg-alliance-black/60 p-1.5 text-alliance-muted transition hover:bg-alliance-black hover:text-alliance-red-bright"
-          title={faved ? "Remove from favorites" : "Add to favorites"}
-        >
+        <button onClick={handleFav} className="rounded-md bg-alliance-black/60 p-1.5 text-alliance-muted transition hover:bg-alliance-black hover:text-alliance-red-bright" title={faved ? "Remove from favorites" : "Add to favorites"}>
           <Heart className={`h-3.5 w-3.5 ${faved ? "fill-alliance-red-bright text-alliance-red-bright" : ""}`} />
         </button>
-        <button
-          onClick={() => setShowReport(!showReport)}
-          className="rounded-md bg-alliance-black/60 p-1.5 text-alliance-muted transition hover:bg-alliance-black hover:text-amber-400"
-          title="Report script"
-        >
+        <button onClick={handleCopy} className="rounded-md bg-alliance-black/60 p-1.5 text-alliance-muted transition hover:bg-alliance-black hover:text-sky-400" title={copied ? "Copied!" : "Copy script"}>
+          {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+        </button>
+        <button onClick={() => setShowReport(!showReport)} className="rounded-md bg-alliance-black/60 p-1.5 text-alliance-muted transition hover:bg-alliance-black hover:text-amber-400" title="Report script">
           <Flag className="h-3.5 w-3.5" />
         </button>
       </div>
 
-      <div className="absolute bottom-20 left-4 flex items-center gap-1 rounded-md bg-alliance-black/60 px-2 py-1 text-xs text-alliance-muted">
-        <Eye className="h-3 w-3" />
-        {views}
-      </div>
-
       {showReport && (
-        <div className="card-surface absolute left-0 right-0 top-0 z-20 p-4">
+        <div className="card-surface absolute left-0 right-0 top-0 z-30 p-4">
           <div className="mb-3 flex items-center justify-between">
             <h4 className="font-display text-xs font-bold uppercase tracking-widest text-amber-400">Report Script</h4>
             <button onClick={() => setShowReport(false)} className="text-alliance-muted hover:text-white">
@@ -83,12 +165,7 @@ export function ScriptCardEnhanced({ script }: Props) {
             <option value="wrong">Wrong category / Info</option>
             <option value="other">Other</option>
           </select>
-          <textarea
-            value={reportDetail}
-            onChange={e => setReportDetail(e.target.value)}
-            placeholder="Additional details (optional)"
-            className="input-field mb-3 h-20 resize-none text-xs"
-          />
+          <textarea value={reportDetail} onChange={e => setReportDetail(e.target.value)} placeholder="Additional details (optional)" className="input-field mb-3 h-20 resize-none text-xs" />
           <div className="flex gap-2">
             <button onClick={handleReport} disabled={!reportReason} className="btn-danger flex-1 text-xs">
               <Flag className="h-3 w-3" /> Submit Report
@@ -98,7 +175,7 @@ export function ScriptCardEnhanced({ script }: Props) {
       )}
 
       {reported && (
-        <div className="absolute left-0 right-0 top-0 z-20 rounded-xl border border-emerald-800/50 bg-emerald-950/80 p-4 text-center text-sm text-emerald-400 backdrop-blur-sm">
+        <div className="absolute left-0 right-0 top-0 z-30 rounded-xl border border-emerald-800/50 bg-emerald-950/80 p-4 text-center text-sm text-emerald-400 backdrop-blur-sm">
           Report submitted. Thank you.
           <button onClick={() => setReported(false)} className="ml-2 underline">Dismiss</button>
         </div>

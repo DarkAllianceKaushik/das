@@ -13,6 +13,8 @@ const emptyForm: ScriptInput = {
   downloadUrl: "",
   linkType: "pastebin",
   featured: false,
+  version: "",
+  changelog: "",
 };
 
 interface ScriptFormProps {
@@ -39,6 +41,8 @@ export function ScriptForm({
           downloadUrl: editing.downloadUrl,
           linkType: editing.linkType,
           featured: editing.featured ?? false,
+          version: editing.version ?? "",
+          changelog: editing.changelog ?? "",
         }
       : emptyForm
   );
@@ -172,25 +176,6 @@ export function ScriptForm({
         </div>
 
         <div>
-          <label className="label-field">Link Type</label>
-          <select
-            className="input-field"
-            value={form.linkType}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                linkType: e.target.value as ScriptInput["linkType"],
-              })
-            }
-          >
-            <option value="pastebin">Pastebin</option>
-            <option value="linkvertise">Linkvertise</option>
-            <option value="direct">Direct Link</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-
-        <div>
           <label className="label-field">Download URL</label>
           <input
             type="url"
@@ -199,6 +184,40 @@ export function ScriptForm({
             onChange={(e) => setForm({ ...form, downloadUrl: e.target.value })}
             placeholder="https://pastebin.com/... or Linkvertise URL"
             required
+          />
+        </div>
+
+        <div>
+          <label className="label-field">Version</label>
+          <input
+            className="input-field"
+            value={form.version ?? ""}
+            onChange={(e) => setForm({ ...form, version: e.target.value })}
+            placeholder="e.g. 2.1.0"
+          />
+        </div>
+
+        <div>
+          <label className="label-field">Link Type</label>
+          <select
+            className="input-field"
+            value={form.linkType}
+            onChange={(e) => setForm({ ...form, linkType: e.target.value as ScriptInput["linkType"] })}
+          >
+            <option value="pastebin">Pastebin</option>
+            <option value="linkvertise">Linkvertise</option>
+            <option value="direct">Direct Link</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div className="sm:col-span-2">
+          <label className="label-field">Changelog (optional)</label>
+          <textarea
+            className="input-field min-h-[80px] resize-y"
+            value={form.changelog ?? ""}
+            onChange={(e) => setForm({ ...form, changelog: e.target.value })}
+            placeholder="What changed in this version?"
           />
         </div>
 

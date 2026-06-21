@@ -134,6 +134,8 @@ export async function createScript(input: ScriptInput): Promise<Script> {
     downloadUrl: input.downloadUrl.trim(),
     linkType: input.linkType,
     featured: input.featured ?? false,
+    version: input.version?.trim() || undefined,
+    changelog: input.changelog?.trim() || undefined,
     createdAt: now,
     updatedAt: now,
   };
@@ -164,6 +166,8 @@ export async function updateScript(
     downloadUrl: input.downloadUrl.trim(),
     linkType: input.linkType,
     featured: input.featured ?? false,
+    version: input.version?.trim() || undefined,
+    changelog: input.changelog?.trim() || undefined,
     updatedAt: new Date().toISOString(),
   };
 

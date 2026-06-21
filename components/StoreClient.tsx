@@ -1,10 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect, useCallback } from "react";
+import { useSearchParams } from "next/navigation";
 import { ScriptCardEnhanced } from "./ScriptCardEnhanced";
 import { StoreFilters } from "./StoreFilters";
 import type { Script } from "@/lib/types";
-import { PackageOpen } from "lucide-react";
+import { PackageOpen, ChevronDown } from "lucide-react";
+
+const PAGE_SIZE = 9;
 
 interface StoreClientProps {
   scripts: Script[];
@@ -12,9 +15,21 @@ interface StoreClientProps {
 }
 
 export function StoreClient({ scripts, categories }: StoreClientProps) {
-  const [search, setSearch] = useState("");
+  const searchParams = useSearchParams();
+  const [search, setSearch] = useState(searchParams.get("q") || "");
   const [category, setCategory] = useState("");
   const [pricing, setPricing] = useState("");
+  const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    const q = searchParams.get("q");
+    if (q) setSearch(q);
+  }, [searchParams]);
+
+  const handleTagClick = useCallback((tag: string) => {
+    setSearch(tag);
+    setPage(1);
+  }, []);
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase().trim();
@@ -36,6 +51,18 @@ export function StoreClient({ scripts, categories }: StoreClientProps) {
 
   const featured = filtered.filter((s) => s.featured);
   const rest = filtered.filter((s) => !s.featured);
+
+  const totalVisible = page * PAGE_SIZE;
+  const paginatedRest = rest.slice(0, totalVisible);
+  const hasMore = rest.length > totalVisible;
+
+  function handleLoadMore() {
+    setPage(p => p + 1);
+  }
+
+  useEffect(() => {
+    setPage(1);
+  }, [search, category, pricing]);
 
   return (
     <div className="space-y-8">
@@ -68,26 +95,31 @@ export function StoreClient({ scripts, categories }: StoreClientProps) {
               </h2>
               <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {featured.map((script) => (
-                  <ScriptCardEnhanced key={script.id} script={script} />
+                  <ScriptCardEnhanced key={script.id} script={script} onTagClick={handleTagClick} />
                 ))}
               </div>
             </section>
           )}
 
-          {rest.length > 0 && (
-            <section>
-              {featured.length > 0 && (
-                <h2 className="mb-4 font-display text-sm font-bold uppercase tracking-widest text-alliance-muted">
-                  All Scripts
-                </h2>
-              )}
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {rest.map((script) => (
-                  <ScriptCardEnhanced key={script.id} script={script} />
-                ))}
+          <section>
+            {rest.length > 0 && (
+              <h2 className="mb-4 font-display text-sm font-bold uppercase tracking-widest text-alliance-muted">
+                {featured.length > 0 ? "All Scripts" : `Scripts (${filtered.length})`}
+              </h2>
+            )}
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {paginatedRest.map((script) => (
+                <ScriptCardEnhanced key={script.id} script={script} onTagClick={handleTagClick} />
+              ))}
+            </div>
+            {hasMore && (
+              <div className="mt-8 text-center">
+                <button onClick={handleLoadMore} className="btn-secondary">
+                  <ChevronDown className="h-4 w-4" /> Load More ({rest.length - totalVisible} remaining)
+                </button>
               </div>
-            </section>
-          )}
+            )}
+          </section>
         </>
       )}
     </div>

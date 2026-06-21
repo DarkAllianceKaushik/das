@@ -435,7 +435,8 @@ function genVMFunc(instrs: Instr[], constName: string, protoIdx: number, protoTa
     `  local ${sN}={}`,
     `  local ${iN}={${instrStr}}`,
     `  local ${pcN}=1`,
-    `  ${junk1} ${junk2}`,
+    `  ${junk1}
+  ${junk2}`,
     `  while ${pcN}<=#${iN} and ${pcN}>0 do`,
     `    local ins=${iN}[${pcN}]`,
     `    local op=ins[1] local a=ins[2] local b=ins[3] local c=ins[4]`,

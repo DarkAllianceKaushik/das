@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { StoreClient } from "./StoreClient";
 import { OnlineScriptsClient } from "./OnlineScriptsClient";
 import type { Script } from "@/lib/types";
-import { Globe, Swords } from "lucide-react";
+import { Globe, Swords, Loader2 } from "lucide-react";
 
 type StoreMode = "alliance" | "online";
 
@@ -48,7 +48,9 @@ export function StoreSwitcher({ scripts, categories }: StoreSwitcherProps) {
       </div>
 
       {mode === "alliance" ? (
-        <StoreClient scripts={scripts} categories={categories} />
+        <Suspense fallback={<div className="flex justify-center py-12"><Loader2 className="h-8 w-8 animate-spin text-alliance-red" /></div>}>
+          <StoreClient scripts={scripts} categories={categories} />
+        </Suspense>
       ) : (
         <OnlineScriptsClient />
       )}

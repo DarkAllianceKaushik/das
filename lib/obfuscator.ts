@@ -1,3 +1,5 @@
+import { vmEncode } from "./vmobfuscator";
+
 function randomName(length = 8): string {
   const chars = "IlO01lLoO0IlO01lL";
   let name = "_";
@@ -68,8 +70,6 @@ function splitForLua(encoded: string, chunkSize: number): string {
   }
   return parts.map((p) => `"${p}"`).join("..");
 }
-
-import { vmEncode } from "./vmobfuscator";
 
 export function obfuscate(
   code: string,

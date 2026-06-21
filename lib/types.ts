@@ -11,6 +11,8 @@ export interface Script {
   downloadUrl: string;
   linkType: LinkType;
   featured?: boolean;
+  version?: string;
+  changelog?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -34,4 +36,6 @@ export interface ScriptInput {
   downloadUrl: string;
   linkType: LinkType;
   featured?: boolean;
+  version?: string;
+  changelog?: string;
 }
