@@ -1,3 +1,4 @@
+@import "tw-animate-css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -14,30 +15,37 @@
   ::selection {
     @apply bg-glass-accent/40 text-white;
   }
+
+  :root {
+    --background: #07070d;
+    --foreground: #ffffff;
+    --card: rgba(25, 25, 48, 0.55);
+    --card-foreground: #ffffff;
+    --popover: #0f0f1a;
+    --popover-foreground: #ffffff;
+    --primary: #7c3aed;
+    --primary-foreground: #ffffff;
+    --secondary: #191928;
+    --secondary-foreground: #ffffff;
+    --muted: #191928;
+    --muted-foreground: #9ca3af;
+    --accent: #7c3aed;
+    --accent-foreground: #ffffff;
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+    --border: rgba(255, 255, 255, 0.06);
+    --input: rgba(255, 255, 255, 0.06);
+    --ring: #7c3aed;
+    --radius: 0.75rem;
+  }
+
+  * {
+    @apply border-[var(--border)];
+  }
 }
 
 @layer components {
-  .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-glass-accent/40 bg-glass-accent/20 px-5 py-2.5 text-sm font-semibold text-white shadow-glass-sm backdrop-blur-[16px] transition hover:bg-glass-accent/30 hover:border-glass-accent-bright/60 focus:outline-none focus:ring-2 focus:ring-glass-accent/50 disabled:opacity-50;
-  }
-
-  .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-glass-border bg-glass-card px-5 py-2.5 text-sm font-semibold text-white shadow-glass-sm backdrop-blur-[16px] transition hover:border-glass-border-light hover:bg-glass-dark focus:outline-none focus:ring-2 focus:ring-glass-accent/30 disabled:opacity-50;
-  }
-
-  .btn-danger {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-red-900/50 bg-red-950/30 px-4 py-2 text-sm font-semibold text-red-300 shadow-glass-sm backdrop-blur-[16px] transition hover:bg-red-900/30 focus:outline-none disabled:opacity-50;
-  }
-
-  .input-field {
-    @apply w-full rounded-xl border border-glass-border bg-glass-dark/60 px-4 py-2.5 text-sm text-white placeholder:text-glass-muted/50 backdrop-blur-[16px] transition focus:border-glass-accent/60 focus:outline-none focus:ring-1 focus:ring-glass-accent/40;
-  }
-
-  .label-field {
-    @apply mb-1.5 block text-sm font-medium text-glass-muted;
-  }
-
-  .card-surface {
-    @apply rounded-2xl border border-glass-border bg-glass-card shadow-glass backdrop-blur-[24px];
+  .card-glass {
+    @apply rounded-2xl border border-[var(--border)] bg-[var(--card)] shadow-glass backdrop-blur-[24px];
   }
 }

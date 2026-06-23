@@ -7,6 +7,10 @@ import { isFavorite, toggleFavorite } from "@/lib/favorites";
 import { getViewCount, trackView } from "@/lib/analytics";
 import { submitReport } from "@/lib/reporting";
 import { Heart, Flag, Eye, X, Copy, Check, TrendingUp, Sparkles } from "lucide-react";
+import { Card, CardTitle, CardDescription } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 
 const TRENDING_THRESHOLD = 10;
 
@@ -72,32 +76,35 @@ export function ScriptCardEnhanced({ script, onTagClick }: Props) {
   return (
     <div className="relative">
       <Link href={`/scripts/${script.id}`} className="block">
-        <div className="card-surface group flex flex-col p-5 transition hover:border-glass-accent/30 hover:shadow-glass">
+        <Card className="card-glass group flex flex-col p-5 transition hover:shadow-glass">
           <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
             <div className="flex flex-wrap items-center gap-2">
               {script.featured && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-glass-accent/20 px-2 py-0.5 text-xs font-medium text-glass-accent-bright">
+                <Badge variant="outline" className="gap-1 border-glass-accent/30 bg-glass-accent/20 text-glass-accent-bright">
                   <Sparkles className="h-3 w-3" />
                   Featured
-                </span>
+                </Badge>
               )}
               {isTrending && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-amber-950/60 px-2 py-0.5 text-xs font-medium text-amber-400 ring-1 ring-amber-800/50">
+                <Badge variant="outline" className="gap-1 border-amber-800/50 bg-amber-950/60 text-amber-400">
                   <TrendingUp className="h-3 w-3" />
                   Trending
-                </span>
+                </Badge>
               )}
-              <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide ${
-                script.pricing === "free"
-                  ? "bg-emerald-950/60 text-emerald-400 ring-1 ring-emerald-800/50"
-                  : "bg-amber-950/60 text-amber-400 ring-1 ring-amber-800/50"
-              }`}>
+              <Badge
+                variant="outline"
+                className={
+                  script.pricing === "free"
+                    ? "border-emerald-800/50 bg-emerald-950/60 text-emerald-400"
+                    : "border-amber-800/50 bg-amber-950/60 text-amber-400"
+                }
+              >
                 {script.pricing === "free" ? "Free" : "Paid"}
-              </span>
+              </Badge>
               {script.version && (
-                <span className="rounded-full bg-glass-dark/80 px-2 py-0.5 text-xs text-glass-muted ring-1 ring-glass-border/60">
+                <Badge variant="outline" className="border-glass-border/60 bg-glass-dark/80 text-glass-muted">
                   v{script.version}
-                </span>
+                </Badge>
               )}
             </div>
             <span className="rounded-xl bg-glass-dark/80 px-2 py-1 text-xs text-glass-muted backdrop-blur-[8px]">
@@ -105,13 +112,13 @@ export function ScriptCardEnhanced({ script, onTagClick }: Props) {
             </span>
           </div>
 
-          <h3 className="font-display text-lg font-bold text-white transition group-hover:text-glass-accent-bright">
+          <CardTitle className="font-display text-lg font-bold text-white transition group-hover:text-glass-accent-bright">
             {script.name}
-          </h3>
+          </CardTitle>
 
-          <p className="mt-2 flex-1 text-sm leading-relaxed text-glass-muted line-clamp-2">
+          <CardDescription className="mt-2 flex-1 text-sm leading-relaxed text-glass-muted line-clamp-2">
             {script.description}
-          </p>
+          </CardDescription>
 
           {script.tags.length > 0 && (
             <div className="mt-4 flex flex-wrap gap-1.5">
@@ -134,30 +141,52 @@ export function ScriptCardEnhanced({ script, onTagClick }: Props) {
               {views}
             </span>
           </div>
-        </div>
+        </Card>
       </Link>
 
       <div className="absolute right-3 top-3 flex gap-1">
-        <button onClick={handleFav} className="rounded-xl bg-glass-black/60 p-1.5 text-glass-muted backdrop-blur-[8px] transition hover:bg-glass-black hover:text-glass-accent-bright" title={faved ? "Remove from favorites" : "Add to favorites"}>
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          onClick={handleFav}
+          className="rounded-xl bg-glass-black/60 backdrop-blur-[8px] hover:bg-glass-black hover:text-glass-accent-bright"
+          title={faved ? "Remove from favorites" : "Add to favorites"}
+        >
           <Heart className={`h-3.5 w-3.5 ${faved ? "fill-glass-accent-bright text-glass-accent-bright" : ""}`} />
-        </button>
-        <button onClick={handleCopy} className="rounded-xl bg-glass-black/60 p-1.5 text-glass-muted backdrop-blur-[8px] transition hover:bg-glass-black hover:text-sky-400" title={copied ? "Copied!" : "Copy script"}>
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          onClick={handleCopy}
+          className="rounded-xl bg-glass-black/60 backdrop-blur-[8px] hover:bg-glass-black hover:text-sky-400"
+          title={copied ? "Copied!" : "Copy script"}
+        >
           {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
-        </button>
-        <button onClick={() => setShowReport(!showReport)} className="rounded-xl bg-glass-black/60 p-1.5 text-glass-muted backdrop-blur-[8px] transition hover:bg-glass-black hover:text-amber-400" title="Report script">
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          onClick={() => setShowReport(!showReport)}
+          className="rounded-xl bg-glass-black/60 backdrop-blur-[8px] hover:bg-glass-black hover:text-amber-400"
+          title="Report script"
+        >
           <Flag className="h-3.5 w-3.5" />
-        </button>
+        </Button>
       </div>
 
       {showReport && (
-        <div className="card-surface absolute left-0 right-0 top-0 z-30 p-4">
+        <Card className="card-glass absolute left-0 right-0 top-0 z-30 p-4">
           <div className="mb-3 flex items-center justify-between">
             <h4 className="font-display text-xs font-bold uppercase tracking-widest text-amber-400">Report Script</h4>
-            <button onClick={() => setShowReport(false)} className="text-glass-muted hover:text-white">
+            <Button variant="ghost" size="icon-sm" onClick={() => setShowReport(false)} className="text-glass-muted hover:text-white">
               <X className="h-4 w-4" />
-            </button>
+            </Button>
           </div>
-          <select value={reportReason} onChange={e => setReportReason(e.target.value)} className="input-field mb-2 text-xs">
+          <select
+            value={reportReason}
+            onChange={e => setReportReason(e.target.value)}
+            className="mb-2 flex h-9 w-full rounded-lg border border-input bg-transparent px-3 py-1 text-xs shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+          >
             <option value="">Select reason...</option>
             <option value="broken">Broken / Not working</option>
             <option value="outdated">Outdated</option>
@@ -165,13 +194,24 @@ export function ScriptCardEnhanced({ script, onTagClick }: Props) {
             <option value="wrong">Wrong category / Info</option>
             <option value="other">Other</option>
           </select>
-          <textarea value={reportDetail} onChange={e => setReportDetail(e.target.value)} placeholder="Additional details (optional)" className="input-field mb-3 h-20 resize-none text-xs" />
+          <Textarea
+            value={reportDetail}
+            onChange={e => setReportDetail(e.target.value)}
+            placeholder="Additional details (optional)"
+            className="mb-3 h-20 resize-none text-xs"
+          />
           <div className="flex gap-2">
-            <button onClick={handleReport} disabled={!reportReason} className="btn-danger flex-1 text-xs">
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={handleReport}
+              disabled={!reportReason}
+              className="flex-1 text-xs"
+            >
               <Flag className="h-3 w-3" /> Submit Report
-            </button>
+            </Button>
           </div>
-        </div>
+        </Card>
       )}
 
       {reported && (

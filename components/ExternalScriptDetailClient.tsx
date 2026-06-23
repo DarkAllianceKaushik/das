@@ -32,7 +32,7 @@ export function ExternalScriptDetailClient({ script }: Props) {
         <ArrowLeft className="h-4 w-4" /> Back to Store
       </Link>
 
-      <section className="card-surface mb-8 overflow-hidden">
+      <section className="card-glass mb-8 overflow-hidden">
         {script.imageUrl && (
           <div className="relative h-48 w-full bg-glass-darker sm:h-64">
             <img
@@ -105,7 +105,7 @@ export function ExternalScriptDetailClient({ script }: Props) {
         </div>
       </section>
 
-      <section className="card-surface p-6">
+      <section className="card-glass p-6">
         <div className="flex items-center gap-3 border-b border-glass-border/60 pb-4">
           <AlertTriangle className="h-5 w-5 text-amber-400" />
           <p className="text-xs text-glass-muted">

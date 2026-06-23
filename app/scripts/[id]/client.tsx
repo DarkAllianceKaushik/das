@@ -88,7 +88,7 @@ export function ScriptDetailClient({ script, relatedScripts }: Props) {
         <ArrowLeft className="h-4 w-4" /> Back to Store
       </Link>
 
-      <section className="card-surface mb-8 p-6 sm:p-8">
+      <section className="card-glass mb-8 p-6 sm:p-8">
         <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
           <div className="flex-1">
             <div className="mb-3 flex items-center gap-3">
@@ -183,7 +183,7 @@ export function ScriptDetailClient({ script, relatedScripts }: Props) {
       </section>
 
       {showReport && (
-        <div className="card-surface mb-8 border border-amber-800/40 p-6">
+        <div className="card-glass mb-8 border border-amber-800/40 p-6">
           <div className="mb-4 flex items-center justify-between">
             <h3 className="font-display text-sm font-bold uppercase tracking-widest text-amber-400">
               <Flag className="mb-0.5 mr-2 inline h-4 w-4" />Report Script
@@ -215,13 +215,13 @@ export function ScriptDetailClient({ script, relatedScripts }: Props) {
       )}
 
       {reported && (
-        <div className="card-surface mb-8 border border-emerald-800/40 bg-emerald-950/30 p-4 text-center text-sm text-emerald-400">
+        <div className="card-glass mb-8 border border-emerald-800/40 bg-emerald-950/30 p-4 text-center text-sm text-emerald-400">
           Report submitted. Thank you.
           <button onClick={() => setReported(false)} className="ml-2 underline">Dismiss</button>
         </div>
       )}
 
-      <section className="card-surface overflow-hidden">
+      <section className="card-glass overflow-hidden">
         <div className="flex items-center justify-between border-b border-glass-border/60 bg-glass-darker/80 px-4 py-3">
           <h2 className="font-display text-sm font-bold uppercase tracking-widest text-glass-muted">
             <AlertTriangle className="mb-0.5 mr-2 inline h-4 w-4" /> Script Code

@@ -6,6 +6,8 @@ import { ScriptCardEnhanced } from "./ScriptCardEnhanced";
 import { StoreFilters } from "./StoreFilters";
 import type { Script } from "@/lib/types";
 import { PackageOpen, ChevronDown } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 const PAGE_SIZE = 9;
 
@@ -77,15 +79,17 @@ export function StoreClient({ scripts, categories }: StoreClientProps) {
       />
 
       {filtered.length === 0 ? (
-        <div className="card-surface flex flex-col items-center justify-center py-16 text-center">
-          <PackageOpen className="h-12 w-12 text-glass-muted/40" />
-          <p className="mt-4 font-display text-lg text-glass-muted">
-            No scripts found
-          </p>
-          <p className="mt-1 text-sm text-glass-muted/70">
-            Try adjusting your filters or check back later.
-          </p>
-        </div>
+        <Card className="card-glass">
+          <CardContent className="flex flex-col items-center justify-center py-16 text-center">
+            <PackageOpen className="h-12 w-12 text-glass-muted/40" />
+            <p className="mt-4 font-display text-lg text-glass-muted">
+              No scripts found
+            </p>
+            <p className="mt-1 text-sm text-glass-muted/70">
+              Try adjusting your filters or check back later.
+            </p>
+          </CardContent>
+        </Card>
       ) : (
         <>
           {featured.length > 0 && (
@@ -114,9 +118,9 @@ export function StoreClient({ scripts, categories }: StoreClientProps) {
             </div>
             {hasMore && (
               <div className="mt-8 text-center">
-                <button onClick={handleLoadMore} className="btn-secondary">
+                <Button variant="secondary" onClick={handleLoadMore}>
                   <ChevronDown className="h-4 w-4" /> Load More ({rest.length - totalVisible} remaining)
-                </button>
+                </Button>
               </div>
             )}
           </section>

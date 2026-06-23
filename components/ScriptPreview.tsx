@@ -60,7 +60,7 @@ export function ScriptPreview({ code, title, className = "" }: Props) {
   };
 
   return (
-    <div className={`card-surface overflow-hidden ${className}`}>
+    <div className={`card-glass overflow-hidden ${className}`}>
       <div className="flex items-center justify-between border-b border-glass-border/60 bg-glass-darker/80 px-4 py-2.5">
         <span className="font-display text-xs font-bold uppercase tracking-wider text-glass-muted">
           {title || "Script Preview"}

@@ -11,6 +11,9 @@ import {
   RefreshCw,
   Terminal,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent } from "@/components/ui/card";
 
 const PRESETS = [
   {
@@ -138,17 +141,19 @@ export default function ObfuscatorPage() {
         </h2>
         <div className="flex flex-wrap gap-3">
           {PRESETS.map((p) => (
-            <button
+            <Button
               key={p.name}
               onClick={() => handlePreset(p.name, p.options)}
-              className={`rounded-lg border px-4 py-2 text-sm font-semibold transition ${
+              variant={activePreset === p.name ? "secondary" : "outline"}
+              size="sm"
+              className={`text-sm font-semibold ${
                 activePreset === p.name
                   ? "border-glass-accent bg-glass-accent/20 text-glass-accent-bright"
                   : "border-glass-border bg-glass-dark text-glass-muted hover:border-glass-accent/50 hover:text-white"
               }`}
             >
               {p.name}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
@@ -167,19 +172,22 @@ export default function ObfuscatorPage() {
         ).map(([key, label]) => {
           const disabled = options.vmEncode && key !== "vmEncode";
           return (
-            <button
+            <Button
               key={key}
               onClick={() => !disabled && toggleOption(key)}
-              className={`rounded-lg border px-3 py-2 text-xs font-semibold transition ${
+              variant="outline"
+              disabled={disabled}
+              size="sm"
+              className={`text-xs font-semibold ${
                 disabled
-                  ? "border-glass-border/30 bg-glass-darker/50 text-glass-muted/30 cursor-not-allowed"
+                  ? "border-glass-border/30 bg-glass-darker/50 text-glass-muted/30 opacity-50"
                   : options[key]
                   ? "border-glass-accent bg-glass-accent/20 text-glass-accent-bright"
                   : "border-glass-border bg-glass-dark text-glass-muted hover:border-glass-accent/50 hover:text-white"
               }`}
             >
               {options[key] ? "ON" : "OFF"} — {label}
-            </button>
+            </Button>
           );
         })}
       </div>
@@ -190,25 +198,26 @@ export default function ObfuscatorPage() {
             <Terminal className="h-4 w-4" />
             Input (Lua/Luau)
           </label>
-          <textarea
+          <Textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder={SAMPLE}
-            className="input-field h-80 resize-y font-mono text-xs leading-relaxed"
+            className="h-80 resize-y font-mono text-xs leading-relaxed"
             spellCheck={false}
           />
           <div className="mt-3 flex items-center gap-3">
-            <button onClick={handleObfuscate} className="btn-primary">
+            <Button onClick={handleObfuscate}>
               <Skull className="h-4 w-4" />
               Obfuscate
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="secondary"
               onClick={() => setInput(SAMPLE)}
-              className="btn-secondary text-xs"
+              size="sm"
             >
               <RefreshCw className="h-3.5 w-3.5" />
               Load Sample
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -218,25 +227,27 @@ export default function ObfuscatorPage() {
             Output
           </label>
           <div className="relative">
-            <textarea
+            <Textarea
               ref={outputRef}
               value={output}
               readOnly
               placeholder="Obfuscated code will appear here..."
-              className="input-field h-80 resize-y font-mono text-xs leading-relaxed"
+              className="h-80 resize-y font-mono text-xs leading-relaxed"
               spellCheck={false}
             />
             {output && (
-              <button
+              <Button
+                variant="ghost"
+                size="icon"
                 onClick={handleCopy}
-                className="absolute right-3 top-3 rounded-md border border-glass-border bg-glass-darker p-2 text-glass-muted transition hover:border-glass-accent/50 hover:text-white"
+                className="absolute right-3 top-3"
               >
                 {copied ? (
                   <Check className="h-4 w-4 text-emerald-400" />
                 ) : (
                   <Copy className="h-4 w-4" />
                 )}
-              </button>
+              </Button>
             )}
           </div>
           {output && (
@@ -247,17 +258,19 @@ export default function ObfuscatorPage() {
         </div>
       </div>
 
-      <div className="card-surface mx-auto mt-12 max-w-3xl p-6 text-sm text-glass-muted">
-        <h3 className="mb-2 font-display text-xs font-bold uppercase tracking-widest text-glass-accent-bright">
-          ⚠ Disclaimer
-        </h3>
-        <p>
-          This obfuscator is provided for educational purposes and protecting
-          your own scripts. Do not use it to distribute malware, steal
-          intellectual property, or violate any terms of service. The Dark
-          Alliance team is not responsible for misuse.
-        </p>
-      </div>
+      <Card className="card-glass mx-auto mt-12 max-w-3xl">
+        <CardContent className="p-6 text-sm text-glass-muted">
+          <h3 className="mb-2 font-display text-xs font-bold uppercase tracking-widest text-glass-accent-bright">
+            ⚠ Disclaimer
+          </h3>
+          <p>
+            This obfuscator is provided for educational purposes and protecting
+            your own scripts. Do not use it to distribute malware, steal
+            intellectual property, or violate any terms of service. The Dark
+            Alliance team is not responsible for misuse.
+          </p>
+        </CardContent>
+      </Card>
     </div>
   );
 }

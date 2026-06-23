@@ -63,7 +63,7 @@ export function OnlineScriptsClient() {
 
   return (
     <div className="space-y-6">
-      <div className="card-surface space-y-4 p-4">
+      <div className="card-glass space-y-4 p-4">
         <div className="flex items-start gap-3 rounded-xl border border-glass-border bg-glass-dark/50 p-3 text-sm text-glass-muted">
           <Globe className="mt-0.5 h-4 w-4 shrink-0 text-glass-accent-bright" />
           <p>
@@ -136,9 +136,9 @@ export function OnlineScriptsClient() {
           <p className="mt-4">Loading from ScriptBlox & RScripts…</p>
         </div>
       ) : error ? (
-        <div className="card-surface py-12 text-center text-red-300">{error}</div>
+        <div className="card-glass py-12 text-center text-red-300">{error}</div>
       ) : scripts.length === 0 ? (
-        <div className="card-surface py-12 text-center text-glass-muted">
+        <div className="card-glass py-12 text-center text-glass-muted">
           No scripts found. Try another search or source.
         </div>
       ) : (

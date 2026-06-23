@@ -2,6 +2,8 @@ import { StoreSwitcher } from "@/components/StoreSwitcher";
 import { DiscordButton } from "@/components/DiscordButton";
 import { getScriptsData } from "@/lib/scripts";
 import { Flame } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 
 export const dynamic = "force-dynamic";
 
@@ -14,10 +16,13 @@ export default async function HomePage() {
   return (
     <div className="relative z-10 mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
       <section className="mb-12 text-center">
-        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-glass-accent/30 bg-glass-accent/10 px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-glass-accent-bright">
+        <Badge
+          variant="outline"
+          className="mb-4 gap-2 border-glass-accent/30 bg-glass-accent/10 px-4 py-1.5 font-medium uppercase tracking-wider text-glass-accent-bright"
+        >
           <Flame className="h-3.5 w-3.5" />
           Roblox Scripts
-        </div>
+        </Badge>
         <h1 className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl">
           <span className="text-white">Dark Alliance</span>
           <br />
@@ -37,30 +42,38 @@ export default async function HomePage() {
         )}
 
         <div className="mt-8 flex flex-wrap justify-center gap-4">
-          <div className="card-surface px-6 py-3">
-            <p className="font-display text-2xl font-bold text-glass-accent-bright">
-              {scripts.length}
-            </p>
-            <p className="text-xs text-glass-muted">Total Scripts</p>
-          </div>
-          <div className="card-surface px-6 py-3">
-            <p className="font-display text-2xl font-bold text-emerald-400">
-              {freeCount}
-            </p>
-            <p className="text-xs text-glass-muted">Free</p>
-          </div>
-          <div className="card-surface px-6 py-3">
-            <p className="font-display text-2xl font-bold text-amber-400">
-              {paidCount}
-            </p>
-            <p className="text-xs text-glass-muted">Paid</p>
-          </div>
-          <div className="card-surface px-6 py-3">
-            <p className="font-display text-2xl font-bold text-white">
-              {categories.length}
-            </p>
-            <p className="text-xs text-glass-muted">Categories</p>
-          </div>
+          <Card className="card-glass">
+            <CardContent className="flex flex-col items-center px-6 py-3">
+              <p className="font-display text-2xl font-bold text-glass-accent-bright">
+                {scripts.length}
+              </p>
+              <p className="text-xs text-glass-muted">Total Scripts</p>
+            </CardContent>
+          </Card>
+          <Card className="card-glass">
+            <CardContent className="flex flex-col items-center px-6 py-3">
+              <p className="font-display text-2xl font-bold text-emerald-400">
+                {freeCount}
+              </p>
+              <p className="text-xs text-glass-muted">Free</p>
+            </CardContent>
+          </Card>
+          <Card className="card-glass">
+            <CardContent className="flex flex-col items-center px-6 py-3">
+              <p className="font-display text-2xl font-bold text-amber-400">
+                {paidCount}
+              </p>
+              <p className="text-xs text-glass-muted">Paid</p>
+            </CardContent>
+          </Card>
+          <Card className="card-glass">
+            <CardContent className="flex flex-col items-center px-6 py-3">
+              <p className="font-display text-2xl font-bold text-white">
+                {categories.length}
+              </p>
+              <p className="text-xs text-glass-muted">Categories</p>
+            </CardContent>
+          </Card>
         </div>
       </section>
 

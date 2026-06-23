@@ -4,6 +4,10 @@ import { useState, useMemo } from "react";
 import { ExecutorCard } from "@/components/executor/ExecutorCard";
 import type { Executor } from "@/lib/executor-types";
 import { Wifi, Skull, PackageOpen, Search, AlertTriangle, RefreshCw } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface Props {
   executors: Executor[];
@@ -12,9 +16,9 @@ interface Props {
 export function ExecutorPageClient({ executors }: Props) {
   const [errored, setErrored] = useState(executors.length === 0);
   const [search, setSearch] = useState("");
-  const [platform, setPlatform] = useState("");
-  const [status, setStatus] = useState("");
-  const [price, setPrice] = useState("");
+  const [platform, setPlatform] = useState("all");
+  const [status, setStatus] = useState("all");
+  const [price, setPrice] = useState("all");
 
   const platforms = useMemo(() => {
     const s = new Set(executors.map(e => e.platform).filter(Boolean));
@@ -24,12 +28,16 @@ export function ExecutorPageClient({ executors }: Props) {
   const filtered = useMemo(() => {
     const q = search.toLowerCase().trim();
     return executors.filter(e => {
-      if (platform && e.platform !== platform) return false;
-      if (status === "working" && (!e.updateStatus || e.detected)) return false;
-      if (status === "detected" && !e.detected) return false;
-      if (status === "outdated" && e.updateStatus) return false;
-      if (price === "free" && !e.free) return false;
-      if (price === "paid" && e.free) return false;
+      if (platform !== "all" && e.platform !== platform) return false;
+      if (status !== "all") {
+        if (status === "working" && (!e.updateStatus || e.detected)) return false;
+        if (status === "detected" && !e.detected) return false;
+        if (status === "outdated" && e.updateStatus) return false;
+      }
+      if (price !== "all") {
+        if (price === "free" && !e.free) return false;
+        if (price === "paid" && e.free) return false;
+      }
       if (q && !e.title.toLowerCase().includes(q)) return false;
       return true;
     });
@@ -55,65 +63,90 @@ export function ExecutorPageClient({ executors }: Props) {
           Live status from <span className="text-white">WEAO</span> — check which executors are working, detected, or outdated.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-4">
-          <div className="card-surface px-5 py-3">
-            <p className="font-display text-2xl font-bold text-emerald-400">{working}</p>
-            <p className="text-xs text-glass-muted">Working</p>
-          </div>
-          <div className="card-surface px-5 py-3">
-            <p className="font-display text-2xl font-bold text-red-400">{detected}</p>
-            <p className="text-xs text-glass-muted">Detected</p>
-          </div>
-          <div className="card-surface px-5 py-3">
-            <p className="font-display text-2xl font-bold text-white">{executors.length}</p>
-            <p className="text-xs text-glass-muted">Total Tracked</p>
-          </div>
+          <Card className="card-glass">
+            <CardContent className="flex flex-col items-center px-5 py-3">
+              <p className="font-display text-2xl font-bold text-emerald-400">{working}</p>
+              <p className="text-xs text-glass-muted">Working</p>
+            </CardContent>
+          </Card>
+          <Card className="card-glass">
+            <CardContent className="flex flex-col items-center px-5 py-3">
+              <p className="font-display text-2xl font-bold text-red-400">{detected}</p>
+              <p className="text-xs text-glass-muted">Detected</p>
+            </CardContent>
+          </Card>
+          <Card className="card-glass">
+            <CardContent className="flex flex-col items-center px-5 py-3">
+              <p className="font-display text-2xl font-bold text-white">{executors.length}</p>
+              <p className="text-xs text-glass-muted">Total Tracked</p>
+            </CardContent>
+          </Card>
         </div>
       </section>
 
       <div className="mb-8 space-y-4">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-glass-muted" />
-          <input
+          <Input
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Search executors..."
-            className="input-field pl-9"
+            className="pl-9"
           />
         </div>
         <div className="flex flex-wrap gap-3">
-          <select value={platform} onChange={e => setPlatform(e.target.value)} className="input-field w-auto min-w-[140px]">
-            <option value="">All Platforms</option>
-            {platforms.map(p => <option key={p} value={p}>{p}</option>)}
-          </select>
-          <select value={status} onChange={e => setStatus(e.target.value)} className="input-field w-auto min-w-[140px]">
-            <option value="">All Status</option>
-            <option value="working">Working</option>
-            <option value="detected">Detected</option>
-            <option value="outdated">Outdated</option>
-          </select>
-          <select value={price} onChange={e => setPrice(e.target.value)} className="input-field w-auto min-w-[140px]">
-            <option value="">Free & Paid</option>
-            <option value="free">Free Only</option>
-            <option value="paid">Paid Only</option>
-          </select>
+          <Select value={platform} onValueChange={(v) => v !== null && setPlatform(v)}>
+            <SelectTrigger className="w-auto min-w-[140px]">
+              <SelectValue placeholder="All Platforms" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Platforms</SelectItem>
+              {platforms.map(p => <SelectItem key={p} value={p}>{p}</SelectItem>)}
+            </SelectContent>
+          </Select>
+          <Select value={status} onValueChange={(v) => v !== null && setStatus(v)}>
+            <SelectTrigger className="w-auto min-w-[140px]">
+              <SelectValue placeholder="All Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Status</SelectItem>
+              <SelectItem value="working">Working</SelectItem>
+              <SelectItem value="detected">Detected</SelectItem>
+              <SelectItem value="outdated">Outdated</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select value={price} onValueChange={(v) => v !== null && setPrice(v)}>
+            <SelectTrigger className="w-auto min-w-[140px]">
+              <SelectValue placeholder="Free & Paid" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Free & Paid</SelectItem>
+              <SelectItem value="free">Free Only</SelectItem>
+              <SelectItem value="paid">Paid Only</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
       {errored && executors.length === 0 ? (
-        <div className="card-surface flex flex-col items-center justify-center border border-amber-800/40 py-16 text-center">
-          <AlertTriangle className="mb-3 h-12 w-12 text-amber-400/60" />
-          <p className="font-display text-lg text-amber-400">Unable to fetch executor data</p>
-          <p className="mt-1 text-sm text-glass-muted/70">WEAO API might be down or rate-limited. Data will load automatically once available.</p>
-          <button onClick={() => window.location.reload()} className="btn-secondary mt-4">
-            <RefreshCw className="h-4 w-4" /> Retry
-          </button>
-        </div>
+        <Card className="flex flex-col items-center justify-center border border-amber-800/40 py-16 text-center">
+          <CardContent className="flex flex-col items-center">
+            <AlertTriangle className="mb-3 h-12 w-12 text-amber-400/60" />
+            <p className="font-display text-lg text-amber-400">Unable to fetch executor data</p>
+            <p className="mt-1 text-sm text-glass-muted/70">WEAO API might be down or rate-limited. Data will load automatically once available.</p>
+            <Button variant="secondary" onClick={() => window.location.reload()} className="mt-4">
+              <RefreshCw className="h-4 w-4" /> Retry
+            </Button>
+          </CardContent>
+        </Card>
       ) : filtered.length === 0 ? (
-        <div className="card-surface flex flex-col items-center justify-center py-16 text-center">
-          <PackageOpen className="h-12 w-12 text-glass-muted/40" />
-          <p className="mt-4 font-display text-lg text-glass-muted">No executors found</p>
-          <p className="mt-1 text-sm text-glass-muted/70">Try adjusting your filters.</p>
-        </div>
+        <Card className="flex flex-col items-center justify-center py-16 text-center">
+          <CardContent className="flex flex-col items-center">
+            <PackageOpen className="h-12 w-12 text-glass-muted/40" />
+            <p className="mt-4 font-display text-lg text-glass-muted">No executors found</p>
+            <p className="mt-1 text-sm text-glass-muted/70">Try adjusting your filters.</p>
+          </CardContent>
+        </Card>
       ) : (
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map(e => <ExecutorCard key={e.title} executor={e} />)}
