@@ -3,6 +3,7 @@ import { Orbitron, Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { Darky } from "@/components/Darky";
 import { getScriptsData } from "@/lib/scripts";
 
 const display = Orbitron({
@@ -38,6 +39,7 @@ export default async function RootLayout({
         <div className="fixed inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(124,58,237,0.12),transparent)] pointer-events-none" />
         <Header discordUrl={discordUrl} />
         <main className="relative flex-1">{children}</main>
+        <Darky />
         <Footer discordUrl={discordUrl} />
       </body>
     </html>

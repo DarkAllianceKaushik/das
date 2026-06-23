@@ -35,6 +35,33 @@ const config: Config = {
       backdropBlur: {
         glass: "24px",
       },
+      animation: {
+        "fade-in": "fadeIn 0.3s ease-out",
+        "wave": "wave 1.5s ease-in-out",
+        "wave-hand": "waveHand 0.5s ease-in-out",
+        "pulse-slow": "pulseSlow 3s ease-in-out infinite",
+      },
+      keyframes: {
+        fadeIn: {
+          "0%": { opacity: "0", transform: "translateY(8px) scale(0.96)" },
+          "100%": { opacity: "1", transform: "translateY(0) scale(1)" },
+        },
+        wave: {
+          "0%, 100%": { transform: "scale(1)" },
+          "25%": { transform: "scale(1.15) rotate(-5deg)" },
+          "50%": { transform: "scale(1.05) rotate(5deg)" },
+          "75%": { transform: "scale(1.1) rotate(-3deg)" },
+        },
+        waveHand: {
+          "0%, 100%": { transform: "rotate(0deg)" },
+          "25%": { transform: "rotate(-20deg)" },
+          "75%": { transform: "rotate(15deg)" },
+        },
+        pulseSlow: {
+          "0%, 100%": { opacity: "0.4" },
+          "50%": { opacity: "0.8" },
+        },
+      },
     },
   },
   plugins: [],
