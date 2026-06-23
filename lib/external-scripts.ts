@@ -191,10 +191,10 @@ export async function fetchExternalScriptById(
   if (id.startsWith("rscripts-")) {
     const scriptId = id.slice("rscripts-".length);
     try {
-      const data = await fetchJson<{ script?: Record<string, unknown>[] }>(
+      const data = await fetchJson<{ script?: Record<string, unknown> }>(
         `https://rscripts.net/api/v2/script?id=${encodeURIComponent(scriptId)}`
       );
-      if (data?.script?.[0]) return mapRScripts(data.script[0]);
+      if (data?.script) return mapRScripts(data.script as Record<string, unknown>);
     } catch { return null; }
     return null;
   }
