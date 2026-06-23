@@ -36,7 +36,7 @@ export default async function RootLayout({
     <html lang="en" className={`${display.variable} ${body.variable}`}>
       <body className="font-body min-h-screen flex flex-col">
         <div className="fixed inset-0 bg-gradient-to-br from-glass-accent-dim/10 via-glass-black to-glass-dark/80 pointer-events-none" />
-        <div className="fixed inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(124,58,237,0.12),transparent)] pointer-events-none" />
+        <div className="fixed inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(220,38,38,0.12),transparent)] pointer-events-none" />
         <Header discordUrl={discordUrl} />
         <main className="relative flex-1">{children}</main>
         <Darky />
