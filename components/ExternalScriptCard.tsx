@@ -37,16 +37,16 @@ export function ExternalScriptCard({ script }: { script: ExternalScript }) {
 
   return (
     <Link href={`/scripts/${script.id}`} className="block">
-      <article className="card-surface group flex flex-col overflow-hidden transition hover:border-alliance-red/40 hover:shadow-glow-sm">
+      <article className="card-surface group flex flex-col overflow-hidden transition hover:border-glass-accent/30 hover:shadow-glass">
         {script.imageUrl && (
-          <div className="relative h-36 w-full overflow-hidden bg-alliance-darker">
+          <div className="relative h-36 w-full overflow-hidden bg-glass-darker">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={script.imageUrl}
               alt=""
               className="h-full w-full object-cover opacity-80 transition group-hover:opacity-100"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-alliance-card to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-glass-card to-transparent" />
           </div>
         )}
 
@@ -76,17 +76,17 @@ export function ExternalScriptCard({ script }: { script: ExternalScript }) {
             )}
           </div>
 
-          <h3 className="font-display text-lg font-bold text-white group-hover:text-alliance-red-bright transition line-clamp-2">
+          <h3 className="font-display text-lg font-bold text-white group-hover:text-glass-accent-bright transition line-clamp-2">
             {script.name}
           </h3>
 
-          <p className="mt-1 text-xs text-alliance-red/70">{script.game}</p>
+          <p className="mt-1 text-xs text-glass-accent/70">{script.game}</p>
 
-          <p className="mt-2 flex-1 text-sm leading-relaxed text-alliance-muted line-clamp-3">
+          <p className="mt-2 flex-1 text-sm leading-relaxed text-glass-muted line-clamp-3">
             {script.description}
           </p>
 
-          <div className="mt-4 flex items-center gap-1.5 text-xs text-alliance-muted">
+          <div className="mt-4 flex items-center gap-1.5 text-xs text-glass-muted">
             <Eye className="h-3.5 w-3.5" />
             {script.views.toLocaleString()} views
           </div>

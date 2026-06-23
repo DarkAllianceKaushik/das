@@ -78,11 +78,11 @@ export function StoreClient({ scripts, categories }: StoreClientProps) {
 
       {filtered.length === 0 ? (
         <div className="card-surface flex flex-col items-center justify-center py-16 text-center">
-          <PackageOpen className="h-12 w-12 text-alliance-muted/40" />
-          <p className="mt-4 font-display text-lg text-alliance-muted">
+          <PackageOpen className="h-12 w-12 text-glass-muted/40" />
+          <p className="mt-4 font-display text-lg text-glass-muted">
             No scripts found
           </p>
-          <p className="mt-1 text-sm text-alliance-muted/70">
+          <p className="mt-1 text-sm text-glass-muted/70">
             Try adjusting your filters or check back later.
           </p>
         </div>
@@ -90,7 +90,7 @@ export function StoreClient({ scripts, categories }: StoreClientProps) {
         <>
           {featured.length > 0 && (
             <section>
-              <h2 className="mb-4 font-display text-sm font-bold uppercase tracking-widest text-alliance-red-bright">
+              <h2 className="mb-4 font-display text-sm font-bold uppercase tracking-widest text-glass-accent-bright">
                 Featured
               </h2>
               <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -103,7 +103,7 @@ export function StoreClient({ scripts, categories }: StoreClientProps) {
 
           <section>
             {rest.length > 0 && (
-              <h2 className="mb-4 font-display text-sm font-bold uppercase tracking-widest text-alliance-muted">
+              <h2 className="mb-4 font-display text-sm font-bold uppercase tracking-widest text-glass-muted">
                 {featured.length > 0 ? "All Scripts" : `Scripts (${filtered.length})`}
               </h2>
             )}

@@ -43,35 +43,35 @@ export function ExecutorCard({ executor }: { executor: Executor }) {
             <span className="rounded-full bg-amber-950/60 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide text-amber-400 ring-1 ring-amber-800/50">Paid</span>
           )}
         </div>
-        <span className="inline-flex items-center gap-1 rounded-md bg-alliance-darker px-2 py-1 text-xs text-alliance-muted">
+        <span className="inline-flex items-center gap-1 rounded-md bg-glass-darker px-2 py-1 text-xs text-glass-muted">
           <Icon className="h-3 w-3" />
           {executor.platform}
         </span>
       </div>
 
-      <h3 className="font-display text-lg font-bold text-white transition group-hover:text-alliance-red-bright">
+      <h3 className="font-display text-lg font-bold text-white transition group-hover:text-glass-accent-bright">
         {executor.title}
-        <span className="ml-2 text-sm font-normal text-alliance-muted">v{executor.version}</span>
+        <span className="ml-2 text-sm font-normal text-glass-muted">v{executor.version}</span>
       </h3>
 
-      <div className="mt-2 flex flex-wrap gap-3 text-xs text-alliance-muted">
+      <div className="mt-2 flex flex-wrap gap-3 text-xs text-glass-muted">
         {executor.uncStatus && (
-          <span className="inline-flex items-center gap-1 rounded bg-alliance-darker px-2 py-0.5">
+          <span className="inline-flex items-center gap-1 rounded bg-glass-darker px-2 py-0.5">
             <ShieldCheck className="h-3 w-3 text-emerald-400" /> UNC
           </span>
         )}
         {executor.decompiler && (
-          <span className="inline-flex items-center gap-1 rounded bg-alliance-darker px-2 py-0.5">Decompiler</span>
+          <span className="inline-flex items-center gap-1 rounded bg-glass-darker px-2 py-0.5">Decompiler</span>
         )}
         {executor.multiInject && (
-          <span className="inline-flex items-center gap-1 rounded bg-alliance-darker px-2 py-0.5">Multi-Inject</span>
+          <span className="inline-flex items-center gap-1 rounded bg-glass-darker px-2 py-0.5">Multi-Inject</span>
         )}
         {executor.raknet && (
-          <span className="inline-flex items-center gap-1 rounded bg-alliance-darker px-2 py-0.5">Raknet</span>
+          <span className="inline-flex items-center gap-1 rounded bg-glass-darker px-2 py-0.5">Raknet</span>
         )}
       </div>
 
-      <p className="mt-3 text-xs text-alliance-muted">
+      <p className="mt-3 text-xs text-glass-muted">
         Updated: {executor.updatedDate}
       </p>
 

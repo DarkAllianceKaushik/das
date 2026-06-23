@@ -95,7 +95,7 @@ export function AdminDashboard() {
 
   if (loading) {
     return (
-      <p className="text-center text-alliance-muted">Loading admin panel...</p>
+      <p className="text-center text-glass-muted">Loading admin panel...</p>
     );
   }
 
@@ -104,7 +104,7 @@ export function AdminDashboard() {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="font-display text-3xl font-bold">Admin Panel</h1>
-          <p className="mt-1 text-sm text-alliance-muted">
+          <p className="mt-1 text-sm text-glass-muted">
             Manage scripts, categories, and your Discord invite link
           </p>
         </div>
@@ -175,7 +175,7 @@ export function AdminDashboard() {
           {categories.map((c) => (
             <span
               key={c}
-              className="rounded-full border border-alliance-border bg-alliance-darker px-3 py-1 text-sm"
+              className="rounded-full border border-glass-border bg-glass-darker px-3 py-1 text-sm"
             >
               {c}
             </span>
@@ -200,7 +200,7 @@ export function AdminDashboard() {
         </h2>
 
         {scripts.length === 0 ? (
-          <p className="text-alliance-muted">No scripts yet. Post your first one!</p>
+          <p className="text-glass-muted">No scripts yet. Post your first one!</p>
         ) : (
           <div className="space-y-3">
             {scripts.map((script) => (
@@ -211,19 +211,19 @@ export function AdminDashboard() {
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
                     <h3 className="font-semibold text-white">{script.name}</h3>
-                    <span className="text-xs uppercase text-alliance-muted">
+                    <span className="text-xs uppercase text-glass-muted">
                       {script.pricing}
                     </span>
-                    <span className="text-xs text-alliance-red/80">
+                    <span className="text-xs text-glass-accent/80">
                       {script.category}
                     </span>
                   </div>
-                  <p className="mt-1 truncate text-sm text-alliance-muted">
+                  <p className="mt-1 truncate text-sm text-glass-muted">
                     {script.description}
                   </p>
                   <div className="mt-1 flex flex-wrap gap-1">
                     {script.tags.map((t) => (
-                      <span key={t} className="text-xs text-alliance-muted/70">
+                      <span key={t} className="text-xs text-glass-muted/70">
                         #{t}
                       </span>
                     ))}

@@ -64,8 +64,8 @@ export function OnlineScriptsClient() {
   return (
     <div className="space-y-6">
       <div className="card-surface space-y-4 p-4">
-        <div className="flex items-start gap-3 rounded-lg border border-alliance-border/60 bg-alliance-darker/50 p-3 text-sm text-alliance-muted">
-          <Globe className="mt-0.5 h-4 w-4 shrink-0 text-alliance-red-bright" />
+        <div className="flex items-start gap-3 rounded-xl border border-glass-border bg-glass-dark/50 p-3 text-sm text-glass-muted">
+          <Globe className="mt-0.5 h-4 w-4 shrink-0 text-glass-accent-bright" />
           <p>
             Live results from{" "}
             <strong className="text-white">ScriptBlox</strong> and{" "}
@@ -76,7 +76,7 @@ export function OnlineScriptsClient() {
 
         <form onSubmit={handleSearch} className="flex flex-col gap-3 sm:flex-row">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-alliance-muted" />
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-glass-muted" />
             <input
               type="search"
               placeholder="Search online scripts (game, feature, name)..."
@@ -118,10 +118,10 @@ export function OnlineScriptsClient() {
                 setSource(value);
                 setPage(1);
               }}
-              className={`rounded-lg px-4 py-2 text-sm font-medium transition ${
+              className={`rounded-xl px-4 py-2 text-sm font-medium transition ${
                 source === value
-                  ? "bg-alliance-red text-white"
-                  : "border border-alliance-border bg-alliance-darker text-alliance-muted hover:text-white"
+                  ? "bg-glass-accent/20 text-glass-accent-bright border border-glass-accent/30"
+                  : "border border-glass-border bg-glass-dark/60 text-glass-muted hover:text-white backdrop-blur-[8px]"
               }`}
             >
               {label}
@@ -131,14 +131,14 @@ export function OnlineScriptsClient() {
       </div>
 
       {loading ? (
-        <div className="flex flex-col items-center justify-center py-20 text-alliance-muted">
-          <Loader2 className="h-10 w-10 animate-spin text-alliance-red" />
+        <div className="flex flex-col items-center justify-center py-20 text-glass-muted">
+          <Loader2 className="h-10 w-10 animate-spin text-glass-accent" />
           <p className="mt-4">Loading from ScriptBlox & RScripts…</p>
         </div>
       ) : error ? (
         <div className="card-surface py-12 text-center text-red-300">{error}</div>
       ) : scripts.length === 0 ? (
-        <div className="card-surface py-12 text-center text-alliance-muted">
+        <div className="card-surface py-12 text-center text-glass-muted">
           No scripts found. Try another search or source.
         </div>
       ) : (
@@ -160,7 +160,7 @@ export function OnlineScriptsClient() {
             <ChevronLeft className="h-4 w-4" />
             Previous
           </button>
-          <span className="text-sm text-alliance-muted">
+          <span className="text-sm text-glass-muted">
             Page {page} of {totalPages}
           </span>
           <button

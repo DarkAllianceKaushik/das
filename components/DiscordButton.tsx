@@ -23,7 +23,7 @@ export function DiscordButton({
       href={discordUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className={`inline-flex items-center justify-center rounded-lg bg-[#5865F2] font-semibold text-white transition hover:bg-[#4752C4] focus:outline-none focus:ring-2 focus:ring-[#5865F2] focus:ring-offset-2 focus:ring-offset-alliance-black ${sizeClasses} ${className}`}
+      className={`inline-flex items-center justify-center rounded-xl border border-[#5865F2]/40 bg-[#5865F2]/20 font-semibold text-white shadow-glass-sm backdrop-blur-[16px] transition hover:bg-[#5865F2]/30 focus:outline-none focus:ring-2 focus:ring-[#5865F2]/50 ${sizeClasses} ${className}`}
     >
       <MessageCircle className={size === "sm" ? "h-3.5 w-3.5" : "h-4 w-4"} />
       Join our Discord

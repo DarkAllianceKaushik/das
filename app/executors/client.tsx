@@ -41,38 +41,38 @@ export function ExecutorPageClient({ executors }: Props) {
   return (
     <div className="relative z-10 mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
       <section className="mb-10 text-center">
-        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-alliance-red/30 bg-alliance-red/10 px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-alliance-red-bright">
+        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-glass-accent/30 bg-glass-accent/10 px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-glass-accent-bright">
           <Wifi className="h-3.5 w-3.5" /> Executor Status
         </div>
         <h1 className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl">
           <span className="text-white">Roblox</span>
           <br />
-          <span className="bg-gradient-to-r from-alliance-red-bright via-alliance-red to-alliance-crimson bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-glass-accent-bright via-glass-accent to-glass-accent-dim bg-clip-text text-transparent">
             Executor Status
           </span>
         </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-base text-alliance-muted sm:text-lg">
+        <p className="mx-auto mt-4 max-w-2xl text-base text-glass-muted sm:text-lg">
           Live status from <span className="text-white">WEAO</span> — check which executors are working, detected, or outdated.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-4">
           <div className="card-surface px-5 py-3">
             <p className="font-display text-2xl font-bold text-emerald-400">{working}</p>
-            <p className="text-xs text-alliance-muted">Working</p>
+            <p className="text-xs text-glass-muted">Working</p>
           </div>
           <div className="card-surface px-5 py-3">
             <p className="font-display text-2xl font-bold text-red-400">{detected}</p>
-            <p className="text-xs text-alliance-muted">Detected</p>
+            <p className="text-xs text-glass-muted">Detected</p>
           </div>
           <div className="card-surface px-5 py-3">
             <p className="font-display text-2xl font-bold text-white">{executors.length}</p>
-            <p className="text-xs text-alliance-muted">Total Tracked</p>
+            <p className="text-xs text-glass-muted">Total Tracked</p>
           </div>
         </div>
       </section>
 
       <div className="mb-8 space-y-4">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-alliance-muted" />
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-glass-muted" />
           <input
             value={search}
             onChange={e => setSearch(e.target.value)}
@@ -103,16 +103,16 @@ export function ExecutorPageClient({ executors }: Props) {
         <div className="card-surface flex flex-col items-center justify-center border border-amber-800/40 py-16 text-center">
           <AlertTriangle className="mb-3 h-12 w-12 text-amber-400/60" />
           <p className="font-display text-lg text-amber-400">Unable to fetch executor data</p>
-          <p className="mt-1 text-sm text-alliance-muted/70">WEAO API might be down or rate-limited. Data will load automatically once available.</p>
+          <p className="mt-1 text-sm text-glass-muted/70">WEAO API might be down or rate-limited. Data will load automatically once available.</p>
           <button onClick={() => window.location.reload()} className="btn-secondary mt-4">
             <RefreshCw className="h-4 w-4" /> Retry
           </button>
         </div>
       ) : filtered.length === 0 ? (
         <div className="card-surface flex flex-col items-center justify-center py-16 text-center">
-          <PackageOpen className="h-12 w-12 text-alliance-muted/40" />
-          <p className="mt-4 font-display text-lg text-alliance-muted">No executors found</p>
-          <p className="mt-1 text-sm text-alliance-muted/70">Try adjusting your filters.</p>
+          <PackageOpen className="h-12 w-12 text-glass-muted/40" />
+          <p className="mt-4 font-display text-lg text-glass-muted">No executors found</p>
+          <p className="mt-1 text-sm text-glass-muted/70">Try adjusting your filters.</p>
         </div>
       ) : (
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -120,7 +120,7 @@ export function ExecutorPageClient({ executors }: Props) {
         </div>
       )}
 
-      <p className="mt-8 text-center text-xs text-alliance-muted">
+      <p className="mt-8 text-center text-xs text-glass-muted">
         Data sourced from{" "}
         <a href="https://weao.xyz" target="_blank" rel="noopener noreferrer" className="underline hover:text-white">WEAO</a>
         {" "}— updates automatically.

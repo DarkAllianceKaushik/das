@@ -72,11 +72,11 @@ export function ScriptCardEnhanced({ script, onTagClick }: Props) {
   return (
     <div className="relative">
       <Link href={`/scripts/${script.id}`} className="block">
-        <div className="card-surface group flex flex-col p-5 transition hover:border-alliance-red/40 hover:shadow-glow-sm">
+        <div className="card-surface group flex flex-col p-5 transition hover:border-glass-accent/30 hover:shadow-glass">
           <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
             <div className="flex flex-wrap items-center gap-2">
               {script.featured && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-alliance-red/20 px-2 py-0.5 text-xs font-medium text-alliance-red-bright">
+                <span className="inline-flex items-center gap-1 rounded-full bg-glass-accent/20 px-2 py-0.5 text-xs font-medium text-glass-accent-bright">
                   <Sparkles className="h-3 w-3" />
                   Featured
                 </span>
@@ -95,21 +95,21 @@ export function ScriptCardEnhanced({ script, onTagClick }: Props) {
                 {script.pricing === "free" ? "Free" : "Paid"}
               </span>
               {script.version && (
-                <span className="rounded-full bg-alliance-darker px-2 py-0.5 text-xs text-alliance-muted ring-1 ring-alliance-border/50">
+                <span className="rounded-full bg-glass-dark/80 px-2 py-0.5 text-xs text-glass-muted ring-1 ring-glass-border/60">
                   v{script.version}
                 </span>
               )}
             </div>
-            <span className="rounded-md bg-alliance-darker px-2 py-1 text-xs text-alliance-muted">
+            <span className="rounded-xl bg-glass-dark/80 px-2 py-1 text-xs text-glass-muted backdrop-blur-[8px]">
               {script.category}
             </span>
           </div>
 
-          <h3 className="font-display text-lg font-bold text-white transition group-hover:text-alliance-red-bright">
+          <h3 className="font-display text-lg font-bold text-white transition group-hover:text-glass-accent-bright">
             {script.name}
           </h3>
 
-          <p className="mt-2 flex-1 text-sm leading-relaxed text-alliance-muted line-clamp-2">
+          <p className="mt-2 flex-1 text-sm leading-relaxed text-glass-muted line-clamp-2">
             {script.description}
           </p>
 
@@ -119,17 +119,17 @@ export function ScriptCardEnhanced({ script, onTagClick }: Props) {
                 <span
                   key={tag}
                   onClick={(e) => handleTagClickWrapper(tag, e)}
-                  className="inline-flex cursor-pointer items-center gap-1 rounded-md bg-alliance-darker px-2 py-0.5 text-xs text-alliance-muted transition hover:bg-alliance-red/20 hover:text-alliance-red-bright"
+                  className="inline-flex cursor-pointer items-center gap-1 rounded-xl bg-glass-dark/60 px-2 py-0.5 text-xs text-glass-muted backdrop-blur-[8px] transition hover:bg-glass-accent/20 hover:text-glass-accent-bright"
                 >
-                  <span className="text-alliance-red/60">#</span>
+                  <span className="text-glass-accent/60">#</span>
                   {tag}
                 </span>
               ))}
             </div>
           )}
 
-          <div className="mt-5 flex items-center gap-2 text-xs text-alliance-muted">
-            <span className="inline-flex items-center gap-1 rounded-md bg-alliance-black/60 px-2 py-1">
+          <div className="mt-5 flex items-center gap-2 text-xs text-glass-muted">
+            <span className="inline-flex items-center gap-1 rounded-xl bg-glass-black/60 px-2 py-1 backdrop-blur-[8px]">
               <Eye className="h-3 w-3" />
               {views}
             </span>
@@ -138,13 +138,13 @@ export function ScriptCardEnhanced({ script, onTagClick }: Props) {
       </Link>
 
       <div className="absolute right-3 top-3 flex gap-1">
-        <button onClick={handleFav} className="rounded-md bg-alliance-black/60 p-1.5 text-alliance-muted transition hover:bg-alliance-black hover:text-alliance-red-bright" title={faved ? "Remove from favorites" : "Add to favorites"}>
-          <Heart className={`h-3.5 w-3.5 ${faved ? "fill-alliance-red-bright text-alliance-red-bright" : ""}`} />
+        <button onClick={handleFav} className="rounded-xl bg-glass-black/60 p-1.5 text-glass-muted backdrop-blur-[8px] transition hover:bg-glass-black hover:text-glass-accent-bright" title={faved ? "Remove from favorites" : "Add to favorites"}>
+          <Heart className={`h-3.5 w-3.5 ${faved ? "fill-glass-accent-bright text-glass-accent-bright" : ""}`} />
         </button>
-        <button onClick={handleCopy} className="rounded-md bg-alliance-black/60 p-1.5 text-alliance-muted transition hover:bg-alliance-black hover:text-sky-400" title={copied ? "Copied!" : "Copy script"}>
+        <button onClick={handleCopy} className="rounded-xl bg-glass-black/60 p-1.5 text-glass-muted backdrop-blur-[8px] transition hover:bg-glass-black hover:text-sky-400" title={copied ? "Copied!" : "Copy script"}>
           {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
         </button>
-        <button onClick={() => setShowReport(!showReport)} className="rounded-md bg-alliance-black/60 p-1.5 text-alliance-muted transition hover:bg-alliance-black hover:text-amber-400" title="Report script">
+        <button onClick={() => setShowReport(!showReport)} className="rounded-xl bg-glass-black/60 p-1.5 text-glass-muted backdrop-blur-[8px] transition hover:bg-glass-black hover:text-amber-400" title="Report script">
           <Flag className="h-3.5 w-3.5" />
         </button>
       </div>
@@ -153,7 +153,7 @@ export function ScriptCardEnhanced({ script, onTagClick }: Props) {
         <div className="card-surface absolute left-0 right-0 top-0 z-30 p-4">
           <div className="mb-3 flex items-center justify-between">
             <h4 className="font-display text-xs font-bold uppercase tracking-widest text-amber-400">Report Script</h4>
-            <button onClick={() => setShowReport(false)} className="text-alliance-muted hover:text-white">
+            <button onClick={() => setShowReport(false)} className="text-glass-muted hover:text-white">
               <X className="h-4 w-4" />
             </button>
           </div>

@@ -9,17 +9,19 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        alliance: {
-          black: "#0a0a0a",
-          darker: "#111111",
-          dark: "#1a1a1a",
-          card: "#141414",
-          border: "#2a1515",
-          red: "#dc2626",
-          "red-bright": "#ef4444",
-          "red-glow": "#ff3333",
-          crimson: "#991b1b",
-          muted: "#a3a3a3",
+        glass: {
+          black: "#07070d",
+          darker: "#0f0f1a",
+          dark: "#191928",
+          card: "rgba(25, 25, 48, 0.55)",
+          border: "rgba(255, 255, 255, 0.06)",
+          "border-light": "rgba(255, 255, 255, 0.12)",
+          accent: "#7c3aed",
+          "accent-bright": "#a78bfa",
+          "accent-dim": "#6d28d9",
+          "accent-glow": "#8b5cf6",
+          muted: "#9ca3af",
+          "muted-dim": "#6b7280",
         },
       },
       fontFamily: {
@@ -27,12 +29,11 @@ const config: Config = {
         body: ["var(--font-body)", "system-ui", "sans-serif"],
       },
       boxShadow: {
-        glow: "0 0 30px rgba(220, 38, 38, 0.25)",
-        "glow-sm": "0 0 15px rgba(220, 38, 38, 0.2)",
+        glass: "0 8px 32px rgba(0, 0, 0, 0.4)",
+        "glass-sm": "0 4px 16px rgba(0, 0, 0, 0.3)",
       },
-      backgroundImage: {
-        "grid-red":
-          "linear-gradient(rgba(220,38,38,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(220,38,38,0.03) 1px, transparent 1px)",
+      backdropBlur: {
+        glass: "24px",
       },
     },
   },

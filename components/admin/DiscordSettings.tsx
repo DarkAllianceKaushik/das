@@ -55,7 +55,7 @@ export function DiscordSettings({ initialUrl, onSaved }: DiscordSettingsProps) {
         <MessageCircle className="h-5 w-5 text-[#5865F2]" />
         <h2 className="font-display text-lg font-bold">Discord Invite</h2>
       </div>
-      <p className="mb-4 text-sm text-alliance-muted">
+      <p className="mb-4 text-sm text-glass-muted">
         Set your server invite link. A &quot;Join our Discord&quot; button appears
         on the store when a link is saved. Leave empty to hide it.
       </p>
@@ -73,7 +73,7 @@ export function DiscordSettings({ initialUrl, onSaved }: DiscordSettingsProps) {
             onChange={(e) => setDiscordUrl(e.target.value)}
             placeholder="https://discord.gg/your-invite"
           />
-          <p className="mt-1.5 text-xs text-alliance-muted/70">
+          <p className="mt-1.5 text-xs text-glass-muted/70">
             Example: https://discord.gg/darkalliance
           </p>
         </div>

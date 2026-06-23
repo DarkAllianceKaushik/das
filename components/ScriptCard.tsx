@@ -15,11 +15,11 @@ const linkLabels: Record<Script["linkType"], string> = {
 
 export function ScriptCard({ script }: { script: Script }) {
   return (
-    <article className="card-surface group flex flex-col p-5 transition hover:border-alliance-red/40 hover:shadow-glow-sm">
+    <article className="card-surface group flex flex-col p-5 transition hover:border-glass-accent/30 hover:shadow-glass">
       <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
         <div className="flex flex-wrap items-center gap-2">
           {script.featured && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-alliance-red/20 px-2 py-0.5 text-xs font-medium text-alliance-red-bright">
+            <span className="inline-flex items-center gap-1 rounded-full bg-glass-accent/20 px-2 py-0.5 text-xs font-medium text-glass-accent-bright">
               <Sparkles className="h-3 w-3" />
               Featured
             </span>
@@ -35,16 +35,16 @@ export function ScriptCard({ script }: { script: Script }) {
             {script.pricing}
           </span>
         </div>
-        <span className="rounded-md bg-alliance-darker px-2 py-1 text-xs text-alliance-muted">
+        <span className="rounded-xl bg-glass-dark/80 px-2 py-1 text-xs text-glass-muted backdrop-blur-[8px]">
           {script.category}
         </span>
       </div>
 
-      <h3 className="font-display text-lg font-bold text-white group-hover:text-alliance-red-bright transition">
+      <h3 className="font-display text-lg font-bold text-white group-hover:text-glass-accent-bright transition">
         {script.name}
       </h3>
 
-      <p className="mt-2 flex-1 text-sm leading-relaxed text-alliance-muted">
+      <p className="mt-2 flex-1 text-sm leading-relaxed text-glass-muted">
         {script.description}
       </p>
 
@@ -53,9 +53,9 @@ export function ScriptCard({ script }: { script: Script }) {
           {script.tags.map((tag) => (
             <span
               key={tag}
-              className="inline-flex items-center gap-1 rounded-md bg-alliance-darker px-2 py-0.5 text-xs text-alliance-muted"
+              className="inline-flex items-center gap-1 rounded-xl bg-glass-dark/60 px-2 py-0.5 text-xs text-glass-muted backdrop-blur-[8px]"
             >
-              <Tag className="h-3 w-3 text-alliance-red/60" />
+              <Tag className="h-3 w-3 text-glass-accent/60" />
               {tag}
             </span>
           ))}

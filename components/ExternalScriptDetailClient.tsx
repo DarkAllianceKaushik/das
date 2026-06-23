@@ -28,19 +28,19 @@ export function ExternalScriptDetailClient({ script }: Props) {
 
   return (
     <div className="relative z-10 mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-14">
-      <Link href="/" className="mb-6 inline-flex items-center gap-1.5 text-sm text-alliance-muted transition hover:text-white">
+      <Link href="/" className="mb-6 inline-flex items-center gap-1.5 text-sm text-glass-muted transition hover:text-white">
         <ArrowLeft className="h-4 w-4" /> Back to Store
       </Link>
 
       <section className="card-surface mb-8 overflow-hidden">
         {script.imageUrl && (
-          <div className="relative h-48 w-full bg-alliance-darker sm:h-64">
+          <div className="relative h-48 w-full bg-glass-darker sm:h-64">
             <img
               src={script.imageUrl}
               alt=""
               className="h-full w-full object-cover opacity-60"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-alliance-card via-alliance-card/60 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-glass-card via-glass-card/60 to-transparent" />
           </div>
         )}
 
@@ -74,16 +74,16 @@ export function ExternalScriptDetailClient({ script }: Props) {
             {script.name}
           </h1>
 
-          <div className="mt-2 flex items-center gap-2 text-sm text-alliance-red/70">
+          <div className="mt-2 flex items-center gap-2 text-sm text-glass-accent/70">
             <Gamepad2 className="h-4 w-4" />
             {script.game}
           </div>
 
-          <p className="mt-4 text-base leading-relaxed text-alliance-muted">
+          <p className="mt-4 text-base leading-relaxed text-glass-muted">
             {script.description}
           </p>
 
-          <div className="mt-6 flex flex-wrap items-center gap-4 text-xs text-alliance-muted">
+          <div className="mt-6 flex flex-wrap items-center gap-4 text-xs text-glass-muted">
             <span className="inline-flex items-center gap-1.5">
               <Eye className="h-3.5 w-3.5" /> {script.views.toLocaleString()} views
             </span>
@@ -106,14 +106,14 @@ export function ExternalScriptDetailClient({ script }: Props) {
       </section>
 
       <section className="card-surface p-6">
-        <div className="flex items-center gap-3 border-b border-alliance-border/60 pb-4">
+        <div className="flex items-center gap-3 border-b border-glass-border/60 pb-4">
           <AlertTriangle className="h-5 w-5 text-amber-400" />
-          <p className="text-xs text-alliance-muted">
+          <p className="text-xs text-glass-muted">
             This script is hosted on <strong className="text-white">{src.label}</strong>.
             Pricing, availability, and functionality are managed by the original platform.
           </p>
         </div>
-        <p className="mt-4 text-xs text-alliance-muted/60">
+        <p className="mt-4 text-xs text-glass-muted/60">
           Powered by {src.label}
         </p>
       </section>

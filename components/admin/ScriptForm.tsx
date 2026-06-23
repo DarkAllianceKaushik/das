@@ -93,7 +93,7 @@ export function ScriptForm({
         <h3 className="font-display text-lg font-bold">
           {editing ? "Edit Script" : "Post New Script"}
         </h3>
-        <button type="button" onClick={onCancel} className="text-alliance-muted hover:text-white">
+        <button type="button" onClick={onCancel} className="text-glass-muted hover:text-white">
           <X className="h-5 w-5" />
         </button>
       </div>
@@ -239,7 +239,7 @@ export function ScriptForm({
               onChange={(e) =>
                 setForm({ ...form, featured: e.target.checked })
               }
-              className="h-4 w-4 rounded border-alliance-border bg-alliance-darker text-alliance-red focus:ring-alliance-red"
+              className="h-4 w-4 rounded border-glass-border bg-glass-darker text-glass-accent focus:ring-glass-accent"
             />
             <span>Featured script (shown at top)</span>
           </label>

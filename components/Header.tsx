@@ -32,28 +32,28 @@ export function Header({ discordUrl = "" }: HeaderProps) {
   ];
 
   return (
-    <header className="relative z-20 border-b border-alliance-border/80 bg-alliance-black/90 backdrop-blur-md">
+    <header className="relative z-20 border-b border-glass-border bg-glass-black/70 backdrop-blur-[24px]">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4">
         <Link href="/" className="group flex items-center gap-3 shrink-0">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-alliance-red/20 ring-1 ring-alliance-red/40 transition group-hover:shadow-glow-sm">
-            <Swords className="h-5 w-5 text-alliance-red-bright" />
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-glass-accent/30 bg-glass-accent/10 shadow-glass-sm backdrop-blur-[16px] transition group-hover:bg-glass-accent/20">
+            <Swords className="h-5 w-5 text-glass-accent-bright" />
           </div>
           <div className="hidden sm:block">
-            <p className="font-display text-sm font-bold uppercase tracking-widest text-alliance-red-bright">
+            <p className="font-display text-sm font-bold uppercase tracking-widest text-glass-accent-bright">
               Dark Alliance
             </p>
-            <p className="text-xs text-alliance-muted">Script Store</p>
+            <p className="text-xs text-glass-muted">Script Store</p>
           </div>
         </Link>
 
         <form onSubmit={handleSearch} className="mx-3 hidden flex-1 sm:block max-w-xs">
           <div className="relative">
-            <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-alliance-muted" />
+            <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-glass-muted" />
             <input
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="Search scripts..."
-              className="w-full rounded-lg border border-alliance-border bg-alliance-darker py-1.5 pl-8 pr-3 text-sm text-white placeholder-alliance-muted outline-none transition focus:border-alliance-red/50"
+              className="w-full rounded-xl border border-glass-border bg-glass-dark/60 py-1.5 pl-8 pr-3 text-sm text-white placeholder-glass-muted/50 outline-none backdrop-blur-[16px] transition focus:border-glass-accent/60"
             />
           </div>
         </form>
@@ -61,23 +61,23 @@ export function Header({ discordUrl = "" }: HeaderProps) {
         <nav className="hidden items-center gap-3 sm:flex sm:gap-4">
           <DiscordButton discordUrl={discordUrl} size="sm" className="hidden lg:inline-flex" />
           {navLinks.map(l => (
-            <Link key={l.href} href={l.href} className="flex items-center gap-1.5 text-sm text-alliance-muted transition hover:text-alliance-red-bright">
+            <Link key={l.href} href={l.href} className="flex items-center gap-1.5 text-sm text-glass-muted transition hover:text-glass-accent-bright">
               {l.icon && <l.icon className="h-4 w-4" />}
               <span>{l.label}</span>
             </Link>
           ))}
         </nav>
 
-        <button onClick={() => setMenuOpen(!menuOpen)} className="flex items-center gap-1 text-sm text-alliance-muted hover:text-white sm:hidden">
+        <button onClick={() => setMenuOpen(!menuOpen)} className="flex items-center gap-1 text-sm text-glass-muted hover:text-white sm:hidden">
           {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
 
       {menuOpen && (
-        <div className="border-t border-alliance-border/60 bg-alliance-black/95 px-4 pb-5 pt-4 sm:hidden">
+        <div className="border-t border-glass-border bg-glass-black/80 backdrop-blur-[24px] px-4 pb-5 pt-4 sm:hidden">
           <form onSubmit={handleSearch} className="mb-4">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-alliance-muted" />
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-glass-muted" />
               <input
                 value={search}
                 onChange={e => setSearch(e.target.value)}
@@ -89,7 +89,7 @@ export function Header({ discordUrl = "" }: HeaderProps) {
           </form>
           <div className="flex flex-col gap-2">
             {navLinks.map(l => (
-              <Link key={l.href} href={l.href} onClick={() => setMenuOpen(false)} className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-alliance-muted transition hover:bg-alliance-dark hover:text-white">
+              <Link key={l.href} href={l.href} onClick={() => setMenuOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-glass-muted transition hover:bg-glass-dark hover:text-white">
                 {l.icon && <l.icon className="h-4 w-4" />}
                 {l.label}
               </Link>

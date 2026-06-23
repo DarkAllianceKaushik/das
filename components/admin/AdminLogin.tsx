@@ -43,12 +43,12 @@ export function AdminLogin({ onSuccess }: AdminLoginProps) {
     <div className="mx-auto max-w-md">
       <div className="card-surface p-8 shadow-glow">
         <div className="mb-6 flex justify-center">
-          <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-alliance-red/20 ring-1 ring-alliance-red/50">
-            <Lock className="h-7 w-7 text-alliance-red-bright" />
+          <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-glass-accent/20 ring-1 ring-glass-accent/50">
+            <Lock className="h-7 w-7 text-glass-accent-bright" />
           </div>
         </div>
         <h1 className="text-center font-display text-2xl font-bold">Admin Login</h1>
-        <p className="mt-2 text-center text-sm text-alliance-muted">
+        <p className="mt-2 text-center text-sm text-glass-muted">
           Owner access only. Manage scripts and categories.
         </p>
 

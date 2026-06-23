@@ -84,7 +84,7 @@ export function ScriptDetailClient({ script, relatedScripts }: Props) {
 
   return (
     <div className="relative z-10 mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-14">
-      <Link href="/" className="mb-6 inline-flex items-center gap-1.5 text-sm text-alliance-muted transition hover:text-white">
+      <Link href="/" className="mb-6 inline-flex items-center gap-1.5 text-sm text-glass-muted transition hover:text-white">
         <ArrowLeft className="h-4 w-4" /> Back to Store
       </Link>
 
@@ -92,7 +92,7 @@ export function ScriptDetailClient({ script, relatedScripts }: Props) {
         <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
           <div className="flex-1">
             <div className="mb-3 flex items-center gap-3">
-              <span className="rounded-lg bg-alliance-darker px-3 py-1 text-xs font-semibold text-alliance-muted">
+              <span className="rounded-lg bg-glass-darker px-3 py-1 text-xs font-semibold text-glass-muted">
                 {script.category}
               </span>
               <span className={`rounded-lg px-3 py-1 text-xs font-bold ${
@@ -103,7 +103,7 @@ export function ScriptDetailClient({ script, relatedScripts }: Props) {
                 {script.pricing === "free" ? "Free" : "Paid"}
               </span>
               {script.featured && (
-                <span className="rounded-lg bg-alliance-red/20 px-3 py-1 text-xs font-bold text-alliance-red-bright border border-alliance-red/30">
+                <span className="rounded-lg bg-glass-accent/20 px-3 py-1 text-xs font-bold text-glass-accent-bright border border-glass-accent/30">
                   Featured
                 </span>
               )}
@@ -113,7 +113,7 @@ export function ScriptDetailClient({ script, relatedScripts }: Props) {
                 </span>
               )}
               {script.version && (
-                <span className="rounded-lg bg-alliance-darker px-3 py-1 text-xs font-mono text-alliance-muted border border-alliance-border/50">
+                <span className="rounded-lg bg-glass-darker px-3 py-1 text-xs font-mono text-glass-muted border border-glass-border/50">
                   v{script.version}
                 </span>
               )}
@@ -122,7 +122,7 @@ export function ScriptDetailClient({ script, relatedScripts }: Props) {
             {script.tags.length > 0 && (
               <div className="mt-3 flex flex-wrap gap-2">
                 {script.tags.map((t) => (
-                  <span key={t} className="inline-flex items-center gap-1 rounded-full bg-alliance-darker px-3 py-1 text-xs text-alliance-muted">
+                  <span key={t} className="inline-flex items-center gap-1 rounded-full bg-glass-darker px-3 py-1 text-xs text-glass-muted">
                     <Tag className="h-3 w-3" /> {t}
                   </span>
                 ))}
@@ -131,30 +131,30 @@ export function ScriptDetailClient({ script, relatedScripts }: Props) {
           </div>
 
           <div className="flex items-center gap-2">
-            <button onClick={handleShare} className="rounded-lg p-2.5 text-alliance-muted transition hover:bg-alliance-dark hover:text-sky-400" title={linkCopied ? "Link copied!" : "Copy link"}>
+            <button onClick={handleShare} className="rounded-lg p-2.5 text-glass-muted transition hover:bg-glass-dark hover:text-sky-400" title={linkCopied ? "Link copied!" : "Copy link"}>
               {linkCopied ? <Check className="h-5 w-5 text-emerald-400" /> : <Share2 className="h-5 w-5" />}
             </button>
-            <button onClick={handleFav} className="rounded-lg p-2.5 text-alliance-muted transition hover:bg-alliance-dark hover:text-alliance-red-bright" title={faved ? "Remove from favorites" : "Add to favorites"}>
-              <Heart className={`h-5 w-5 ${faved ? "fill-alliance-red-bright text-alliance-red-bright" : ""}`} />
+            <button onClick={handleFav} className="rounded-lg p-2.5 text-glass-muted transition hover:bg-glass-dark hover:text-glass-accent-bright" title={faved ? "Remove from favorites" : "Add to favorites"}>
+              <Heart className={`h-5 w-5 ${faved ? "fill-glass-accent-bright text-glass-accent-bright" : ""}`} />
             </button>
-            <button onClick={() => setShowReport(!showReport)} className="rounded-lg p-2.5 text-alliance-muted transition hover:bg-alliance-dark hover:text-amber-400" title="Report script">
+            <button onClick={() => setShowReport(!showReport)} className="rounded-lg p-2.5 text-glass-muted transition hover:bg-glass-dark hover:text-amber-400" title="Report script">
               <Flag className="h-5 w-5" />
             </button>
           </div>
         </div>
 
-        <p className="mb-6 text-base leading-relaxed text-alliance-muted">{script.description}</p>
+        <p className="mb-6 text-base leading-relaxed text-glass-muted">{script.description}</p>
 
         {script.changelog && (
-          <div className="mb-6 rounded-lg border border-alliance-border/60 bg-alliance-darker/50 p-4">
-            <h4 className="mb-2 font-display text-xs font-bold uppercase tracking-widest text-alliance-muted">
+          <div className="mb-6 rounded-lg border border-glass-border/60 bg-glass-darker/50 p-4">
+            <h4 className="mb-2 font-display text-xs font-bold uppercase tracking-widest text-glass-muted">
               <Clock className="mb-0.5 mr-1.5 inline h-3 w-3" /> Changelog {script.version ? `(v${script.version})` : ""}
             </h4>
-            <p className="text-sm text-alliance-muted whitespace-pre-wrap">{script.changelog}</p>
+            <p className="text-sm text-glass-muted whitespace-pre-wrap">{script.changelog}</p>
           </div>
         )}
 
-        <div className="mb-6 flex flex-wrap items-center gap-4 text-xs text-alliance-muted">
+        <div className="mb-6 flex flex-wrap items-center gap-4 text-xs text-glass-muted">
           <span className="inline-flex items-center gap-1.5">
             <Eye className="h-3.5 w-3.5" /> {views} views
           </span>
@@ -188,7 +188,7 @@ export function ScriptDetailClient({ script, relatedScripts }: Props) {
             <h3 className="font-display text-sm font-bold uppercase tracking-widest text-amber-400">
               <Flag className="mb-0.5 mr-2 inline h-4 w-4" />Report Script
             </h3>
-            <button onClick={() => setShowReport(false)} className="text-alliance-muted hover:text-white">
+            <button onClick={() => setShowReport(false)} className="text-glass-muted hover:text-white">
               <X className="h-4 w-4" />
             </button>
           </div>
@@ -222,8 +222,8 @@ export function ScriptDetailClient({ script, relatedScripts }: Props) {
       )}
 
       <section className="card-surface overflow-hidden">
-        <div className="flex items-center justify-between border-b border-alliance-border/60 bg-alliance-darker/80 px-4 py-3">
-          <h2 className="font-display text-sm font-bold uppercase tracking-widest text-alliance-muted">
+        <div className="flex items-center justify-between border-b border-glass-border/60 bg-glass-darker/80 px-4 py-3">
+          <h2 className="font-display text-sm font-bold uppercase tracking-widest text-glass-muted">
             <AlertTriangle className="mb-0.5 mr-2 inline h-4 w-4" /> Script Code
           </h2>
           <button onClick={loadCode} disabled={codeLoading || code !== null} className="btn-secondary text-xs">
@@ -235,9 +235,9 @@ export function ScriptDetailClient({ script, relatedScripts }: Props) {
           <ScriptPreview code={code} title={script.name} />
         ) : (
           <div className="flex flex-col items-center justify-center py-12 text-center">
-            <Lock className="mb-3 h-10 w-10 text-alliance-muted/30" />
-            <p className="font-display text-sm text-alliance-muted">Code hidden</p>
-            <p className="mt-1 text-xs text-alliance-muted/60">
+            <Lock className="mb-3 h-10 w-10 text-glass-muted/30" />
+            <p className="font-display text-sm text-glass-muted">Code hidden</p>
+            <p className="mt-1 text-xs text-glass-muted/60">
               Click <strong className="text-white">Load Code</strong> above to fetch the script source from {linkInfo.label}.
             </p>
           </div>
@@ -246,7 +246,7 @@ export function ScriptDetailClient({ script, relatedScripts }: Props) {
 
       {relatedScripts && relatedScripts.length > 0 && (
         <section className="mt-10">
-          <h2 className="mb-4 font-display text-sm font-bold uppercase tracking-widest text-alliance-muted">
+          <h2 className="mb-4 font-display text-sm font-bold uppercase tracking-widest text-glass-muted">
             Related Scripts
           </h2>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

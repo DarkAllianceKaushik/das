@@ -8,36 +8,36 @@
   }
 
   body {
-    @apply bg-alliance-black text-white antialiased;
+    @apply bg-glass-black text-white antialiased;
   }
 
   ::selection {
-    @apply bg-alliance-red/40 text-white;
+    @apply bg-glass-accent/40 text-white;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-alliance-red px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-alliance-red-bright focus:outline-none focus:ring-2 focus:ring-alliance-red focus:ring-offset-2 focus:ring-offset-alliance-black disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-glass-accent/40 bg-glass-accent/20 px-5 py-2.5 text-sm font-semibold text-white shadow-glass-sm backdrop-blur-[16px] transition hover:bg-glass-accent/30 hover:border-glass-accent-bright/60 focus:outline-none focus:ring-2 focus:ring-glass-accent/50 disabled:opacity-50;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-alliance-border bg-alliance-dark px-5 py-2.5 text-sm font-semibold text-white transition hover:border-alliance-red/50 hover:bg-alliance-card focus:outline-none focus:ring-2 focus:ring-alliance-red/50 disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-glass-border bg-glass-card px-5 py-2.5 text-sm font-semibold text-white shadow-glass-sm backdrop-blur-[16px] transition hover:border-glass-border-light hover:bg-glass-dark focus:outline-none focus:ring-2 focus:ring-glass-accent/30 disabled:opacity-50;
   }
 
   .btn-danger {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-red-900/60 bg-red-950/40 px-4 py-2 text-sm font-semibold text-red-300 transition hover:bg-red-900/40 focus:outline-none disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-red-900/50 bg-red-950/30 px-4 py-2 text-sm font-semibold text-red-300 shadow-glass-sm backdrop-blur-[16px] transition hover:bg-red-900/30 focus:outline-none disabled:opacity-50;
   }
 
   .input-field {
-    @apply w-full rounded-lg border border-alliance-border bg-alliance-darker px-4 py-2.5 text-sm text-white placeholder:text-alliance-muted/60 focus:border-alliance-red focus:outline-none focus:ring-1 focus:ring-alliance-red;
+    @apply w-full rounded-xl border border-glass-border bg-glass-dark/60 px-4 py-2.5 text-sm text-white placeholder:text-glass-muted/50 backdrop-blur-[16px] transition focus:border-glass-accent/60 focus:outline-none focus:ring-1 focus:ring-glass-accent/40;
   }
 
   .label-field {
-    @apply mb-1.5 block text-sm font-medium text-alliance-muted;
+    @apply mb-1.5 block text-sm font-medium text-glass-muted;
   }
 
   .card-surface {
-    @apply rounded-xl border border-alliance-border bg-alliance-card/80 backdrop-blur-sm;
+    @apply rounded-2xl border border-glass-border bg-glass-card shadow-glass backdrop-blur-[24px];
   }
 }
