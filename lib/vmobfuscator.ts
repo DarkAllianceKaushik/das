@@ -304,7 +304,7 @@ class Compiler {
         const itIdx = this.locals[this.curProto].length; this.addLocal("_fg"); this.addLocal("_fs"); this.addLocal("_fc");
         this.emit(Op.SETLOC, itIdx + 2); this.emit(Op.POP); this.emit(Op.SETLOC, itIdx + 1); this.emit(Op.POP); this.emit(Op.SETLOC, itIdx); this.emit(Op.POP);
         const top = this.proto[this.curProto].instrs.length;
-        this.emit(Op.LOADLOC, itIdx); this.emit(Op.LOADLOC, itIdx + 1); this.emit(Op.LOADLOC, itIdx + 2); this.emit(Op.CALL, 0);
+        this.emit(Op.LOADLOC, itIdx); this.emit(Op.LOADLOC, itIdx + 1); this.emit(Op.LOADLOC, itIdx + 2); this.emit(Op.CALL, 2);
         const vIdx = this.locals[this.curProto].length; for (const v of s.vars) this.addLocal(v);
         for (let i = 0; i < s.vars.length; i++) { this.emit(Op.SETLOC, vIdx + i); this.emit(Op.POP); }
         const jf = this.emitJmpF();
@@ -397,9 +397,9 @@ function opLua(op: Op, s: string, a: string, c: string, p: string, e: string, pc
     case Op.GETTABLE: return `local _k=${pop}(${s}) local _t=${pop}(${s}) ${push}(${s},_t[_k])`;
     case Op.CALL: return `local _fn=${pop}(${s}) local _args={} for _i=1,${a} do _args[_i]=${pop}(${s}) end local _r={_fn(table.unpack(_args,1,${a}))} for _i=1,#_r do ${push}(${s},_r[_i]) end`;
     case Op.RET: return `${pc}=1/0`;
-    case Op.JMP: return `${pc}=${a}`;
-    case Op.JMPF: return `if not ${pop}(${s}) then ${pc}=${a} end`;
-    case Op.JMPT: return `if ${pop}(${s}) then ${pc}=${a} end`;
+    case Op.JMP: return `${pc}=${a-1}`;
+    case Op.JMPF: return `if not ${pop}(${s}) then ${pc}=${a-1} end`;
+    case Op.JMPT: return `if ${pop}(${s}) then ${pc}=${a-1} end`;
     case Op.NEWCLOSURE: return `${push}(${s},${p}[${a}])`;
     case Op.POP: return `${pop}(${s})`;
     case Op.DUP: return `${push}(${s},${s}[#${s}])`;
