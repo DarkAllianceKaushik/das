@@ -1,5 +1,7 @@
 "use client"
 
+import * as React from "react"
+import { useCallback } from "react"
 import { Button as ButtonPrimitive } from "@base-ui/react/button"
 
 import { cn } from "@/lib/utils"
@@ -8,14 +10,37 @@ function Button({
   className,
   variant = "default",
   size = "default",
+  magnetic,
   ...props
 }: ButtonPrimitive.Props & {
   variant?: "default" | "outline" | "secondary" | "ghost" | "destructive" | "link"
   size?: "default" | "xs" | "sm" | "lg" | "icon" | "icon-xs" | "icon-sm" | "icon-lg"
+  magnetic?: boolean
 }) {
+  const ref = React.useRef<HTMLButtonElement>(null);
+
+  const handleMove = useCallback((e: React.MouseEvent) => {
+    const el = ref.current;
+    if (!el || !magnetic) return;
+    const rect = el.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    el.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+  }, [magnetic]);
+
+  const handleLeave = useCallback(() => {
+    const el = ref.current;
+    if (!el) return;
+    el.style.transform = "";
+  }, []);
+
   return (
     <ButtonPrimitive
+      ref={ref}
       data-slot="button"
+      onMouseMove={magnetic ? handleMove : undefined}
+      onMouseLeave={magnetic ? handleLeave : undefined}
+      style={{ transition: "transform 0.15s ease-out" }}
       className={cn(
         "group/btn relative inline-flex shrink-0 items-center justify-center overflow-hidden font-medium whitespace-nowrap transition-all duration-300 outline-none select-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         // Sizes

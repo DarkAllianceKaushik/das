@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
+import { ScrollReveal } from "@/components/ScrollReveal";
 
 const PRESETS = [
   {
@@ -118,9 +119,9 @@ export default function ObfuscatorPage() {
 
   return (
     <div className="relative z-10 mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
-      <section className="mb-10 text-center">
+      <section className="mb-10 text-center animate-fade-in">
         <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-glass-accent/30 bg-glass-accent/10 px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-glass-accent-bright">
-          <Skull className="h-3.5 w-3.5" />
+          <Skull className="size-3.5" />
           Lua Obfuscator
         </div>
         <h1 className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl">
@@ -136,30 +137,33 @@ export default function ObfuscatorPage() {
         </p>
       </section>
 
-      <div className="mb-8">
-        <h2 className="mb-3 font-display text-sm font-bold uppercase tracking-widest text-glass-muted">
-          Presets
-        </h2>
-        <div className="flex flex-wrap gap-3">
-          {PRESETS.map((p) => (
-            <Button
-              key={p.name}
-              onClick={() => handlePreset(p.name, p.options)}
-              variant={activePreset === p.name ? "secondary" : "outline"}
-              size="sm"
-              className={`text-sm font-semibold ${
-                activePreset === p.name
-                  ? "border-glass-accent bg-glass-accent/20 text-glass-accent-bright"
-                  : "border-glass-border bg-glass-dark text-glass-muted hover:border-glass-accent/50 hover:text-white"
-              }`}
-            >
-              {p.name}
-            </Button>
-          ))}
+      <ScrollReveal delay={1}>
+        <div className="mb-8">
+          <h2 className="section-accent mb-4 font-display text-sm font-bold uppercase tracking-widest text-glass-muted">
+            Presets
+          </h2>
+          <div className="flex flex-wrap gap-3">
+            {PRESETS.map((p) => (
+              <Button
+                key={p.name}
+                onClick={() => handlePreset(p.name, p.options)}
+                variant={activePreset === p.name ? "secondary" : "outline"}
+                size="sm"
+                className={`text-sm font-semibold ${
+                  activePreset === p.name
+                    ? "border-glass-accent bg-glass-accent/20 text-glass-accent-bright"
+                    : "border-glass-border bg-glass-dark text-glass-muted hover:border-glass-accent/50 hover:text-white"
+                }`}
+              >
+                {p.name}
+              </Button>
+            ))}
+          </div>
         </div>
-      </div>
+      </ScrollReveal>
 
-      <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+      <ScrollReveal delay={2}>
+        <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
         {(
           [
             ["renameVariables", "Rename Vars"],
@@ -191,11 +195,13 @@ export default function ObfuscatorPage() {
             </Button>
           );
         })}
-      </div>
+        </div>
+      </ScrollReveal>
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        <div>
-          <Label className="mb-1.5 inline-flex items-center gap-2 text-sm font-semibold text-glass-muted">
+      <ScrollReveal delay={3}>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <div>
+            <Label className="mb-1.5 inline-flex items-center gap-2 text-sm font-semibold text-glass-muted">
             <Terminal className="size-4" />
             Input (Lua/Luau)
           </Label>
@@ -257,9 +263,11 @@ export default function ObfuscatorPage() {
             </p>
           )}
         </div>
-      </div>
+        </div>
+      </ScrollReveal>
 
-      <Card className="mx-auto mt-12 max-w-3xl">
+      <ScrollReveal delay={4}>
+        <Card className="mx-auto mt-12 max-w-3xl">
         <CardContent className="p-6 text-sm text-glass-muted">
           <h3 className="mb-2 font-display text-xs font-bold uppercase tracking-widest text-glass-accent-bright">
             ⚠ Disclaimer
@@ -272,6 +280,7 @@ export default function ObfuscatorPage() {
           </p>
         </CardContent>
       </Card>
+      </ScrollReveal>
     </div>
   );
 }

@@ -15,12 +15,12 @@ export default async function HomePage() {
 
   return (
     <div className="relative z-10 mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
-      <section className="mb-12 text-center">
+      <section className="mb-12 text-center animate-fade-in">
         <Badge
           variant="outline"
           className="mb-4 gap-2 border-glass-accent/30 bg-glass-accent/10 px-4 py-1.5 font-medium uppercase tracking-wider text-glass-accent-bright"
         >
-          <Flame className="h-3.5 w-3.5" />
+          <Flame className="size-3.5" />
           Roblox Scripts
         </Badge>
         <h1 className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl">

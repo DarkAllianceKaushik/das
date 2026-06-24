@@ -1,4 +1,7 @@
+"use client";
+
 import * as React from "react"
+import { useCallback } from "react"
 
 import { cn } from "@/lib/utils"
 
@@ -7,13 +10,26 @@ function Card({
   size = "default",
   ...props
 }: React.ComponentProps<"div"> & { size?: "default" | "sm" }) {
+  const ref = React.useRef<HTMLDivElement>(null);
+
+  const handleMouse = useCallback((e: React.MouseEvent) => {
+    const el = ref.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    el.style.setProperty("--mouse-x", `${x}%`);
+    el.style.setProperty("--mouse-y", `${y}%`);
+  }, []);
+
   return (
     <div
+      ref={ref}
       data-slot="card"
       data-size={size}
+      onMouseMove={handleMouse}
       className={cn(
-        "group/card relative flex flex-col overflow-hidden rounded-2xl border border-glass-border bg-glass-card text-sm text-white shadow-glass backdrop-blur-2xl transition-all duration-300 hover:border-glass-accent/30 hover:shadow-glass-accent/5",
-        "before:pointer-events-none before:absolute before:inset-0 before:rounded-2xl before:bg-[radial-gradient(ellipse_at_top,rgba(220,38,38,0.06),transparent_70%)]",
+        "group/card card-hover relative flex flex-col overflow-hidden rounded-2xl border border-glass-border bg-glass-card text-sm text-white shadow-glass backdrop-blur-2xl",
         size === "default" && "gap-4 p-5",
         size === "sm" && "gap-3 p-3",
         className

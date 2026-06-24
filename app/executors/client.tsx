@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { ScrollReveal } from "@/components/ScrollReveal";
 
 interface Props {
   executors: Executor[];
@@ -48,9 +49,9 @@ export function ExecutorPageClient({ executors }: Props) {
 
   return (
     <div className="relative z-10 mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
-      <section className="mb-10 text-center">
+      <section className="mb-10 text-center animate-fade-in">
         <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-glass-accent/30 bg-glass-accent/10 px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-glass-accent-bright">
-          <Wifi className="h-3.5 w-3.5" /> Executor Status
+          <Wifi className="size-3.5" /> Executor Status
         </div>
         <h1 className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl">
           <span className="text-white">Roblox</span>
@@ -84,74 +85,78 @@ export function ExecutorPageClient({ executors }: Props) {
         </div>
       </section>
 
-      <div className="mb-8 space-y-4">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-glass-muted" />
-          <Input
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            placeholder="Search executors..."
-            className="pl-9"
-          />
+      <ScrollReveal delay={1}>
+        <div className="mb-8 space-y-4">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-glass-muted" />
+            <Input
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              placeholder="Search executors..."
+              className="pl-9"
+            />
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Select value={platform} onValueChange={(v) => v !== null && setPlatform(v)}>
+              <SelectTrigger className="w-auto min-w-[140px]">
+                <SelectValue placeholder="All Platforms" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Platforms</SelectItem>
+                {platforms.map(p => <SelectItem key={p} value={p}>{p}</SelectItem>)}
+              </SelectContent>
+            </Select>
+            <Select value={status} onValueChange={(v) => v !== null && setStatus(v)}>
+              <SelectTrigger className="w-auto min-w-[140px]">
+                <SelectValue placeholder="All Status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Status</SelectItem>
+                <SelectItem value="working">Working</SelectItem>
+                <SelectItem value="detected">Detected</SelectItem>
+                <SelectItem value="outdated">Outdated</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select value={price} onValueChange={(v) => v !== null && setPrice(v)}>
+              <SelectTrigger className="w-auto min-w-[140px]">
+                <SelectValue placeholder="Free & Paid" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Free & Paid</SelectItem>
+                <SelectItem value="free">Free Only</SelectItem>
+                <SelectItem value="paid">Paid Only</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
-        <div className="flex flex-wrap gap-3">
-          <Select value={platform} onValueChange={(v) => v !== null && setPlatform(v)}>
-            <SelectTrigger className="w-auto min-w-[140px]">
-              <SelectValue placeholder="All Platforms" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Platforms</SelectItem>
-              {platforms.map(p => <SelectItem key={p} value={p}>{p}</SelectItem>)}
-            </SelectContent>
-          </Select>
-          <Select value={status} onValueChange={(v) => v !== null && setStatus(v)}>
-            <SelectTrigger className="w-auto min-w-[140px]">
-              <SelectValue placeholder="All Status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Status</SelectItem>
-              <SelectItem value="working">Working</SelectItem>
-              <SelectItem value="detected">Detected</SelectItem>
-              <SelectItem value="outdated">Outdated</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select value={price} onValueChange={(v) => v !== null && setPrice(v)}>
-            <SelectTrigger className="w-auto min-w-[140px]">
-              <SelectValue placeholder="Free & Paid" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Free & Paid</SelectItem>
-              <SelectItem value="free">Free Only</SelectItem>
-              <SelectItem value="paid">Paid Only</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
+      </ScrollReveal>
 
-      {errored && executors.length === 0 ? (
-        <Card className="flex flex-col items-center justify-center border border-amber-800/40 py-16 text-center">
-          <CardContent className="flex flex-col items-center">
-            <AlertTriangle className="mb-3 h-12 w-12 text-amber-400/60" />
-            <p className="font-display text-lg text-amber-400">Unable to fetch executor data</p>
-            <p className="mt-1 text-sm text-glass-muted/70">WEAO API might be down or rate-limited. Data will load automatically once available.</p>
-            <Button variant="secondary" onClick={() => window.location.reload()} className="mt-4">
-              <RefreshCw className="h-4 w-4" /> Retry
-            </Button>
-          </CardContent>
-        </Card>
-      ) : filtered.length === 0 ? (
-        <Card className="flex flex-col items-center justify-center py-16 text-center">
-          <CardContent className="flex flex-col items-center">
-            <PackageOpen className="h-12 w-12 text-glass-muted/40" />
-            <p className="mt-4 font-display text-lg text-glass-muted">No executors found</p>
-            <p className="mt-1 text-sm text-glass-muted/70">Try adjusting your filters.</p>
-          </CardContent>
-        </Card>
-      ) : (
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map(e => <ExecutorCard key={e.title} executor={e} />)}
-        </div>
-      )}
+      <ScrollReveal delay={2}>
+        {errored && executors.length === 0 ? (
+          <Card className="flex flex-col items-center justify-center border border-amber-800/40 py-16 text-center">
+            <CardContent className="flex flex-col items-center">
+              <AlertTriangle className="mb-3 h-12 w-12 text-amber-400/60" />
+              <p className="font-display text-lg text-amber-400">Unable to fetch executor data</p>
+              <p className="mt-1 text-sm text-glass-muted/70">WEAO API might be down or rate-limited. Data will load automatically once available.</p>
+              <Button variant="secondary" onClick={() => window.location.reload()} className="mt-4">
+                <RefreshCw className="h-4 w-4" /> Retry
+              </Button>
+            </CardContent>
+          </Card>
+        ) : filtered.length === 0 ? (
+          <Card className="flex flex-col items-center justify-center py-16 text-center">
+            <CardContent className="flex flex-col items-center">
+              <PackageOpen className="h-12 w-12 text-glass-muted/40" />
+              <p className="mt-4 font-display text-lg text-glass-muted">No executors found</p>
+              <p className="mt-1 text-sm text-glass-muted/70">Try adjusting your filters.</p>
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {filtered.map(e => <ExecutorCard key={e.title} executor={e} />)}
+          </div>
+        )}
+      </ScrollReveal>
 
       <p className="mt-8 text-center text-xs text-glass-muted">
         Data sourced from{" "}

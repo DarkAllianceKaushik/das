@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Darky } from "@/components/Darky";
+import { Cursor } from "@/components/Cursor";
 import { getScriptsData } from "@/lib/scripts";
 
 const display = Orbitron({
@@ -36,8 +37,10 @@ export default async function RootLayout({
     <html lang="en" className={`${display.variable} ${body.variable}`}>
       <body className="font-body min-h-screen flex flex-col">
         <div className="fixed inset-0 bg-dot-grid pointer-events-none" />
-        <div className="fixed inset-0 bg-gradient-to-br from-glass-accent-dim/10 via-glass-black to-glass-dark/80 pointer-events-none" />
+        <div className="fixed inset-0 bg-noise pointer-events-none" />
+        <div className="fixed inset-0 bg-gradient-to-br from-glass-accent-dim/10 via-glass-black to-glass-dark/80 pointer-events-none animate-gradient-shift" style={{ backgroundSize: "200% 200%" }} />
         <div className="fixed inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(220,38,38,0.12),transparent)] pointer-events-none" />
+        <Cursor />
         <Header discordUrl={discordUrl} />
         <main className="relative flex-1">{children}</main>
         <Darky />
