@@ -1,9 +1,7 @@
 import { StoreSwitcher } from "@/components/StoreSwitcher";
 import { DiscordButton } from "@/components/DiscordButton";
 import { getScriptsData } from "@/lib/scripts";
-import { Flame } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
+import { Flame, TrendingUp, Users, Sparkles } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -14,70 +12,64 @@ export default async function HomePage() {
   const paidCount = scripts.filter((s) => s.pricing === "paid").length;
 
   return (
-    <div className="relative z-10 mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
-      <section className="mb-12 text-center animate-fade-in">
-        <Badge
-          variant="outline"
-          className="mb-4 gap-2 border-glass-accent/30 bg-glass-accent/10 px-4 py-1.5 font-medium uppercase tracking-wider text-glass-accent-bright"
-        >
-          <Flame className="size-3.5" />
-          Roblox Scripts
-        </Badge>
-        <h1 className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl">
-          <span className="text-white">Dark Alliance</span>
-          <br />
-          <span className="bg-gradient-to-r from-glass-accent-bright via-glass-accent to-glass-accent-dim bg-clip-text text-transparent">
-            Script Store
-          </span>
-        </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-base text-glass-muted sm:text-lg">
-          Browse Dark Alliance curated scripts or search live results from
-          ScriptBlox and RScripts — all in one place.
-        </p>
+    <>
+      <section className="relative overflow-hidden border-b border-glass-border/40 pb-16 pt-20 sm:pb-20 sm:pt-28">
+        <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
+          <div className="mx-auto max-w-4xl text-center">
+            <div className="mb-6 inline-flex animate-fade-in items-center gap-2 rounded-full border border-glass-accent/30 bg-glass-accent/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-glass-accent-bright">
+              <Flame className="size-3" />
+              Roblox Script Store
+              <Sparkles className="size-3" />
+            </div>
 
-        {settings.discordUrl && (
-          <div className="mt-6 flex justify-center">
-            <DiscordButton discordUrl={settings.discordUrl} className="sm:hidden" />
+            <h1 className="animate-fade-in font-display text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-7xl md:text-8xl">
+              <span className="text-white">Dark Alliance</span>
+              <br />
+              <span className="bg-gradient-to-r from-glass-accent-bright via-glass-accent to-glass-accent-dim bg-clip-text text-transparent">
+                Script Store
+              </span>
+            </h1>
+
+            <p className="mx-auto mt-6 max-w-2xl animate-fade-in text-base leading-relaxed text-glass-muted sm:text-lg">
+              Curated Roblox scripts, battle-tested and ready to use.
+              Browse the vault or search live results from ScriptBlox &amp; RScripts.
+            </p>
+
+            {settings.discordUrl && (
+              <div className="mt-8 flex animate-fade-in justify-center">
+                <DiscordButton discordUrl={settings.discordUrl} className="sm:hidden" />
+              </div>
+            )}
+
+            <div className="mt-10 grid animate-fade-in grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:justify-center sm:gap-4">
+              <StatCard value={scripts.length} label="Total Scripts" icon={<TrendingUp className="size-3.5" />} color="text-glass-accent-bright" />
+              <StatCard value={freeCount} label="Free" icon={<Users className="size-3.5" />} color="text-emerald-400" />
+              <StatCard value={paidCount} label="Paid" icon={<Sparkles className="size-3.5" />} color="text-amber-400" />
+              <StatCard value={categories.length} label="Categories" icon={<Flame className="size-3.5" />} color="text-white" />
+            </div>
           </div>
-        )}
-
-        <div className="mt-8 flex flex-wrap justify-center gap-4">
-          <Card>
-            <CardContent className="flex flex-col items-center px-6 py-3">
-              <p className="font-display text-2xl font-bold text-glass-accent-bright">
-                {scripts.length}
-              </p>
-              <p className="text-xs text-glass-muted">Total Scripts</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="flex flex-col items-center px-6 py-3">
-              <p className="font-display text-2xl font-bold text-emerald-400">
-                {freeCount}
-              </p>
-              <p className="text-xs text-glass-muted">Free</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="flex flex-col items-center px-6 py-3">
-              <p className="font-display text-2xl font-bold text-amber-400">
-                {paidCount}
-              </p>
-              <p className="text-xs text-glass-muted">Paid</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="flex flex-col items-center px-6 py-3">
-              <p className="font-display text-2xl font-bold text-white">
-                {categories.length}
-              </p>
-              <p className="text-xs text-glass-muted">Categories</p>
-            </CardContent>
-          </Card>
         </div>
+
+        <div className="absolute -bottom-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-glass-accent/30 to-transparent" />
       </section>
 
-      <StoreSwitcher scripts={scripts} categories={categories} />
+      <div className="relative z-10 mx-auto max-w-6xl px-4 pb-16 pt-12 sm:px-6 sm:pb-20 sm:pt-16">
+        <StoreSwitcher scripts={scripts} categories={categories} />
+      </div>
+    </>
+  );
+}
+
+function StatCard({ value, label, icon, color }: { value: number; label: string; icon: React.ReactNode; color: string }) {
+  return (
+    <div className="flex items-center gap-3 rounded-2xl border border-glass-border bg-glass-card/60 px-4 py-3 backdrop-blur-2xl transition-all duration-300 hover:border-glass-accent/30 hover:bg-glass-card hover:shadow-[0_0_30px_-5px] hover:shadow-glass-accent/15">
+      <div className={`flex size-10 items-center justify-center rounded-xl border border-glass-border bg-glass-dark/60 ${color}`}>
+        {icon}
+      </div>
+      <div className="text-left">
+        <p className={`font-display text-xl font-bold leading-none ${color}`}>{value}</p>
+        <p className="mt-0.5 text-xs text-glass-muted">{label}</p>
+      </div>
     </div>
   );
 }

@@ -118,25 +118,31 @@ export default function ObfuscatorPage() {
   }, []);
 
   return (
-    <div className="relative z-10 mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
-      <section className="mb-10 text-center animate-fade-in">
-        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-glass-accent/30 bg-glass-accent/10 px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-glass-accent-bright">
-          <Skull className="size-3.5" />
-          Lua Obfuscator
+    <div className="relative z-10">
+      <section className="relative overflow-hidden border-b border-glass-border/40 pb-16 pt-20 sm:pb-20 sm:pt-28">
+        <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
+          <div className="mx-auto max-w-4xl text-center">
+            <div className="mb-6 inline-flex animate-fade-in items-center gap-2 rounded-full border border-glass-accent/30 bg-glass-accent/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-glass-accent-bright">
+              <Skull className="size-3" />
+              Lua Obfuscator
+            </div>
+            <h1 className="animate-fade-in font-display text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-7xl md:text-8xl">
+              <span className="text-white">Dark Alliance</span>
+              <br />
+              <span className="bg-gradient-to-r from-glass-accent-bright via-glass-accent to-glass-accent-dim bg-clip-text text-transparent">
+                Obfuscator
+              </span>
+            </h1>
+            <p className="mx-auto mt-6 max-w-2xl animate-fade-in text-base leading-relaxed text-glass-muted sm:text-lg">
+              Luraph-level Lua obfuscation. Paste your script and protect it from
+              reverse engineering.
+            </p>
+          </div>
         </div>
-        <h1 className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl">
-          <span className="text-white">Dark Alliance</span>
-          <br />
-          <span className="bg-gradient-to-r from-glass-accent-bright via-glass-accent to-glass-accent-dim bg-clip-text text-transparent">
-            Obfuscator
-          </span>
-        </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-base text-glass-muted sm:text-lg">
-          Luraph-level Lua obfuscation. Paste your script and protect it from
-          reverse engineering.
-        </p>
+        <div className="absolute -bottom-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-glass-accent/30 to-transparent" />
       </section>
 
+      <div className="mx-auto max-w-6xl px-4 pb-16 pt-12 sm:px-6 sm:pb-20 sm:pt-16">
       <ScrollReveal delay={1}>
         <div className="mb-8">
           <h2 className="section-accent mb-4 font-display text-sm font-bold uppercase tracking-widest text-glass-muted">
@@ -281,6 +287,7 @@ export default function ObfuscatorPage() {
         </CardContent>
       </Card>
       </ScrollReveal>
+    </div>
     </div>
   );
 }

@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, type ReactNode } from "react";
 import { ExecutorCard } from "@/components/executor/ExecutorCard";
 import type { Executor } from "@/lib/executor-types";
-import { Wifi, Skull, PackageOpen, Search, AlertTriangle, RefreshCw } from "lucide-react";
+import { Wifi, PackageOpen, Search, AlertTriangle, RefreshCw, ShieldCheck, List } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
@@ -48,42 +48,34 @@ export function ExecutorPageClient({ executors }: Props) {
   const detected = executors.filter(e => e.detected).length;
 
   return (
-    <div className="relative z-10 mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
-      <section className="mb-10 text-center animate-fade-in">
-        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-glass-accent/30 bg-glass-accent/10 px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-glass-accent-bright">
-          <Wifi className="size-3.5" /> Executor Status
+    <div className="relative z-10">
+      <section className="relative overflow-hidden border-b border-glass-border/40 pb-16 pt-20 sm:pb-20 sm:pt-28">
+        <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
+          <div className="mx-auto max-w-4xl text-center">
+            <div className="mb-6 inline-flex animate-fade-in items-center gap-2 rounded-full border border-glass-accent/30 bg-glass-accent/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-glass-accent-bright">
+              <Wifi className="size-3" /> Executor Status
+            </div>
+            <h1 className="animate-fade-in font-display text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-7xl md:text-8xl">
+              <span className="text-white">Roblox</span>
+              <br />
+              <span className="bg-gradient-to-r from-glass-accent-bright via-glass-accent to-glass-accent-dim bg-clip-text text-transparent">
+                Executor Status
+              </span>
+            </h1>
+            <p className="mx-auto mt-6 max-w-2xl animate-fade-in text-base leading-relaxed text-glass-muted sm:text-lg">
+              Live status from <span className="text-white font-semibold">WEAO</span> — check which executors are working, detected, or outdated.
+            </p>
+            <div className="mt-10 grid animate-fade-in grid-cols-3 gap-3 sm:flex sm:flex-wrap sm:justify-center sm:gap-4">
+              <StatCard value={working} label="Working" icon={<ShieldCheck className="size-3.5" />} color="text-emerald-400" />
+              <StatCard value={detected} label="Detected" icon={<AlertTriangle className="size-3.5" />} color="text-red-400" />
+              <StatCard value={executors.length} label="Total Tracked" icon={<List className="size-3.5" />} color="text-white" />
+            </div>
+          </div>
         </div>
-        <h1 className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl">
-          <span className="text-white">Roblox</span>
-          <br />
-          <span className="bg-gradient-to-r from-glass-accent-bright via-glass-accent to-glass-accent-dim bg-clip-text text-transparent">
-            Executor Status
-          </span>
-        </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-base text-glass-muted sm:text-lg">
-          Live status from <span className="text-white">WEAO</span> — check which executors are working, detected, or outdated.
-        </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-4">
-          <Card>
-            <CardContent className="flex flex-col items-center px-5 py-3">
-              <p className="font-display text-2xl font-bold text-emerald-400">{working}</p>
-              <p className="text-xs text-glass-muted">Working</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="flex flex-col items-center px-5 py-3">
-              <p className="font-display text-2xl font-bold text-red-400">{detected}</p>
-              <p className="text-xs text-glass-muted">Detected</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="flex flex-col items-center px-5 py-3">
-              <p className="font-display text-2xl font-bold text-white">{executors.length}</p>
-              <p className="text-xs text-glass-muted">Total Tracked</p>
-            </CardContent>
-          </Card>
-        </div>
+        <div className="absolute -bottom-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-glass-accent/30 to-transparent" />
       </section>
+
+      <div className="mx-auto max-w-6xl px-4 pb-16 pt-12 sm:px-6 sm:pb-20 sm:pt-16">
 
       <ScrollReveal delay={1}>
         <div className="mb-8 space-y-4">
@@ -163,6 +155,21 @@ export function ExecutorPageClient({ executors }: Props) {
         <a href="https://weao.xyz" target="_blank" rel="noopener noreferrer" className="underline hover:text-white">WEAO</a>
         {" "}— updates automatically.
       </p>
+    </div>
+    </div>
+  );
+}
+
+function StatCard({ value, label, icon, color }: { value: number; label: string; icon: ReactNode; color: string }) {
+  return (
+    <div className="flex items-center gap-3 rounded-2xl border border-glass-border bg-glass-card/60 px-4 py-3 backdrop-blur-2xl transition-all duration-300 hover:border-glass-accent/30 hover:bg-glass-card hover:shadow-[0_0_30px_-5px] hover:shadow-glass-accent/15">
+      <div className={`flex size-10 items-center justify-center rounded-xl border border-glass-border bg-glass-dark/60 ${color}`}>
+        {icon}
+      </div>
+      <div className="text-left">
+        <p className={`font-display text-xl font-bold leading-none ${color}`}>{value}</p>
+        <p className="mt-0.5 text-xs text-glass-muted">{label}</p>
+      </div>
     </div>
   );
 }
