@@ -4,7 +4,6 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Darky } from "@/components/Darky";
-import { Cursor } from "@/components/Cursor";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { getScriptsData } from "@/lib/scripts";
 
@@ -43,7 +42,6 @@ export default async function RootLayout({
         <div className="fixed inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(220,38,38,0.12),transparent)] pointer-events-none" />
         <div className="fixed left-1/2 top-1/4 -z-10 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-glass-accent/5 blur-[120px] pointer-events-none" />
         <div className="fixed bottom-0 right-0 -z-10 h-[400px] w-[400px] rounded-full bg-glass-accent/8 blur-[100px] pointer-events-none" />
-        <Cursor />
         <SmoothScroll>
           <Header discordUrl={discordUrl} />
           <main className="relative flex-1">{children}</main>
