@@ -63,19 +63,19 @@ export function ExecutorPageClient({ executors }: Props) {
           Live status from <span className="text-white">WEAO</span> — check which executors are working, detected, or outdated.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-4">
-          <Card className="card-glass">
+          <Card>
             <CardContent className="flex flex-col items-center px-5 py-3">
               <p className="font-display text-2xl font-bold text-emerald-400">{working}</p>
               <p className="text-xs text-glass-muted">Working</p>
             </CardContent>
           </Card>
-          <Card className="card-glass">
+          <Card>
             <CardContent className="flex flex-col items-center px-5 py-3">
               <p className="font-display text-2xl font-bold text-red-400">{detected}</p>
               <p className="text-xs text-glass-muted">Detected</p>
             </CardContent>
           </Card>
-          <Card className="card-glass">
+          <Card>
             <CardContent className="flex flex-col items-center px-5 py-3">
               <p className="font-display text-2xl font-bold text-white">{executors.length}</p>
               <p className="text-xs text-glass-muted">Total Tracked</p>

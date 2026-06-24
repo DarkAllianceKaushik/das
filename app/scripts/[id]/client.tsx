@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import {
   ArrowLeft, Download, Tag, Clock, RefreshCw, Heart, Eye, Flag, X,
-  Lock, Globe, ExternalLink, AlertTriangle, Calendar, Copy, Check,
+  Lock, Globe, ExternalLink, AlertTriangle, Calendar, Check,
   Share2, TrendingUp,
 } from "lucide-react";
 import { ScriptPreview } from "@/components/ScriptPreview";
@@ -12,6 +12,10 @@ import { ScriptCardEnhanced } from "@/components/ScriptCardEnhanced";
 import { isFavorite, toggleFavorite } from "@/lib/favorites";
 import { getViewCount, trackView } from "@/lib/analytics";
 import { submitReport } from "@/lib/reporting";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
 import type { Script } from "@/lib/types";
 
 const TRENDING_THRESHOLD = 10;
@@ -85,70 +89,87 @@ export function ScriptDetailClient({ script, relatedScripts }: Props) {
   return (
     <div className="relative z-10 mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-14">
       <Link href="/" className="mb-6 inline-flex items-center gap-1.5 text-sm text-glass-muted transition hover:text-white">
-        <ArrowLeft className="h-4 w-4" /> Back to Store
+        <ArrowLeft className="size-4" /> Back to Store
       </Link>
 
-      <section className="card-glass mb-8 p-6 sm:p-8">
+      <Card className="mb-8 p-6 sm:p-8">
         <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
           <div className="flex-1">
-            <div className="mb-3 flex items-center gap-3">
-              <span className="rounded-lg bg-glass-darker px-3 py-1 text-xs font-semibold text-glass-muted">
+            <div className="mb-3 flex flex-wrap items-center gap-2">
+              <Badge variant="outline" className="bg-glass-darker text-glass-muted border-glass-border">
                 {script.category}
-              </span>
-              <span className={`rounded-lg px-3 py-1 text-xs font-bold ${
-                script.pricing === "free"
-                  ? "bg-emerald-950/50 text-emerald-400 border border-emerald-800/40"
-                  : "bg-amber-950/50 text-amber-400 border border-amber-800/40"
-              }`}>
+              </Badge>
+              <Badge
+                variant="outline"
+                className={script.pricing === "free"
+                  ? "border-emerald-800/40 bg-emerald-950/50 text-emerald-400"
+                  : "border-amber-800/40 bg-amber-950/50 text-amber-400"
+                }
+              >
                 {script.pricing === "free" ? "Free" : "Paid"}
-              </span>
+              </Badge>
               {script.featured && (
-                <span className="rounded-lg bg-glass-accent/20 px-3 py-1 text-xs font-bold text-glass-accent-bright border border-glass-accent/30">
+                <Badge variant="outline" className="border-glass-accent/30 bg-glass-accent/20 text-glass-accent-bright">
                   Featured
-                </span>
+                </Badge>
               )}
               {isTrending && (
-                <span className="rounded-lg bg-amber-950/50 px-3 py-1 text-xs font-bold text-amber-400 border border-amber-800/40">
-                  <TrendingUp className="mb-0.5 mr-1 inline h-3 w-3" />Trending
-                </span>
+                <Badge variant="outline" className="border-amber-800/40 bg-amber-950/50 text-amber-400">
+                  <TrendingUp className="mr-0.5 size-3" />Trending
+                </Badge>
               )}
               {script.version && (
-                <span className="rounded-lg bg-glass-darker px-3 py-1 text-xs font-mono text-glass-muted border border-glass-border/50">
+                <Badge variant="outline" className="font-mono bg-glass-darker text-glass-muted border-glass-border/50">
                   v{script.version}
-                </span>
+                </Badge>
               )}
             </div>
             <h1 className="font-display text-2xl font-extrabold text-white sm:text-3xl">{script.name}</h1>
             {script.tags.length > 0 && (
               <div className="mt-3 flex flex-wrap gap-2">
                 {script.tags.map((t) => (
-                  <span key={t} className="inline-flex items-center gap-1 rounded-full bg-glass-darker px-3 py-1 text-xs text-glass-muted">
-                    <Tag className="h-3 w-3" /> {t}
-                  </span>
+                  <Badge key={t} variant="ghost" className="gap-1">
+                    <Tag className="size-3" /> {t}
+                  </Badge>
                 ))}
               </div>
             )}
           </div>
 
-          <div className="flex items-center gap-2">
-            <button onClick={handleShare} className="rounded-lg p-2.5 text-glass-muted transition hover:bg-glass-dark hover:text-sky-400" title={linkCopied ? "Link copied!" : "Copy link"}>
-              {linkCopied ? <Check className="h-5 w-5 text-emerald-400" /> : <Share2 className="h-5 w-5" />}
-            </button>
-            <button onClick={handleFav} className="rounded-lg p-2.5 text-glass-muted transition hover:bg-glass-dark hover:text-glass-accent-bright" title={faved ? "Remove from favorites" : "Add to favorites"}>
-              <Heart className={`h-5 w-5 ${faved ? "fill-glass-accent-bright text-glass-accent-bright" : ""}`} />
-            </button>
-            <button onClick={() => setShowReport(!showReport)} className="rounded-lg p-2.5 text-glass-muted transition hover:bg-glass-dark hover:text-amber-400" title="Report script">
-              <Flag className="h-5 w-5" />
-            </button>
+          <div className="flex items-center gap-1">
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              onClick={handleShare}
+              title={linkCopied ? "Link copied!" : "Copy link"}
+            >
+              {linkCopied ? <Check className="size-4 text-emerald-400" /> : <Share2 className="size-4" />}
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              onClick={handleFav}
+              title={faved ? "Remove from favorites" : "Add to favorites"}
+            >
+              <Heart className={`size-4 ${faved ? "fill-glass-accent-bright text-glass-accent-bright" : ""}`} />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              onClick={() => setShowReport(!showReport)}
+              title="Report script"
+            >
+              <Flag className="size-4" />
+            </Button>
           </div>
         </div>
 
         <p className="mb-6 text-base leading-relaxed text-glass-muted">{script.description}</p>
 
         {script.changelog && (
-          <div className="mb-6 rounded-lg border border-glass-border/60 bg-glass-darker/50 p-4">
-            <h4 className="mb-2 font-display text-xs font-bold uppercase tracking-widest text-glass-muted">
-              <Clock className="mb-0.5 mr-1.5 inline h-3 w-3" /> Changelog {script.version ? `(v${script.version})` : ""}
+          <div className="mb-6 rounded-xl border border-glass-border/60 bg-glass-darker/50 p-4">
+            <h4 className="mb-2 flex items-center gap-1.5 font-display text-xs font-bold uppercase tracking-widest text-glass-muted">
+              <Clock className="size-3" /> Changelog {script.version ? `(v${script.version})` : ""}
             </h4>
             <p className="text-sm text-glass-muted whitespace-pre-wrap">{script.changelog}</p>
           </div>
@@ -156,93 +177,103 @@ export function ScriptDetailClient({ script, relatedScripts }: Props) {
 
         <div className="mb-6 flex flex-wrap items-center gap-4 text-xs text-glass-muted">
           <span className="inline-flex items-center gap-1.5">
-            <Eye className="h-3.5 w-3.5" /> {views} views
+            <Eye className="size-3.5" /> {views} views
           </span>
           <span className="inline-flex items-center gap-1.5">
-            <Calendar className="h-3.5 w-3.5" /> Added {new Date(script.createdAt).toLocaleDateString()}
+            <Calendar className="size-3.5" /> Added {new Date(script.createdAt).toLocaleDateString()}
           </span>
           <span className="inline-flex items-center gap-1.5">
-            <Clock className="h-3.5 w-3.5" /> Updated {new Date(script.updatedAt).toLocaleDateString()}
+            <Clock className="size-3.5" /> Updated {new Date(script.updatedAt).toLocaleDateString()}
           </span>
         </div>
 
         <div className="flex flex-wrap gap-3">
-          <a
-            href={script.downloadUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary gap-2"
+          <Button
+            render={<a href={script.downloadUrl} target="_blank" rel="noopener noreferrer" />}
           >
-            <Download className="h-4 w-4" /> Download
-            <ExternalLink className="h-3 w-3" />
-          </a>
-          <span className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-semibold ${linkInfo.color} border-current/30`}>
-            <Globe className="h-3.5 w-3.5" /> {linkInfo.label}
-          </span>
+            <Download className="size-4" /> Download <ExternalLink className="size-3" />
+          </Button>
+          <Badge
+            variant="outline"
+            className={`gap-1.5 border-current/30 px-3 py-1.5 text-xs font-semibold ${linkInfo.color}`}
+          >
+            <Globe className="size-3.5" /> {linkInfo.label}
+          </Badge>
         </div>
-      </section>
+      </Card>
 
       {showReport && (
-        <div className="card-glass mb-8 border border-amber-800/40 p-6">
+        <Card className="mb-8 border-amber-800/40 p-6">
           <div className="mb-4 flex items-center justify-between">
-            <h3 className="font-display text-sm font-bold uppercase tracking-widest text-amber-400">
-              <Flag className="mb-0.5 mr-2 inline h-4 w-4" />Report Script
+            <h3 className="flex items-center gap-2 font-display text-sm font-bold uppercase tracking-widest text-amber-400">
+              <Flag className="size-4" />Report Script
             </h3>
-            <button onClick={() => setShowReport(false)} className="text-glass-muted hover:text-white">
-              <X className="h-4 w-4" />
-            </button>
+            <Button variant="ghost" size="icon-xs" onClick={() => setShowReport(false)}>
+              <X className="size-4" />
+            </Button>
           </div>
-          <select value={reportReason} onChange={e => setReportReason(e.target.value)} className="input-field mb-3">
-            <option value="">Select reason...</option>
-            <option value="broken">Broken / Not working</option>
-            <option value="outdated">Outdated</option>
-            <option value="malicious">Malicious / Virus</option>
-            <option value="wrong">Wrong category / Info</option>
-            <option value="other">Other</option>
+          <select
+            value={reportReason}
+            onChange={e => setReportReason(e.target.value)}
+            className="mb-3 h-9 w-full rounded-xl border border-glass-border bg-glass-darker/50 px-3 text-sm text-white outline-none transition-all duration-300 focus-visible:border-glass-accent/50 focus-visible:shadow-lg focus-visible:shadow-glass-accent/10 hover:border-glass-border/80"
+          >
+            <option value="" className="bg-glass-darker">Select reason...</option>
+            <option value="broken" className="bg-glass-darker">Broken / Not working</option>
+            <option value="outdated" className="bg-glass-darker">Outdated</option>
+            <option value="malicious" className="bg-glass-darker">Malicious / Virus</option>
+            <option value="wrong" className="bg-glass-darker">Wrong category / Info</option>
+            <option value="other" className="bg-glass-darker">Other</option>
           </select>
-          <textarea
+          <Textarea
             value={reportDetail}
             onChange={e => setReportDetail(e.target.value)}
             placeholder="Additional details (optional)"
-            className="input-field mb-4 h-24 resize-none"
+            className="mb-4 h-24 resize-none"
           />
-          <div className="flex gap-3">
-            <button onClick={handleReport} disabled={!reportReason} className="btn-danger text-sm">
-              <Flag className="h-4 w-4" /> Submit Report
-            </button>
-          </div>
-        </div>
+          <Button
+            variant="destructive"
+            disabled={!reportReason}
+            onClick={handleReport}
+          >
+            <Flag className="size-4" /> Submit Report
+          </Button>
+        </Card>
       )}
 
       {reported && (
-        <div className="card-glass mb-8 border border-emerald-800/40 bg-emerald-950/30 p-4 text-center text-sm text-emerald-400">
+        <Card className="mb-8 border-emerald-800/40 bg-emerald-950/30 p-4 text-center text-sm text-emerald-400">
           Report submitted. Thank you.
-          <button onClick={() => setReported(false)} className="ml-2 underline">Dismiss</button>
-        </div>
+          <button onClick={() => setReported(false)} className="ml-2 underline hover:text-emerald-300">Dismiss</button>
+        </Card>
       )}
 
-      <section className="card-glass overflow-hidden">
-        <div className="flex items-center justify-between border-b border-glass-border/60 bg-glass-darker/80 px-4 py-3">
-          <h2 className="font-display text-sm font-bold uppercase tracking-widest text-glass-muted">
-            <AlertTriangle className="mb-0.5 mr-2 inline h-4 w-4" /> Script Code
+      <Card className="overflow-hidden">
+        <div className="flex items-center justify-between border-b border-glass-border/60 bg-glass-darker/80 px-5 py-3">
+          <h2 className="flex items-center gap-2 font-display text-xs font-bold uppercase tracking-widest text-glass-muted">
+            <AlertTriangle className="size-3.5" /> Script Code
           </h2>
-          <button onClick={loadCode} disabled={codeLoading || code !== null} className="btn-secondary text-xs">
-            <RefreshCw className={`h-3.5 w-3.5 ${codeLoading ? "animate-spin" : ""}`} />
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={loadCode}
+            disabled={codeLoading || code !== null}
+          >
+            <RefreshCw className={`size-3.5 ${codeLoading ? "animate-spin" : ""}`} />
             {codeLoading ? "Loading..." : code !== null ? "Loaded" : "Load Code"}
-          </button>
+          </Button>
         </div>
         {code ? (
           <ScriptPreview code={code} title={script.name} />
         ) : (
-          <div className="flex flex-col items-center justify-center py-12 text-center">
-            <Lock className="mb-3 h-10 w-10 text-glass-muted/30" />
+          <div className="flex flex-col items-center justify-center py-16 text-center">
+            <Lock className="mb-3 size-10 text-glass-muted/30" />
             <p className="font-display text-sm text-glass-muted">Code hidden</p>
             <p className="mt-1 text-xs text-glass-muted/60">
               Click <strong className="text-white">Load Code</strong> above to fetch the script source from {linkInfo.label}.
             </p>
           </div>
         )}
-      </section>
+      </Card>
 
       {relatedScripts && relatedScripts.length > 0 && (
         <section className="mt-10">

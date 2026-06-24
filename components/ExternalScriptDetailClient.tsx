@@ -3,9 +3,12 @@
 import Link from "next/link";
 import {
   ArrowLeft, ExternalLink, Eye, Globe, ShieldCheck, Key,
-  AlertTriangle, Gamepad2, User,
+  AlertTriangle, Gamepad2,
 } from "lucide-react";
 import type { ExternalScript } from "@/lib/external-types";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 
 const sourceStyles = {
   scriptblox: { label: "ScriptBlox", color: "text-sky-400", bg: "bg-sky-950/50" },
@@ -32,7 +35,7 @@ export function ExternalScriptDetailClient({ script }: Props) {
         <ArrowLeft className="h-4 w-4" /> Back to Store
       </Link>
 
-      <section className="card-glass mb-8 overflow-hidden">
+      <Card className="mb-8 overflow-hidden">
         {script.imageUrl && (
           <div className="relative h-48 w-full bg-glass-darker sm:h-64">
             <img
@@ -44,29 +47,29 @@ export function ExternalScriptDetailClient({ script }: Props) {
           </div>
         )}
 
-        <div className="p-6 sm:p-8">
-          <div className="mb-4 flex flex-wrap items-center gap-3">
-            <span className={`rounded-lg px-3 py-1 text-xs font-semibold ${src.bg} ${src.color} border border-current/30`}>
+        <CardContent className="p-6 sm:p-8">
+          <div className="mb-4 flex flex-wrap items-center gap-2">
+            <Badge variant="outline" className={`${src.bg} ${src.color} border-current/30`}>
               {src.label}
-            </span>
-            <span className={`rounded-lg px-3 py-1 text-xs font-bold ${price.className}`}>
-              {script.pricing === "key" && <Key className="mr-1 inline h-3 w-3" />}
+            </Badge>
+            <Badge variant="outline" className={price.className}>
+              {script.pricing === "key" && <Key className="mr-0.5 inline size-3" />}
               {price.label}
-            </span>
+            </Badge>
             {script.verified && (
-              <span className="inline-flex items-center gap-1 rounded-lg bg-emerald-950/50 px-3 py-1 text-xs font-bold text-emerald-400 border border-emerald-800/40">
-                <ShieldCheck className="h-3.5 w-3.5" /> Verified
-              </span>
+              <Badge variant="outline" className="border-emerald-800/40 bg-emerald-950/50 text-emerald-400 gap-1">
+                <ShieldCheck className="size-3.5" /> Verified
+              </Badge>
             )}
             {script.patched && (
-              <span className="rounded-lg bg-red-950/50 px-3 py-1 text-xs font-bold text-red-400 border border-red-800/40">
+              <Badge variant="outline" className="border-red-800/40 bg-red-950/50 text-red-400">
                 Patched
-              </span>
+              </Badge>
             )}
             {script.universal && (
-              <span className="rounded-lg bg-blue-950/50 px-3 py-1 text-xs font-bold text-blue-400 border border-blue-800/40">
+              <Badge variant="outline" className="border-blue-800/40 bg-blue-950/50 text-blue-400">
                 Universal
-              </span>
+              </Badge>
             )}
           </div>
 
@@ -75,7 +78,7 @@ export function ExternalScriptDetailClient({ script }: Props) {
           </h1>
 
           <div className="mt-2 flex items-center gap-2 text-sm text-glass-accent/70">
-            <Gamepad2 className="h-4 w-4" />
+            <Gamepad2 className="size-4" />
             {script.game}
           </div>
 
@@ -85,38 +88,35 @@ export function ExternalScriptDetailClient({ script }: Props) {
 
           <div className="mt-6 flex flex-wrap items-center gap-4 text-xs text-glass-muted">
             <span className="inline-flex items-center gap-1.5">
-              <Eye className="h-3.5 w-3.5" /> {script.views.toLocaleString()} views
+              <Eye className="size-3.5" /> {script.views.toLocaleString()} views
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <Globe className="h-3.5 w-3.5" /> Source: {src.label}
+              <Globe className="size-3.5" /> Source: {src.label}
             </span>
           </div>
 
           <div className="mt-6 flex flex-wrap gap-3">
-            <a
-              href={script.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary gap-2"
-            >
-              <ExternalLink className="h-4 w-4" /> View on {src.label}
-            </a>
+            <Button render={<a href={script.url} target="_blank" rel="noopener noreferrer" />}>
+              <ExternalLink className="size-4" /> View on {src.label}
+            </Button>
           </div>
-        </div>
-      </section>
+        </CardContent>
+      </Card>
 
-      <section className="card-glass p-6">
-        <div className="flex items-center gap-3 border-b border-glass-border/60 pb-4">
-          <AlertTriangle className="h-5 w-5 text-amber-400" />
-          <p className="text-xs text-glass-muted">
-            This script is hosted on <strong className="text-white">{src.label}</strong>.
-            Pricing, availability, and functionality are managed by the original platform.
+      <Card className="p-6">
+        <CardContent className="p-0">
+          <div className="flex items-start gap-3 pb-4">
+            <AlertTriangle className="mt-0.5 size-5 shrink-0 text-amber-400" />
+            <p className="text-xs text-glass-muted">
+              This script is hosted on <strong className="text-white">{src.label}</strong>.
+              Pricing, availability, and functionality are managed by the original platform.
+            </p>
+          </div>
+          <p className="text-xs text-glass-muted/60">
+            Powered by {src.label}
           </p>
-        </div>
-        <p className="mt-4 text-xs text-glass-muted/60">
-          Powered by {src.label}
-        </p>
-      </section>
+        </CardContent>
+      </Card>
     </div>
   );
 }

@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 
 const PRESETS = [
@@ -194,10 +195,10 @@ export default function ObfuscatorPage() {
 
       <div className="grid gap-6 lg:grid-cols-2">
         <div>
-          <label className="label-field flex items-center gap-2">
-            <Terminal className="h-4 w-4" />
+          <Label className="mb-1.5 inline-flex items-center gap-2 text-sm font-semibold text-glass-muted">
+            <Terminal className="size-4" />
             Input (Lua/Luau)
-          </label>
+          </Label>
           <Textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -222,10 +223,10 @@ export default function ObfuscatorPage() {
         </div>
 
         <div>
-          <label className="label-field flex items-center gap-2">
-            <Shield className="h-4 w-4" />
+          <Label className="mb-1.5 inline-flex items-center gap-2 text-sm font-semibold text-glass-muted">
+            <Shield className="size-4" />
             Output
-          </label>
+          </Label>
           <div className="relative">
             <Textarea
               ref={outputRef}
@@ -258,7 +259,7 @@ export default function ObfuscatorPage() {
         </div>
       </div>
 
-      <Card className="card-glass mx-auto mt-12 max-w-3xl">
+      <Card className="mx-auto mt-12 max-w-3xl">
         <CardContent className="p-6 text-sm text-glass-muted">
           <h3 className="mb-2 font-display text-xs font-bold uppercase tracking-widest text-glass-accent-bright">
             ⚠ Disclaimer

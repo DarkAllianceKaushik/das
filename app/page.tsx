@@ -42,7 +42,7 @@ export default async function HomePage() {
         )}
 
         <div className="mt-8 flex flex-wrap justify-center gap-4">
-          <Card className="card-glass">
+          <Card>
             <CardContent className="flex flex-col items-center px-6 py-3">
               <p className="font-display text-2xl font-bold text-glass-accent-bright">
                 {scripts.length}
@@ -50,7 +50,7 @@ export default async function HomePage() {
               <p className="text-xs text-glass-muted">Total Scripts</p>
             </CardContent>
           </Card>
-          <Card className="card-glass">
+          <Card>
             <CardContent className="flex flex-col items-center px-6 py-3">
               <p className="font-display text-2xl font-bold text-emerald-400">
                 {freeCount}
@@ -58,7 +58,7 @@ export default async function HomePage() {
               <p className="text-xs text-glass-muted">Free</p>
             </CardContent>
           </Card>
-          <Card className="card-glass">
+          <Card>
             <CardContent className="flex flex-col items-center px-6 py-3">
               <p className="font-display text-2xl font-bold text-amber-400">
                 {paidCount}
@@ -66,7 +66,7 @@ export default async function HomePage() {
               <p className="text-xs text-glass-muted">Paid</p>
             </CardContent>
           </Card>
-          <Card className="card-glass">
+          <Card>
             <CardContent className="flex flex-col items-center px-6 py-3">
               <p className="font-display text-2xl font-bold text-white">
                 {categories.length}
