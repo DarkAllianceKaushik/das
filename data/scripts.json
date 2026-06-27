@@ -1,19 +1,5 @@
 {
-  "scripts": [
-    {
-      "id": "script-1782536328143-6gyomuf",
-      "name": "Hero scriptt",
-      "description": "Hi kfev",
-      "category": "Admin",
-      "tags": [],
-      "pricing": "free",
-      "downloadUrl": "https://google.com",
-      "linkType": "pastebin",
-      "featured": true,
-      "createdAt": "2026-06-27T04:58:48.143Z",
-      "updatedAt": "2026-06-27T04:58:48.143Z"
-    }
-  ],
+  "scripts": [],
   "categories": [
     "Admin",
     "Combat",
