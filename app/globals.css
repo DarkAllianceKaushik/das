@@ -9,6 +9,8 @@
 
   body {
     @apply bg-alliance-black text-white antialiased;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: none;
   }
 
   ::selection {

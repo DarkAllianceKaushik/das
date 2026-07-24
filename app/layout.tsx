@@ -76,9 +76,7 @@ export default async function RootLayout({
         />
       </head>
       <body className="font-body min-h-screen flex flex-col">
-        <div className="fixed inset-0 bg-grid-red bg-[length:48px_48px] pointer-events-none opacity-60" />
-        <div className="fixed inset-0 bg-gradient-to-b from-alliance-red/5 via-transparent to-transparent pointer-events-none" />
-        <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(220,38,38,0.08),transparent_50%)] pointer-events-none" />
+        <div className="fixed inset-0 bg-gradient-to-b from-alliance-red/[0.03] via-transparent to-transparent pointer-events-none" />
         <Header discordUrl={discordUrl} />
         <main className="relative flex-1">
           <ErrorBoundary>{children}</ErrorBoundary>
