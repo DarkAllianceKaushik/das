@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { fetchExternalScripts } from "@/lib/external-scripts";
 import type { ExternalSourceFilter } from "@/lib/external-types";
 
-export const dynamic = "force-dynamic";
-
 const SOURCES: ExternalSourceFilter[] = ["all", "scriptblox", "rscripts"];
 
 export async function GET(request: NextRequest) {

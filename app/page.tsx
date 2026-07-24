@@ -5,7 +5,7 @@ import { Flame } from "lucide-react";
 import { StoreGridSkeleton } from "@/components/LoadingSkeleton";
 import { Suspense } from "react";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 600;
 
 export default async function HomePage() {
   const { scripts, categories, settings } = await getScriptsData();

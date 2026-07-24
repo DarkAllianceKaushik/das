@@ -1,11 +1,19 @@
+"use client";
+
 import { Swords } from "lucide-react";
 import { DiscordButton } from "./DiscordButton";
+import { useEffect, useState } from "react";
 
-interface FooterProps {
-  discordUrl?: string;
-}
+export function Footer() {
+  const [discordUrl, setDiscordUrl] = useState("");
 
-export function Footer({ discordUrl = "" }: FooterProps) {
+  useEffect(() => {
+    fetch("/api/settings")
+      .then((r) => r.json())
+      .then((data) => setDiscordUrl(data.discordUrl || ""))
+      .catch(() => {});
+  }, []);
+
   return (
     <footer className="relative z-10 mt-auto border-t border-alliance-border/60 bg-alliance-darker/90 backdrop-blur-sm">
       <div className="glow-line" />

@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 import { isAdminAuthenticated } from "@/lib/auth";
 import { addCategory, deleteCategory } from "@/lib/scripts";
@@ -21,6 +22,7 @@ export async function POST(request: NextRequest) {
     }
 
     const categories = await addCategory(name);
+    revalidatePath("/");
     return NextResponse.json({ categories });
   } catch (error) {
     console.error("POST /api/admin/categories:", error);
@@ -41,6 +43,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     await deleteCategory(name);
+    revalidatePath("/");
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("DELETE /api/admin/categories:", error);

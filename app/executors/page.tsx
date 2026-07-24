@@ -1,13 +1,13 @@
 import type { Executor } from "@/lib/executor-types";
 import { ExecutorPageClient } from "./client";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 async function fetchFromWEAO(): Promise<Executor[]> {
   try {
     const res = await fetch("https://weao.xyz/api/status/exploits", {
       headers: { "User-Agent": "WEAO-3PService" },
-      cache: "no-store",
+      next: { revalidate: 300 },
     });
     if (!res.ok) return [];
     const data = await res.json();

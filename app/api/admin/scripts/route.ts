@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 import { isAdminAuthenticated } from "@/lib/auth";
 import {
@@ -45,6 +46,7 @@ export async function POST(request: NextRequest) {
     }
 
     const script = await createScript(parsed.data);
+    revalidatePath("/");
     return NextResponse.json(script, { status: 201 });
   } catch (error) {
     console.error("POST /api/admin/scripts:", error);
@@ -80,6 +82,8 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: "Script not found" }, { status: 404 });
     }
 
+    revalidatePath("/");
+    revalidatePath(`/scripts/${id}`);
     return NextResponse.json(script);
   } catch (error) {
     console.error("PUT /api/admin/scripts:", error);
@@ -107,6 +111,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: "Script not found" }, { status: 404 });
     }
 
+    revalidatePath("/");
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("DELETE /api/admin/scripts:", error);

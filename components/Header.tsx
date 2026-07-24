@@ -7,16 +7,20 @@ import { Shield, Skull, Swords, Wifi, Search, Menu, X, Home } from "lucide-react
 import { motion, AnimatePresence } from "framer-motion";
 import { DiscordButton } from "./DiscordButton";
 
-interface HeaderProps {
-  discordUrl?: string;
-}
-
-export function Header({ discordUrl = "" }: HeaderProps) {
+export function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const [search, setSearch] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [discordUrl, setDiscordUrl] = useState("");
+
+  useEffect(() => {
+    fetch("/api/settings")
+      .then((r) => r.json())
+      .then((data) => setDiscordUrl(data.discordUrl || ""))
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);

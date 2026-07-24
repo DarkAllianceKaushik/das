@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 import { isAdminAuthenticated } from "@/lib/auth";
 import { updateDiscordUrl } from "@/lib/scripts";
@@ -21,6 +22,7 @@ export async function PUT(request: NextRequest) {
     }
 
     const settings = await updateDiscordUrl(parsed.data.discordUrl);
+    revalidatePath("/");
     return NextResponse.json({ settings });
   } catch (error) {
     console.error("PUT /api/admin/settings:", error);
