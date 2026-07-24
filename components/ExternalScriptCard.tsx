@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { ExternalLink, Eye, Key, ShieldCheck } from "lucide-react";
 import type { ExternalScript } from "@/lib/external-types";
 import { Card, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
@@ -40,7 +39,7 @@ export function ExternalScriptCard({ script }: { script: ExternalScript }) {
   const price = pricingStyles[script.pricing];
 
   return (
-    <Link href={`/scripts/${script.id}`} className="block">
+    <a href={script.url} target="_blank" rel="noopener noreferrer" className="block">
       <Card className="group flex flex-col overflow-hidden transition hover:border-glass-accent/30 hover:shadow-glass">
         {script.imageUrl && (
           <div className="relative h-36 w-full overflow-hidden bg-glass-darker">
@@ -108,6 +107,6 @@ export function ExternalScriptCard({ script }: { script: ExternalScript }) {
           </div>
         </CardContent>
       </Card>
-    </Link>
+    </a>
   );
 }
