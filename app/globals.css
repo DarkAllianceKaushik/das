@@ -14,23 +14,43 @@
   ::selection {
     @apply bg-alliance-red/40 text-white;
   }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-alliance-red;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-alliance-red/30;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-alliance-red/50;
+  }
 }
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-alliance-red px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-alliance-red-bright focus:outline-none focus:ring-2 focus:ring-alliance-red focus:ring-offset-2 focus:ring-offset-alliance-black disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-alliance-red px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-alliance-red-bright hover:shadow-glow focus:outline-none focus:ring-2 focus:ring-alliance-red focus:ring-offset-2 focus:ring-offset-alliance-black active:scale-[0.97] disabled:opacity-50 disabled:active:scale-100;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-alliance-border bg-alliance-dark px-5 py-2.5 text-sm font-semibold text-white transition hover:border-alliance-red/50 hover:bg-alliance-card focus:outline-none focus:ring-2 focus:ring-alliance-red/50 disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-alliance-border bg-alliance-dark px-5 py-2.5 text-sm font-semibold text-white transition-all hover:border-alliance-red/50 hover:bg-alliance-card hover:shadow-glow-sm focus:outline-none focus:ring-2 focus:ring-alliance-red/50 active:scale-[0.97] disabled:opacity-50 disabled:active:scale-100;
   }
 
   .btn-danger {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-red-900/60 bg-red-950/40 px-4 py-2 text-sm font-semibold text-red-300 transition hover:bg-red-900/40 focus:outline-none disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-red-900/60 bg-red-950/40 px-4 py-2 text-sm font-semibold text-red-300 transition-all hover:bg-red-900/40 hover:shadow-glow-sm focus:outline-none active:scale-[0.97] disabled:opacity-50;
   }
 
   .input-field {
-    @apply w-full rounded-lg border border-alliance-border bg-alliance-darker px-4 py-2.5 text-sm text-white placeholder:text-alliance-muted/60 focus:border-alliance-red focus:outline-none focus:ring-1 focus:ring-alliance-red;
+    @apply w-full rounded-lg border border-alliance-border bg-alliance-darker px-4 py-2.5 text-sm text-white placeholder:text-alliance-muted/60 transition-all focus:border-alliance-red focus:outline-none focus:ring-1 focus:ring-alliance-red;
   }
 
   .label-field {
@@ -38,6 +58,38 @@
   }
 
   .card-surface {
-    @apply rounded-xl border border-alliance-border bg-alliance-card/80 backdrop-blur-sm;
+    @apply rounded-xl border border-alliance-border bg-alliance-card/80 backdrop-blur-sm transition-all duration-200;
+  }
+
+  .card-surface-hover {
+    @apply card-surface hover:border-alliance-red/40 hover:shadow-glow-sm hover:-translate-y-0.5;
+  }
+
+  .glow-line {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-alliance-red/40 to-transparent;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-alliance-red-bright via-alliance-red to-alliance-crimson bg-clip-text text-transparent;
+  }
+
+  .animated-gradient {
+    background: linear-gradient(-45deg, #dc2626, #ef4444, #991b1b, #7f1d1d);
+    background-size: 400% 400%;
+    animation: gradient-shift 6s ease infinite;
+  }
+
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(220, 38, 38, 0.15); }
+    50% { box-shadow: 0 0 40px rgba(220, 38, 38, 0.3); }
+  }
+
+  .animate-glow-pulse {
+    animation: glow-pulse 3s ease-in-out infinite;
   }
 }

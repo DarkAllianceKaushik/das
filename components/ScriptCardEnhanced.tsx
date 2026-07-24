@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import type { Script } from "@/lib/types";
 import { isFavorite, toggleFavorite } from "@/lib/favorites";
 import { getViewCount, trackView } from "@/lib/analytics";
@@ -70,16 +71,27 @@ export function ScriptCardEnhanced({ script, onTagClick }: Props) {
   const isTrending = views >= TRENDING_THRESHOLD;
 
   return (
-    <div className="relative">
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-30px" }}
+      transition={{ duration: 0.3 }}
+      whileHover={{ y: -2 }}
+      className="relative"
+    >
       <Link href={`/scripts/${script.id}`} className="block">
-        <div className="card-surface group flex flex-col p-5 transition hover:border-alliance-red/40 hover:shadow-glow-sm">
+        <div className="card-surface group flex flex-col p-5 transition-all duration-200 hover:border-alliance-red/40 hover:shadow-glow-sm">
           <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
             <div className="flex flex-wrap items-center gap-2">
               {script.featured && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-alliance-red/20 px-2 py-0.5 text-xs font-medium text-alliance-red-bright">
+                <motion.span
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  className="inline-flex items-center gap-1 rounded-full bg-alliance-red/20 px-2 py-0.5 text-xs font-medium text-alliance-red-bright"
+                >
                   <Sparkles className="h-3 w-3" />
                   Featured
-                </span>
+                </motion.span>
               )}
               {isTrending && (
                 <span className="inline-flex items-center gap-1 rounded-full bg-amber-950/60 px-2 py-0.5 text-xs font-medium text-amber-400 ring-1 ring-amber-800/50">
@@ -138,48 +150,84 @@ export function ScriptCardEnhanced({ script, onTagClick }: Props) {
       </Link>
 
       <div className="absolute right-3 top-3 flex gap-1">
-        <button onClick={handleFav} className="rounded-md bg-alliance-black/60 p-1.5 text-alliance-muted transition hover:bg-alliance-black hover:text-alliance-red-bright" title={faved ? "Remove from favorites" : "Add to favorites"}>
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={handleFav}
+          className="rounded-md bg-alliance-black/60 p-1.5 text-alliance-muted transition hover:bg-alliance-black hover:text-alliance-red-bright"
+          title={faved ? "Remove from favorites" : "Add to favorites"}
+        >
           <Heart className={`h-3.5 w-3.5 ${faved ? "fill-alliance-red-bright text-alliance-red-bright" : ""}`} />
-        </button>
-        <button onClick={handleCopy} className="rounded-md bg-alliance-black/60 p-1.5 text-alliance-muted transition hover:bg-alliance-black hover:text-sky-400" title={copied ? "Copied!" : "Copy script"}>
+        </motion.button>
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={handleCopy}
+          className="rounded-md bg-alliance-black/60 p-1.5 text-alliance-muted transition hover:bg-alliance-black hover:text-sky-400"
+          title={copied ? "Copied!" : "Copy script"}
+        >
           {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
-        </button>
-        <button onClick={() => setShowReport(!showReport)} className="rounded-md bg-alliance-black/60 p-1.5 text-alliance-muted transition hover:bg-alliance-black hover:text-amber-400" title="Report script">
+        </motion.button>
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={() => setShowReport(!showReport)}
+          className="rounded-md bg-alliance-black/60 p-1.5 text-alliance-muted transition hover:bg-alliance-black hover:text-amber-400"
+          title="Report script"
+        >
           <Flag className="h-3.5 w-3.5" />
-        </button>
+        </motion.button>
       </div>
 
-      {showReport && (
-        <div className="card-surface absolute left-0 right-0 top-0 z-30 p-4">
-          <div className="mb-3 flex items-center justify-between">
-            <h4 className="font-display text-xs font-bold uppercase tracking-widest text-amber-400">Report Script</h4>
-            <button onClick={() => setShowReport(false)} className="text-alliance-muted hover:text-white">
-              <X className="h-4 w-4" />
-            </button>
-          </div>
-          <select value={reportReason} onChange={e => setReportReason(e.target.value)} className="input-field mb-2 text-xs">
-            <option value="">Select reason...</option>
-            <option value="broken">Broken / Not working</option>
-            <option value="outdated">Outdated</option>
-            <option value="malicious">Malicious / Virus</option>
-            <option value="wrong">Wrong category / Info</option>
-            <option value="other">Other</option>
-          </select>
-          <textarea value={reportDetail} onChange={e => setReportDetail(e.target.value)} placeholder="Additional details (optional)" className="input-field mb-3 h-20 resize-none text-xs" />
-          <div className="flex gap-2">
-            <button onClick={handleReport} disabled={!reportReason} className="btn-danger flex-1 text-xs">
-              <Flag className="h-3 w-3" /> Submit Report
-            </button>
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {showReport && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="card-surface absolute left-0 right-0 top-0 z-30 p-4"
+          >
+            <div className="mb-3 flex items-center justify-between">
+              <h4 className="font-display text-xs font-bold uppercase tracking-widest text-amber-400">Report Script</h4>
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                onClick={() => setShowReport(false)}
+                className="text-alliance-muted hover:text-white"
+              >
+                <X className="h-4 w-4" />
+              </motion.button>
+            </div>
+            <select value={reportReason} onChange={e => setReportReason(e.target.value)} className="input-field mb-2 text-xs">
+              <option value="">Select reason...</option>
+              <option value="broken">Broken / Not working</option>
+              <option value="outdated">Outdated</option>
+              <option value="malicious">Malicious / Virus</option>
+              <option value="wrong">Wrong category / Info</option>
+              <option value="other">Other</option>
+            </select>
+            <textarea value={reportDetail} onChange={e => setReportDetail(e.target.value)} placeholder="Additional details (optional)" className="input-field mb-3 h-20 resize-none text-xs" />
+            <div className="flex gap-2">
+              <button onClick={handleReport} disabled={!reportReason} className="btn-danger flex-1 text-xs">
+                <Flag className="h-3 w-3" /> Submit Report
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {reported && (
-        <div className="absolute left-0 right-0 top-0 z-30 rounded-xl border border-emerald-800/50 bg-emerald-950/80 p-4 text-center text-sm text-emerald-400 backdrop-blur-sm">
-          Report submitted. Thank you.
-          <button onClick={() => setReported(false)} className="ml-2 underline">Dismiss</button>
-        </div>
-      )}
-    </div>
+      <AnimatePresence>
+        {reported && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="absolute left-0 right-0 top-0 z-30 rounded-xl border border-emerald-800/50 bg-emerald-950/80 p-4 text-center text-sm text-emerald-400 backdrop-blur-sm"
+          >
+            Report submitted. Thank you.
+            <button onClick={() => setReported(false)} className="ml-2 underline">Dismiss</button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 }

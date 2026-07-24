@@ -19,8 +19,8 @@ async function fetchFromWEAO(): Promise<Executor[]> {
   }
 }
 
-export default async function ExecutorDetailPage({ params }: { params: Promise<{ slug: string }> | { slug: string } }) {
-  const resolved = await params;
+export default async function ExecutorDetailPage(props: { params: Promise<{ slug: string }> }) {
+  const resolved = await props.params;
   const executors = await fetchFromWEAO();
   const slug = resolved.slug;
   const executor = executors.find(

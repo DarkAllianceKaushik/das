@@ -2,8 +2,8 @@ import { notFound } from "next/navigation";
 import { getAllScripts } from "@/lib/scripts";
 import { ScriptDetailClient } from "./client";
 
-export default async function ScriptDetailPage({ params }: { params: Promise<{ id: string }> | { id: string } }) {
-  const resolved = await params;
+export default async function ScriptDetailPage(props: { params: Promise<{ id: string }> }) {
+  const resolved = await props.params;
   const scripts = await getAllScripts();
   const script = scripts.find((s) => s.id === resolved.id);
   if (!script) notFound();
