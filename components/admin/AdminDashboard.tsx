@@ -12,6 +12,9 @@ import {
   Trash2,
   ExternalLink,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 
 export function AdminDashboard() {
   const [scripts, setScripts] = useState<Script[]>([]);
@@ -95,7 +98,7 @@ export function AdminDashboard() {
 
   if (loading) {
     return (
-      <p className="text-center text-alliance-muted">Loading admin panel...</p>
+      <p className="text-center text-glass-muted">Loading admin panel...</p>
     );
   }
 
@@ -104,25 +107,21 @@ export function AdminDashboard() {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="font-display text-3xl font-bold">Admin Panel</h1>
-          <p className="mt-1 text-sm text-alliance-muted">
+          <p className="mt-1 text-sm text-glass-muted">
             Manage scripts, categories, and your Discord invite link
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
           {!showForm && !editing && (
-            <button
-              type="button"
-              className="btn-primary"
-              onClick={() => setShowForm(true)}
-            >
+            <Button onClick={() => setShowForm(true)}>
               <Plus className="h-4 w-4" />
               New Script
-            </button>
+            </Button>
           )}
-          <button type="button" onClick={handleLogout} className="btn-secondary">
+          <Button variant="outline" onClick={handleLogout}>
             <LogOut className="h-4 w-4" />
             Logout
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -169,30 +168,34 @@ export function AdminDashboard() {
         />
       )}
 
-      <section className="card-surface p-6">
-        <h2 className="font-display text-lg font-bold">Categories</h2>
-        <div className="mt-4 flex flex-wrap gap-2">
-          {categories.map((c) => (
-            <span
-              key={c}
-              className="rounded-full border border-alliance-border bg-alliance-darker px-3 py-1 text-sm"
-            >
-              {c}
-            </span>
-          ))}
-        </div>
-        <div className="mt-4 flex gap-2">
-          <input
-            className="input-field max-w-xs"
-            placeholder="New category name"
-            value={newCatName}
-            onChange={(e) => setNewCatName(e.target.value)}
-          />
-          <button type="button" className="btn-secondary" onClick={handleAddCategory}>
-            Add
-          </button>
-        </div>
-      </section>
+      <Card className="card-glass">
+        <CardHeader>
+          <CardTitle>Categories</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-wrap gap-2">
+            {categories.map((c) => (
+              <span
+                key={c}
+                className="rounded-full border border-glass-border bg-glass-darker px-3 py-1 text-sm"
+              >
+                {c}
+              </span>
+            ))}
+          </div>
+          <div className="mt-4 flex gap-2">
+            <Input
+              className="max-w-xs"
+              placeholder="New category name"
+              value={newCatName}
+              onChange={(e) => setNewCatName(e.target.value)}
+            />
+            <Button variant="outline" onClick={handleAddCategory}>
+              Add
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
 
       <section>
         <h2 className="mb-4 font-display text-lg font-bold">
@@ -200,64 +203,62 @@ export function AdminDashboard() {
         </h2>
 
         {scripts.length === 0 ? (
-          <p className="text-alliance-muted">No scripts yet. Post your first one!</p>
+          <p className="text-glass-muted">No scripts yet. Post your first one!</p>
         ) : (
           <div className="space-y-3">
             {scripts.map((script) => (
-              <div
-                key={script.id}
-                className="card-surface flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between"
-              >
-                <div className="min-w-0 flex-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <h3 className="font-semibold text-white">{script.name}</h3>
-                    <span className="text-xs uppercase text-alliance-muted">
-                      {script.pricing}
-                    </span>
-                    <span className="text-xs text-alliance-red/80">
-                      {script.category}
-                    </span>
-                  </div>
-                  <p className="mt-1 truncate text-sm text-alliance-muted">
-                    {script.description}
-                  </p>
-                  <div className="mt-1 flex flex-wrap gap-1">
-                    {script.tags.map((t) => (
-                      <span key={t} className="text-xs text-alliance-muted/70">
-                        #{t}
+              <Card key={script.id} className="card-glass">
+                <CardContent className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h3 className="font-semibold text-white">{script.name}</h3>
+                      <span className="text-xs uppercase text-glass-muted">
+                        {script.pricing}
                       </span>
-                    ))}
+                      <span className="text-xs text-glass-accent/80">
+                        {script.category}
+                      </span>
+                    </div>
+                    <p className="mt-1 truncate text-sm text-glass-muted">
+                      {script.description}
+                    </p>
+                    <div className="mt-1 flex flex-wrap gap-1">
+                      {script.tags.map((t) => (
+                        <span key={t} className="text-xs text-glass-muted/70">
+                          #{t}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
 
-                <div className="flex shrink-0 flex-wrap gap-2">
-                  <a
-                    href={script.downloadUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-secondary px-3 py-2"
-                  >
-                    <ExternalLink className="h-4 w-4" />
-                  </a>
-                  <button
-                    type="button"
-                    className="btn-secondary px-3 py-2"
-                    onClick={() => {
-                      setEditing(script);
-                      setShowForm(false);
-                    }}
-                  >
-                    <Pencil className="h-4 w-4" />
-                  </button>
-                  <button
-                    type="button"
-                    className="btn-danger px-3 py-2"
-                    onClick={() => handleDelete(script.id, script.name)}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
-                </div>
-              </div>
+                  <div className="flex shrink-0 flex-wrap gap-2">
+                    <Button
+                      render={<a href={script.downloadUrl} target="_blank" rel="noopener noreferrer" />}
+                      variant="outline"
+                      size="icon"
+                    >
+                      <ExternalLink className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => {
+                        setEditing(script);
+                        setShowForm(false);
+                      }}
+                    >
+                      <Pencil className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      size="icon"
+                      onClick={() => handleDelete(script.id, script.name)}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
             ))}
           </div>
         )}

@@ -9,7 +9,10 @@ import {
   Globe,
   Loader2,
   Search,
+  X,
 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export function OnlineScriptsClient() {
   const [scripts, setScripts] = useState<ExternalScript[]>([]);
@@ -63,9 +66,9 @@ export function OnlineScriptsClient() {
 
   return (
     <div className="space-y-6">
-      <div className="card-surface space-y-4 p-4">
-        <div className="flex items-start gap-3 rounded-lg border border-alliance-border/60 bg-alliance-darker/50 p-3 text-sm text-alliance-muted">
-          <Globe className="mt-0.5 h-4 w-4 shrink-0 text-alliance-red-bright" />
+      <div className="card-glass space-y-5 p-5">
+        <div className="flex items-start gap-3 rounded-xl border border-glass-border bg-glass-dark/50 p-3 text-sm text-glass-muted">
+          <Globe className="mt-0.5 h-4 w-4 shrink-0 text-glass-accent-bright" />
           <p>
             Live results from{" "}
             <strong className="text-white">ScriptBlox</strong> and{" "}
@@ -76,31 +79,43 @@ export function OnlineScriptsClient() {
 
         <form onSubmit={handleSearch} className="flex flex-col gap-3 sm:flex-row">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-alliance-muted" />
-            <input
+            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-glass-muted" />
+            <Input
               type="search"
               placeholder="Search online scripts (game, feature, name)..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="input-field pl-10"
+              className="h-10 pl-10 pr-10"
             />
+            {search && (
+              <button
+                type="button"
+                onClick={() => setSearch("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-glass-muted hover:text-white transition-colors"
+              >
+                <X className="size-4" />
+              </button>
+            )}
           </div>
-          <button type="submit" className="btn-primary shrink-0">
-            Search
-          </button>
-          {query && (
-            <button
-              type="button"
-              className="btn-secondary shrink-0"
-              onClick={() => {
-                setSearch("");
-                setQuery("");
-                setPage(1);
-              }}
-            >
-              Clear
-            </button>
-          )}
+          <div className="flex gap-2">
+            <Button type="submit" size="lg" className="px-6">
+              Search
+            </Button>
+            {query && (
+              <Button
+                type="button"
+                variant="outline"
+                size="lg"
+                onClick={() => {
+                  setSearch("");
+                  setQuery("");
+                  setPage(1);
+                }}
+              >
+                Clear
+              </Button>
+            )}
+          </div>
         </form>
 
         <div className="flex flex-wrap gap-2">
@@ -118,10 +133,10 @@ export function OnlineScriptsClient() {
                 setSource(value);
                 setPage(1);
               }}
-              className={`rounded-lg px-4 py-2 text-sm font-medium transition ${
+              className={`rounded-xl px-4 py-2 text-sm font-medium transition-all duration-300 ${
                 source === value
-                  ? "bg-alliance-red text-white"
-                  : "border border-alliance-border bg-alliance-darker text-alliance-muted hover:text-white"
+                  ? "bg-gradient-to-br from-glass-accent via-glass-accent-dim to-glass-accent text-white shadow-lg shadow-glass-accent/25"
+                  : "border border-glass-border bg-glass-dark/60 text-glass-muted hover:text-white hover:border-glass-accent/30 hover:bg-glass-card/50 backdrop-blur-[8px]"
               }`}
             >
               {label}
@@ -131,14 +146,14 @@ export function OnlineScriptsClient() {
       </div>
 
       {loading ? (
-        <div className="flex flex-col items-center justify-center py-20 text-alliance-muted">
-          <Loader2 className="h-10 w-10 animate-spin text-alliance-red" />
+        <div className="flex flex-col items-center justify-center py-20 text-glass-muted">
+          <Loader2 className="h-10 w-10 animate-spin text-glass-accent" />
           <p className="mt-4">Loading from ScriptBlox & RScripts…</p>
         </div>
       ) : error ? (
-        <div className="card-surface py-12 text-center text-red-300">{error}</div>
+        <div className="card-glass py-12 text-center text-red-300">{error}</div>
       ) : scripts.length === 0 ? (
-        <div className="card-surface py-12 text-center text-alliance-muted">
+        <div className="card-glass py-12 text-center text-glass-muted">
           No scripts found. Try another search or source.
         </div>
       ) : (
@@ -151,27 +166,25 @@ export function OnlineScriptsClient() {
 
       {!loading && totalPages > 1 && (
         <div className="flex items-center justify-center gap-4">
-          <button
-            type="button"
+          <Button
+            variant="outline"
             disabled={page <= 1}
             onClick={() => setPage((p) => p - 1)}
-            className="btn-secondary disabled:opacity-40"
           >
-            <ChevronLeft className="h-4 w-4" />
+            <ChevronLeft className="size-4" />
             Previous
-          </button>
-          <span className="text-sm text-alliance-muted">
+          </Button>
+          <span className="text-sm text-glass-muted">
             Page {page} of {totalPages}
           </span>
-          <button
-            type="button"
+          <Button
+            variant="outline"
             disabled={page >= totalPages}
             onClick={() => setPage((p) => p + 1)}
-            className="btn-secondary disabled:opacity-40"
           >
             Next
-            <ChevronRight className="h-4 w-4" />
-          </button>
+            <ChevronRight className="size-4" />
+          </Button>
         </div>
       )}
     </div>

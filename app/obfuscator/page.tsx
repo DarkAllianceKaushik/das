@@ -11,6 +11,11 @@ import {
   RefreshCw,
   Terminal,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent } from "@/components/ui/card";
+import { ScrollReveal } from "@/components/ScrollReveal";
 
 const PRESETS = [
   {
@@ -113,47 +118,58 @@ export default function ObfuscatorPage() {
   }, []);
 
   return (
-    <div className="relative z-10 mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
-      <section className="mb-10 text-center">
-        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-alliance-red/30 bg-alliance-red/10 px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-alliance-red-bright">
-          <Skull className="h-3.5 w-3.5" />
-          Lua Obfuscator
+    <div className="relative z-10">
+      <section className="relative overflow-hidden border-b border-glass-border/40 pb-16 pt-20 sm:pb-20 sm:pt-28">
+        <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
+          <div className="mx-auto max-w-4xl text-center">
+            <div className="mb-6 inline-flex animate-fade-in items-center gap-2 rounded-full border border-glass-accent/30 bg-glass-accent/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-glass-accent-bright">
+              <Skull className="size-3" />
+              Lua Obfuscator
+            </div>
+            <h1 className="animate-fade-in font-display text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-7xl md:text-8xl">
+              <span className="text-white">Dark Alliance</span>
+              <br />
+              <span className="bg-gradient-to-r from-glass-accent-bright via-glass-accent to-glass-accent-dim bg-clip-text text-transparent">
+                Obfuscator
+              </span>
+            </h1>
+            <p className="mx-auto mt-6 max-w-2xl animate-fade-in text-base leading-relaxed text-glass-muted sm:text-lg">
+              Luraph-level Lua obfuscation. Paste your script and protect it from
+              reverse engineering.
+            </p>
+          </div>
         </div>
-        <h1 className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl">
-          <span className="text-white">Dark Alliance</span>
-          <br />
-          <span className="bg-gradient-to-r from-alliance-red-bright via-alliance-red to-alliance-crimson bg-clip-text text-transparent">
-            Obfuscator
-          </span>
-        </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-base text-alliance-muted sm:text-lg">
-          Luraph-level Lua obfuscation. Paste your script and protect it from
-          reverse engineering.
-        </p>
+        <div className="absolute -bottom-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-glass-accent/30 to-transparent" />
       </section>
 
-      <div className="mb-8">
-        <h2 className="mb-3 font-display text-sm font-bold uppercase tracking-widest text-alliance-muted">
-          Presets
-        </h2>
-        <div className="flex flex-wrap gap-3">
-          {PRESETS.map((p) => (
-            <button
-              key={p.name}
-              onClick={() => handlePreset(p.name, p.options)}
-              className={`rounded-lg border px-4 py-2 text-sm font-semibold transition ${
-                activePreset === p.name
-                  ? "border-alliance-red bg-alliance-red/20 text-alliance-red-bright"
-                  : "border-alliance-border bg-alliance-dark text-alliance-muted hover:border-alliance-red/50 hover:text-white"
-              }`}
-            >
-              {p.name}
-            </button>
-          ))}
+      <div className="mx-auto max-w-6xl px-4 pb-16 pt-12 sm:px-6 sm:pb-20 sm:pt-16">
+      <ScrollReveal delay={1}>
+        <div className="mb-8">
+          <h2 className="section-accent mb-4 font-display text-sm font-bold uppercase tracking-widest text-glass-muted">
+            Presets
+          </h2>
+          <div className="flex flex-wrap gap-3">
+            {PRESETS.map((p) => (
+              <Button
+                key={p.name}
+                onClick={() => handlePreset(p.name, p.options)}
+                variant={activePreset === p.name ? "secondary" : "outline"}
+                size="sm"
+                className={`text-sm font-semibold ${
+                  activePreset === p.name
+                    ? "border-glass-accent bg-glass-accent/20 text-glass-accent-bright"
+                    : "border-glass-border bg-glass-dark text-glass-muted hover:border-glass-accent/50 hover:text-white"
+                }`}
+              >
+                {p.name}
+              </Button>
+            ))}
+          </div>
         </div>
-      </div>
+      </ScrollReveal>
 
-      <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+      <ScrollReveal delay={2}>
+        <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
         {(
           [
             ["renameVariables", "Rename Vars"],
@@ -167,97 +183,111 @@ export default function ObfuscatorPage() {
         ).map(([key, label]) => {
           const disabled = options.vmEncode && key !== "vmEncode";
           return (
-            <button
+            <Button
               key={key}
               onClick={() => !disabled && toggleOption(key)}
-              className={`rounded-lg border px-3 py-2 text-xs font-semibold transition ${
+              variant="outline"
+              disabled={disabled}
+              size="sm"
+              className={`text-xs font-semibold ${
                 disabled
-                  ? "border-alliance-border/30 bg-alliance-darker/50 text-alliance-muted/30 cursor-not-allowed"
+                  ? "border-glass-border/30 bg-glass-darker/50 text-glass-muted/30 opacity-50"
                   : options[key]
-                  ? "border-alliance-red bg-alliance-red/20 text-alliance-red-bright"
-                  : "border-alliance-border bg-alliance-dark text-alliance-muted hover:border-alliance-red/50 hover:text-white"
+                  ? "border-glass-accent bg-glass-accent/20 text-glass-accent-bright"
+                  : "border-glass-border bg-glass-dark text-glass-muted hover:border-glass-accent/50 hover:text-white"
               }`}
             >
               {options[key] ? "ON" : "OFF"} — {label}
-            </button>
+            </Button>
           );
         })}
-      </div>
+        </div>
+      </ScrollReveal>
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        <div>
-          <label className="label-field flex items-center gap-2">
-            <Terminal className="h-4 w-4" />
+      <ScrollReveal delay={3}>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <div>
+            <Label className="mb-1.5 inline-flex items-center gap-2 text-sm font-semibold text-glass-muted">
+            <Terminal className="size-4" />
             Input (Lua/Luau)
-          </label>
-          <textarea
+          </Label>
+          <Textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder={SAMPLE}
-            className="input-field h-80 resize-y font-mono text-xs leading-relaxed"
+            className="h-80 resize-y font-mono text-xs leading-relaxed"
             spellCheck={false}
           />
           <div className="mt-3 flex items-center gap-3">
-            <button onClick={handleObfuscate} className="btn-primary">
+            <Button onClick={handleObfuscate}>
               <Skull className="h-4 w-4" />
               Obfuscate
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="secondary"
               onClick={() => setInput(SAMPLE)}
-              className="btn-secondary text-xs"
+              size="sm"
             >
               <RefreshCw className="h-3.5 w-3.5" />
               Load Sample
-            </button>
+            </Button>
           </div>
         </div>
 
         <div>
-          <label className="label-field flex items-center gap-2">
-            <Shield className="h-4 w-4" />
+          <Label className="mb-1.5 inline-flex items-center gap-2 text-sm font-semibold text-glass-muted">
+            <Shield className="size-4" />
             Output
-          </label>
+          </Label>
           <div className="relative">
-            <textarea
+            <Textarea
               ref={outputRef}
               value={output}
               readOnly
               placeholder="Obfuscated code will appear here..."
-              className="input-field h-80 resize-y font-mono text-xs leading-relaxed"
+              className="h-80 resize-y font-mono text-xs leading-relaxed"
               spellCheck={false}
             />
             {output && (
-              <button
+              <Button
+                variant="ghost"
+                size="icon"
                 onClick={handleCopy}
-                className="absolute right-3 top-3 rounded-md border border-alliance-border bg-alliance-darker p-2 text-alliance-muted transition hover:border-alliance-red/50 hover:text-white"
+                className="absolute right-3 top-3"
               >
                 {copied ? (
                   <Check className="h-4 w-4 text-emerald-400" />
                 ) : (
                   <Copy className="h-4 w-4" />
                 )}
-              </button>
+              </Button>
             )}
           </div>
           {output && (
-            <p className="mt-2 text-right text-xs text-alliance-muted">
+            <p className="mt-2 text-right text-xs text-glass-muted">
               {output.length.toLocaleString()} chars
             </p>
           )}
         </div>
-      </div>
+        </div>
+      </ScrollReveal>
 
-      <div className="card-surface mx-auto mt-12 max-w-3xl p-6 text-sm text-alliance-muted">
-        <h3 className="mb-2 font-display text-xs font-bold uppercase tracking-widest text-alliance-red-bright">
-          ⚠ Disclaimer
-        </h3>
-        <p>
-          This obfuscator is provided for educational purposes and protecting
-          your own scripts. Do not use it to distribute malware, steal
-          intellectual property, or violate any terms of service. The Dark
-          Alliance team is not responsible for misuse.
-        </p>
-      </div>
+      <ScrollReveal delay={4}>
+        <Card className="mx-auto mt-12 max-w-3xl">
+        <CardContent className="p-6 text-sm text-glass-muted">
+          <h3 className="mb-2 font-display text-xs font-bold uppercase tracking-widest text-glass-accent-bright">
+            ⚠ Disclaimer
+          </h3>
+          <p>
+            This obfuscator is provided for educational purposes and protecting
+            your own scripts. Do not use it to distribute malware, steal
+            intellectual property, or violate any terms of service. The Dark
+            Alliance team is not responsible for misuse.
+          </p>
+        </CardContent>
+      </Card>
+      </ScrollReveal>
+    </div>
     </div>
   );
 }

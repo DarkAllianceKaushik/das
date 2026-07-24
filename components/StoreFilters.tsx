@@ -1,6 +1,9 @@
 "use client";
 
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 
 interface StoreFiltersProps {
   search: string;
@@ -22,57 +25,66 @@ export function StoreFilters({
   onPricingChange,
 }: StoreFiltersProps) {
   return (
-    <div className="card-surface flex flex-col gap-4 p-4 sm:flex-row sm:items-end">
-      <div className="flex-1">
-        <label className="label-field" htmlFor="search">
-          Search scripts
-        </label>
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-alliance-muted" />
-          <input
-            id="search"
-            type="search"
-            placeholder="Name, description, or tags..."
-            value={search}
-            onChange={(e) => onSearchChange(e.target.value)}
-            className="input-field pl-10"
-          />
+    <div className="rounded-2xl border border-glass-border bg-glass-card p-5 shadow-glass backdrop-blur-2xl">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
+        <div className="flex-1">
+          <Label htmlFor="search" className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-glass-muted">
+            Search
+          </Label>
+          <div className="relative">
+            <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-glass-muted" />
+            <Input
+              id="search"
+              type="search"
+              placeholder="Name, description, or tags..."
+              value={search}
+              onChange={(e) => onSearchChange(e.target.value)}
+              className="h-10 pl-10 pr-10"
+            />
+            {search && (
+              <button
+                type="button"
+                onClick={() => onSearchChange("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-glass-muted transition-colors hover:text-white"
+              >
+                <X className="size-4" />
+              </button>
+            )}
+          </div>
         </div>
-      </div>
 
-      <div className="w-full sm:w-44">
-        <label className="label-field" htmlFor="category">
-          Category
-        </label>
-        <select
-          id="category"
-          value={category}
-          onChange={(e) => onCategoryChange(e.target.value)}
-          className="input-field"
-        >
-          <option value="">All categories</option>
-          {categories.map((c) => (
-            <option key={c} value={c}>
-              {c}
-            </option>
-          ))}
-        </select>
-      </div>
+        <div className="w-full sm:w-44">
+          <Label htmlFor="category" className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-glass-muted">
+            Category
+          </Label>
+          <Select value={category} onValueChange={(v) => v !== null && onCategoryChange(v)}>
+            <SelectTrigger id="category" className="h-10 w-full">
+              <SelectValue placeholder="All categories" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">All categories</SelectItem>
+              {categories.map((c) => (
+                <SelectItem key={c} value={c}>{c}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
 
-      <div className="w-full sm:w-36">
-        <label className="label-field" htmlFor="pricing">
-          Pricing
-        </label>
-        <select
-          id="pricing"
-          value={pricing}
-          onChange={(e) => onPricingChange(e.target.value)}
-          className="input-field"
-        >
-          <option value="">All</option>
-          <option value="free">Free</option>
-          <option value="paid">Paid</option>
-        </select>
+        <div className="w-full sm:w-36">
+          <Label htmlFor="pricing" className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-glass-muted">
+            Pricing
+          </Label>
+          <Select value={pricing} onValueChange={(v) => v !== null && onPricingChange(v)}>
+            <SelectTrigger id="pricing" className="h-10 w-full">
+              <SelectValue placeholder="All" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">All</SelectItem>
+              <SelectItem value="free">Free</SelectItem>
+              <SelectItem value="paid">Paid</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
     </div>
   );

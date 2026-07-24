@@ -174,6 +174,34 @@ async function fetchRScripts(
   };
 }
 
+export async function fetchExternalScriptById(
+  id: string
+): Promise<ExternalScript | null> {
+  if (id.startsWith("scriptblox-")) {
+    const scriptId = id.slice("scriptblox-".length);
+    try {
+      const data = await fetchJson<{ script?: Record<string, unknown> }>(
+        `${SCRIPTBLOX_API}/script/${encodeURIComponent(scriptId)}`
+      );
+      if (data?.script) return mapScriptBlox(data.script);
+    } catch { return null; }
+    return null;
+  }
+
+  if (id.startsWith("rscripts-")) {
+    const scriptId = id.slice("rscripts-".length);
+    try {
+      const data = await fetchJson<{ script?: Record<string, unknown> }>(
+        `https://rscripts.net/api/v2/script?id=${encodeURIComponent(scriptId)}`
+      );
+      if (data?.script) return mapRScripts(data.script as Record<string, unknown>);
+    } catch { return null; }
+    return null;
+  }
+
+  return null;
+}
+
 export async function fetchExternalScripts(options: {
   query?: string;
   source?: ExternalSourceFilter;

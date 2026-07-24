@@ -60,12 +60,12 @@ export function ScriptPreview({ code, title, className = "" }: Props) {
   };
 
   return (
-    <div className={`card-surface overflow-hidden ${className}`}>
-      <div className="flex items-center justify-between border-b border-alliance-border/60 bg-alliance-darker/80 px-4 py-2.5">
-        <span className="font-display text-xs font-bold uppercase tracking-wider text-alliance-muted">
+    <div className={`card-glass overflow-hidden ${className}`}>
+      <div className="flex items-center justify-between border-b border-glass-border/60 bg-glass-darker/80 px-4 py-2.5">
+        <span className="font-display text-xs font-bold uppercase tracking-wider text-glass-muted">
           {title || "Script Preview"}
         </span>
-        <button onClick={handleCopy} className="flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs text-alliance-muted transition hover:bg-alliance-dark hover:text-white">
+        <button onClick={handleCopy} className="flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs text-glass-muted transition hover:bg-glass-dark hover:text-white">
           {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
           {copied ? "Copied" : "Copy"}
         </button>
@@ -75,14 +75,14 @@ export function ScriptPreview({ code, title, className = "" }: Props) {
           <code>
             {lines.map((line, i) => (
               <div key={i} className="whitespace-pre-wrap">
-                <span className="mr-4 inline-block w-8 select-none text-right text-xs text-alliance-muted/30">{i + 1}</span>
+                <span className="mr-4 inline-block w-8 select-none text-right text-xs text-glass-muted/30">{i + 1}</span>
                 {tokenize(line).map((t, j) => {
                   let cls = "text-gray-200";
                   if (t.type === "keyword") cls = "text-violet-400";
                   else if (t.type === "builtin") cls = "text-sky-400";
                   else if (t.type === "string") cls = "text-emerald-400";
                   else if (t.type === "number") cls = "text-amber-400";
-                  else if (t.type === "comment") cls = "text-alliance-muted/50 italic";
+                  else if (t.type === "comment") cls = "text-glass-muted/50 italic";
                   return <span key={j} className={cls}>{t.text}</span>;
                 })}
               </div>
