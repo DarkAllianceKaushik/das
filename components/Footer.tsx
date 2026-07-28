@@ -1,6 +1,6 @@
 "use client";
 
-import { Swords } from "lucide-react";
+import { Swords, Youtube, ExternalLink } from "lucide-react";
 import { DiscordButton } from "./DiscordButton";
 import { useEffect, useState } from "react";
 
@@ -15,68 +15,73 @@ export function Footer() {
   }, []);
 
   return (
-    <footer className="relative z-10 mt-auto border-t border-alliance-border/60 bg-alliance-darker/90 backdrop-blur-sm">
-      <div className="glow-line" />
-      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-        <div className="grid gap-8 sm:grid-cols-3">
-          <div>
+    <footer className="relative z-10 mt-auto border-t border-glass-border/60 bg-alliance-darker/80 backdrop-blur-sm">
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+        <div className="grid gap-10 sm:grid-cols-3">
+          <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <Swords className="h-5 w-5 text-alliance-red-bright" />
-              <p className="font-display text-sm font-bold uppercase tracking-widest text-alliance-red-bright">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-glass-accent/10 ring-1 ring-glass-accent/30">
+                <Swords className="h-4 w-4 text-glass-accent-bright" />
+              </div>
+              <p className="font-display text-sm font-bold uppercase tracking-widest text-glass-accent-bright">
                 Dark Alliance
               </p>
             </div>
-            <p className="mt-3 text-xs leading-relaxed text-alliance-muted/80">
+            <p className="text-sm leading-relaxed text-glass-muted/70 max-w-xs">
               Curated Roblox scripts for educational purposes. Browse, search, and discover scripts — all in one place.
             </p>
           </div>
 
           <div>
-            <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-alliance-muted">Quick Links</p>
-            <div className="flex flex-col gap-2">
-              {["/", "/executors", "/obfuscator"].map((href) => (
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.15em] text-glass-muted">Quick Links</p>
+            <div className="flex flex-col gap-2.5">
+              {[
+                { href: "/", label: "Script Store" },
+                { href: "/executors", label: "Executors" },
+                { href: "/obfuscator", label: "Obfuscator" },
+              ].map((link) => (
                 <a
-                  key={href}
-                  href={href}
-                  className="text-xs text-alliance-muted/70 transition hover:text-alliance-red-bright"
+                  key={link.href}
+                  href={link.href}
+                  className="group flex items-center gap-2 text-sm text-glass-muted/60 transition hover:text-glass-accent-bright"
                 >
-                  {href === "/" ? "Script Store" : href.slice(1).charAt(0).toUpperCase() + href.slice(2)}
+                  <span>{link.label}</span>
+                  <ExternalLink className="size-3 opacity-0 -translate-x-2 transition-all group-hover:opacity-100 group-hover:translate-x-0" />
                 </a>
               ))}
             </div>
           </div>
 
           <div>
-            <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-alliance-muted">Community</p>
-            <div className="flex flex-col gap-2">
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.15em] text-glass-muted">Community</p>
+            <div className="flex flex-col gap-2.5">
               {discordUrl && <DiscordButton discordUrl={discordUrl} />}
               <a
                 href="https://youtube.com/@darkalliancekaushik"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-lg border border-alliance-border/60 bg-alliance-darker px-4 py-2 text-xs font-semibold text-alliance-muted transition hover:border-red-500/50 hover:text-red-400"
+                className="group inline-flex items-center gap-2.5 rounded-xl border border-glass-border/50 bg-alliance-dark/50 px-4 py-2.5 text-sm font-medium text-glass-muted transition-all hover:border-red-500/40 hover:bg-red-950/20 hover:text-red-400"
               >
-                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor">
-                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                </svg>
+                <Youtube className="size-4" />
                 YouTube Channel
+                <ExternalLink className="size-3 ml-auto opacity-0 transition group-hover:opacity-100" />
               </a>
             </div>
-            <p className="mt-3 text-xs text-alliance-muted/60">
+            <p className="mt-4 text-xs text-glass-muted/40">
               Roblox scripts for educational purposes. Use responsibly.
             </p>
           </div>
         </div>
 
-        <div className="glow-line mt-8 mb-6" />
+        <div className="glow-line mt-10 mb-6" />
 
         <div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
-          <p className="text-xs text-alliance-muted/50">
+          <p className="text-xs text-glass-muted/40">
             &copy; {new Date().getFullYear()} Dark Alliance. All rights reserved.
           </p>
-          <div className="flex gap-4 text-xs text-alliance-muted/50">
-            <a href="/privacy" className="transition hover:text-alliance-red-bright">Privacy</a>
-            <a href="/terms" className="transition hover:text-alliance-red-bright">Terms</a>
+          <div className="flex gap-5 text-xs text-glass-muted/40">
+            <a href="/privacy" className="transition hover:text-glass-accent-bright">Privacy</a>
+            <a href="/terms" className="transition hover:text-glass-accent-bright">Terms</a>
           </div>
         </div>
       </div>
