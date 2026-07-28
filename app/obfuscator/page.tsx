@@ -10,6 +10,8 @@ import {
   Skull,
   RefreshCw,
   Terminal,
+  Upload,
+  Globe,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -66,6 +68,8 @@ export default function ObfuscatorPage() {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [copied, setCopied] = useState(false);
+  const [pastebinLoading, setPastebinLoading] = useState(false);
+  const [pastebinUrl, setPastebinUrl] = useState("");
   const [options, setOptions] = useState<ObfuscatorOptions>({
     ...DEFAULT_OPTIONS,
   });
@@ -87,6 +91,23 @@ export default function ObfuscatorPage() {
     await navigator.clipboard.writeText(output);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  }, [output]);
+
+  const handlePastebin = useCallback(async () => {
+    if (!output) return;
+    setPastebinLoading(true);
+    setPastebinUrl("");
+    try {
+      const formData = new FormData();
+      formData.append("api_option", "paste");
+      formData.append("api_dev_key", "hX4fyCb_elE5jUt-bqHXy3hBSA_HCPzh");
+      formData.append("api_paste_code", output);
+      formData.append("api_paste_name", `obfuscated_${Date.now()}`);
+      formData.append("api_paste_private", "1");
+      const res = await fetch("https://pastebin.com/api/api_post.php", { method: "POST", body: formData });
+      const url = await res.text();
+      if (url.startsWith("https://pastebin.com/")) setPastebinUrl(url);
+    } catch { /* ignore */ } finally { setPastebinLoading(false); }
   }, [output]);
 
   const handlePreset = useCallback((name: string, opts: ObfuscatorOptions) => {
@@ -264,8 +285,25 @@ export default function ObfuscatorPage() {
             )}
           </div>
           {output && (
-            <p className="mt-2 text-right text-xs text-glass-muted">
-              {output.length.toLocaleString()} chars
+            <p className="mt-2 flex items-center justify-between text-xs text-glass-muted">
+              <span className="flex items-center gap-2">
+                {output.length.toLocaleString()} chars
+                {pastebinUrl && (
+                  <a href={pastebinUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-sky-400 hover:text-sky-300">
+                    <Globe className="size-3" /> Posted to Pastebin
+                  </a>
+                )}
+              </span>
+              <Button
+                variant="ghost"
+                size="xs"
+                onClick={handlePastebin}
+                disabled={pastebinLoading}
+                className="text-glass-muted hover:text-white"
+              >
+                <Upload className={`size-3 ${pastebinLoading ? "animate-spin" : ""}`} />
+                {pastebinLoading ? "Uploading..." : "Upload to Pastebin"}
+              </Button>
             </p>
           )}
         </div>

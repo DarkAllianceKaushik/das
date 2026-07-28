@@ -5,9 +5,11 @@ import {
   createScript,
   deleteScript,
   getScriptsData,
+  getWebhookUrl,
   updateScript,
 } from "@/lib/scripts";
 import { scriptInputSchema } from "@/lib/validation";
+import { sendDiscordWebhook } from "@/lib/webhook";
 
 async function requireAdmin() {
   const ok = await isAdminAuthenticated();
@@ -15,6 +17,23 @@ async function requireAdmin() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   return null;
+}
+
+async function webhook(event: string, payload: Record<string, unknown>) {
+  const url = await getWebhookUrl();
+  if (!url) return;
+  sendDiscordWebhook(url, {
+    embeds: [{
+      title: event,
+      color: 0xef4444,
+      fields: Object.entries(payload).map(([k, v]) => ({
+        name: k,
+        value: String(v).slice(0, 1024),
+        inline: true,
+      })),
+      timestamp: new Date().toISOString(),
+    }],
+  });
 }
 
 export async function GET() {
@@ -47,6 +66,7 @@ export async function POST(request: NextRequest) {
 
     const script = await createScript(parsed.data);
     revalidatePath("/");
+    webhook("Script Created", { Name: script.name, Category: script.category, Pricing: script.pricing });
     return NextResponse.json(script, { status: 201 });
   } catch (error) {
     console.error("POST /api/admin/scripts:", error);
@@ -84,6 +104,7 @@ export async function PUT(request: NextRequest) {
 
     revalidatePath("/");
     revalidatePath(`/scripts/${id}`);
+    webhook("Script Updated", { Name: script.name, Category: script.category });
     return NextResponse.json(script);
   } catch (error) {
     console.error("PUT /api/admin/scripts:", error);

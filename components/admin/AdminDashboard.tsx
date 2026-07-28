@@ -26,6 +26,7 @@ export function AdminDashboard() {
   const [editing, setEditing] = useState<Script | null>(null);
   const [newCatName, setNewCatName] = useState("");
   const [discordUrl, setDiscordUrl] = useState("");
+  const [webhookUrl, setWebhookUrl] = useState("");
 
   const loadData = useCallback(async () => {
     const [scriptsRes, meRes] = await Promise.all([
@@ -38,6 +39,7 @@ export function AdminDashboard() {
       setScripts(data.scripts || []);
       setCategories(data.categories || []);
       setDiscordUrl(data.settings?.discordUrl || "");
+      setWebhookUrl(data.settings?.webhookUrl || "");
     }
 
     if (meRes.ok) {
@@ -153,6 +155,7 @@ export function AdminDashboard() {
 
       <DiscordSettings
         initialUrl={discordUrl}
+        initialWebhookUrl={webhookUrl}
         onSaved={loadData}
       />
 

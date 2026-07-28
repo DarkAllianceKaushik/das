@@ -1,7 +1,7 @@
 import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 import { isAdminAuthenticated } from "@/lib/auth";
-import { updateDiscordUrl } from "@/lib/scripts";
+import { updateDiscordUrl, updateWebhookUrl } from "@/lib/scripts";
 import { discordSettingsSchema } from "@/lib/validation";
 
 export async function PUT(request: NextRequest) {
@@ -12,6 +12,13 @@ export async function PUT(request: NextRequest) {
 
   try {
     const body = await request.json();
+
+    if ("webhookUrl" in body) {
+      const settings = await updateWebhookUrl(body.webhookUrl || "");
+      revalidatePath("/");
+      return NextResponse.json({ settings });
+    }
+
     const parsed = discordSettingsSchema.safeParse(body);
 
     if (!parsed.success) {

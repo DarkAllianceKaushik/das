@@ -19,6 +19,7 @@ export interface Script {
 
 export interface SiteSettings {
   discordUrl: string;
+  webhookUrl?: string;
 }
 
 export interface ScriptsData {
