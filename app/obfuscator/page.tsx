@@ -36,7 +36,7 @@ const PRESETS = [
   },
   {
     name: "Full (Luraph-like)",
-    options: { ...DEFAULT_OPTIONS, insertJunk: true, controlFlow: true, vmEncode: false },
+    options: { ...DEFAULT_OPTIONS, insertJunk: true, controlFlow: true, vmEncode: true },
   },
   {
     name: "VM Encoded",

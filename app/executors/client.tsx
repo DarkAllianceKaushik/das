@@ -15,11 +15,12 @@ interface Props {
 }
 
 export function ExecutorPageClient({ executors }: Props) {
-  const [errored, setErrored] = useState(executors.length === 0);
   const [search, setSearch] = useState("");
   const [platform, setPlatform] = useState("all");
   const [status, setStatus] = useState("all");
   const [price, setPrice] = useState("all");
+
+  const errored = executors.length === 0;
 
   const platforms = useMemo(() => {
     const s = new Set(executors.map(e => e.platform).filter(Boolean));

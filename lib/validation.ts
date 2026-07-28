@@ -9,6 +9,8 @@ export const scriptInputSchema = z.object({
   downloadUrl: z.string().url("Must be a valid URL"),
   linkType: z.enum(["pastebin", "linkvertise", "direct", "other"]),
   featured: z.boolean().optional(),
+  version: z.string().optional(),
+  changelog: z.string().optional(),
 });
 
 export const loginSchema = z.object({
