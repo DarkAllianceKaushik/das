@@ -76,7 +76,7 @@
   }
 
   .animated-gradient {
-    background: linear-gradient(-45deg, #0A84FF, #5AC8FA, #007AFF, #5856D6);
+    background: linear-gradient(-45deg, #3dd68c, #68e8a5, #2eb876, #1a8a5c);
     background-size: 400% 400%;
     animation: gradient-shift 6s ease infinite;
   }
@@ -87,8 +87,8 @@
   }
 
   @keyframes glow-pulse {
-    0%, 100% { box-shadow: 0 0 20px rgba(10, 132, 255, 0.15); }
-    50% { box-shadow: 0 0 40px rgba(10, 132, 255, 0.3); }
+    0%, 100% { box-shadow: 0 0 20px rgba(61, 214, 140, 0.15); }
+    50% { box-shadow: 0 0 40px rgba(61, 214, 140, 0.3); }
   }
 
   .animate-glow-pulse {
