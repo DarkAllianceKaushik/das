@@ -16,6 +16,15 @@ export interface ExternalScript {
   verified?: boolean;
   patched?: boolean;
   universal?: boolean;
+  rawScript?: string;
+  likes?: number;
+  dislikes?: number;
+  mobileReady?: boolean;
+  testedExecutors?: string[];
+  gameImageUrl?: string;
+  gameId?: string;
+  author?: string;
+  authorDiscord?: string;
 }
 
 export interface ExternalScriptsResult {
@@ -24,4 +33,11 @@ export interface ExternalScriptsResult {
   totalPages: number;
   query: string;
   source: ExternalSourceFilter;
+}
+
+export interface GameSearchResult {
+  id: string;
+  name: string;
+  imageUrl?: string;
+  scriptCount?: number;
 }

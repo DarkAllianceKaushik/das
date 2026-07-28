@@ -1,4 +1,4 @@
-import { ExternalLink, Eye, Key, ShieldCheck } from "lucide-react";
+import { ExternalLink, Eye, Key, ShieldCheck, Smartphone, ThumbsUp, ThumbsDown } from "lucide-react";
 import type { ExternalScript } from "@/lib/external-types";
 import { Card, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -37,13 +37,14 @@ const pricingStyles: Record<
 export function ExternalScriptCard({ script }: { script: ExternalScript }) {
   const src = sourceStyles[script.source];
   const price = pricingStyles[script.pricing];
+  const totalRatings = (script.likes ?? 0) + (script.dislikes ?? 0);
+  const score = totalRatings > 0 ? Math.round(((script.likes ?? 0) / totalRatings) * 100) : 0;
 
   return (
     <a href={script.url} target="_blank" rel="noopener noreferrer" className="block">
       <Card className="group flex flex-col overflow-hidden transition hover:border-glass-accent/30 hover:shadow-glass">
         {script.imageUrl && (
           <div className="relative h-36 w-full overflow-hidden bg-glass-darker">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={script.imageUrl}
               alt=""
@@ -73,6 +74,17 @@ export function ExternalScriptCard({ script }: { script: ExternalScript }) {
             {script.patched && (
               <span className="text-xs text-red-400/80">Patched</span>
             )}
+            {script.universal && (
+              <Badge variant="outline" className="border-blue-800/40 bg-blue-950/50 text-blue-400 text-[10px] px-1.5 py-0">
+                Universal
+              </Badge>
+            )}
+            {script.mobileReady && (
+              <span className="inline-flex items-center gap-0.5 text-xs text-purple-400">
+                <Smartphone className="h-3 w-3" />
+                Mobile
+              </span>
+            )}
           </div>
 
           <CardTitle className="font-display text-lg font-bold text-white transition group-hover:text-glass-accent-bright line-clamp-2">
@@ -85,10 +97,36 @@ export function ExternalScriptCard({ script }: { script: ExternalScript }) {
             {script.description}
           </CardDescription>
 
-          <div className="mt-4 flex items-center gap-1.5 text-xs text-glass-muted">
-            <Eye className="h-3.5 w-3.5" />
-            {script.views.toLocaleString()} views
+          <div className="mt-4 flex items-center gap-3 text-xs text-glass-muted">
+            <span className="inline-flex items-center gap-1">
+              <Eye className="h-3.5 w-3.5" />
+              {script.views.toLocaleString()}
+            </span>
+            {totalRatings > 0 && (
+              <span className="inline-flex items-center gap-1">
+                <ThumbsUp className="h-3 w-3 text-emerald-400" />
+                {score}%
+              </span>
+            )}
+            {script.author && (
+              <span className="truncate max-w-[100px] opacity-70">
+                by {script.author}
+              </span>
+            )}
           </div>
+
+          {script.testedExecutors && script.testedExecutors.length > 0 && (
+            <div className="mt-3 flex flex-wrap gap-1">
+              {script.testedExecutors.slice(0, 4).map((exe) => (
+                <span key={exe} className="rounded bg-glass-darker px-1.5 py-0.5 text-[10px] text-glass-muted/80">
+                  {exe}
+                </span>
+              ))}
+              {script.testedExecutors.length > 4 && (
+                <span className="text-[10px] text-glass-muted/50">+{script.testedExecutors.length - 4}</span>
+              )}
+            </div>
+          )}
 
           <div className="mt-4 flex gap-2">
             <span className={cn(buttonVariants({ className: "flex-1 text-sm cursor-pointer" }))}>

@@ -9,6 +9,7 @@ export async function GET(request: NextRequest) {
   const q = searchParams.get("q") || "";
   const page = parseInt(searchParams.get("page") || "1", 10);
   const sourceParam = searchParams.get("source") || "all";
+  const game = searchParams.get("game") || "";
   const source = SOURCES.includes(sourceParam as ExternalSourceFilter)
     ? (sourceParam as ExternalSourceFilter)
     : "all";
@@ -18,6 +19,7 @@ export async function GET(request: NextRequest) {
       query: q,
       source,
       page: Number.isNaN(page) ? 1 : page,
+      game: game || undefined,
     });
 
     return NextResponse.json(result);
