@@ -277,7 +277,7 @@ export default function ObfuscatorPage() {
                 className="absolute right-3 top-3"
               >
                 {copied ? (
-                  <Check className="h-4 w-4 text-emerald-400" />
+                  <Check className="h-4 w-4 text-amber-400" />
                 ) : (
                   <Copy className="h-4 w-4" />
                 )}

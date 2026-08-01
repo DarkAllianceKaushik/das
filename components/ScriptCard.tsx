@@ -26,7 +26,7 @@ export function ScriptCard({ script }: { script: Script }) {
             variant="outline"
             className={
               script.pricing === "free"
-                ? "border-emerald-800/50 bg-emerald-950/60 text-emerald-400"
+                ? "border-amber-800/50 bg-amber-950/60 text-amber-400"
                 : "border-amber-800/50 bg-amber-950/60 text-amber-400"
             }
           >

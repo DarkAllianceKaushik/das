@@ -45,7 +45,7 @@ export default async function HomePage() {
             <div className="mt-12 grid animate-fade-in grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:justify-center sm:gap-4">
               {[
                 { value: scripts.length, label: "Total Scripts", icon: Swords, color: "text-glass-accent-bright" },
-                { value: freeCount, label: "Free", icon: Sparkles, color: "text-emerald-400" },
+                { value: freeCount, label: "Free", icon: Sparkles, color: "text-amber-400" },
                 { value: paidCount, label: "Paid", icon: Sparkles, color: "text-amber-400" },
                 { value: categories.length, label: "Categories", icon: Flame, color: "text-white" },
               ].map((stat) => (

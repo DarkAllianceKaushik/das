@@ -18,7 +18,7 @@ const sourceStyles = {
 };
 
 const pricingStyles = {
-  free: { label: "Free", className: "bg-emerald-950/60 text-emerald-400 border border-emerald-800/40" },
+  free: { label: "Free", className: "bg-amber-950/60 text-amber-400 border border-amber-800/40" },
   paid: { label: "Paid", className: "bg-amber-950/60 text-amber-400 border border-amber-800/40" },
   key: { label: "Key", className: "bg-orange-950/60 text-orange-400 border border-orange-800/40" },
 };
@@ -71,12 +71,12 @@ export function ExternalScriptDetailClient({ script }: Props) {
               {price.label}
             </Badge>
             {script.verified && (
-              <Badge variant="outline" className="border-emerald-800/40 bg-emerald-950/50 text-emerald-400 gap-1">
+              <Badge variant="outline" className="border-amber-800/40 bg-amber-950/50 text-amber-400 gap-1">
                 <ShieldCheck className="size-3.5" /> Verified
               </Badge>
             )}
             {script.patched && (
-              <Badge variant="outline" className="border-red-800/40 bg-red-950/50 text-red-400">
+              <Badge variant="outline" className="border-rose-800/40 bg-rose-950/50 text-rose-400">
                 Patched
               </Badge>
             )}
@@ -112,15 +112,15 @@ export function ExternalScriptDetailClient({ script }: Props) {
             {totalRatings > 0 && (
               <>
                 <span className="inline-flex items-center gap-1">
-                  <ThumbsUp className="size-3 text-emerald-400" /> {script.likes}
+                  <ThumbsUp className="size-3 text-amber-400" /> {script.likes}
                 </span>
                 <span className="inline-flex items-center gap-1">
-                  <ThumbsDown className="size-3 text-red-400" /> {script.dislikes}
+                  <ThumbsDown className="size-3 text-rose-400" /> {script.dislikes}
                 </span>
-                <span className="text-emerald-400/80">{score}% positive</span>
+                <span className="text-amber-400/80">{score}% positive</span>
                 {totalRatings > 0 && (
                   <div className="h-1.5 w-24 overflow-hidden rounded-full bg-glass-darker">
-                    <div className="h-full rounded-full bg-emerald-500" style={{ width: `${score}%` }} />
+                    <div className="h-full rounded-full bg-amber-500" style={{ width: `${score}%` }} />
                   </div>
                 )}
               </>
@@ -171,11 +171,11 @@ export function ExternalScriptDetailClient({ script }: Props) {
               <div className="flex items-center justify-between rounded-t-xl border border-glass-border bg-glass-darker px-4 py-2">
                 <span className="text-xs font-semibold text-glass-muted">Script Code</span>
                 <button onClick={handleCopy} className="flex items-center gap-1 text-xs text-glass-muted hover:text-white transition-colors">
-                  {copied ? <Check className="size-3 text-emerald-400" /> : <Copy className="size-3" />}
+                  {copied ? <Check className="size-3 text-amber-400" /> : <Copy className="size-3" />}
                   {copied ? "Copied" : "Copy"}
                 </button>
               </div>
-              <pre className="max-h-96 overflow-auto rounded-b-xl border-x border-b border-glass-border bg-alliance-black p-4 font-mono text-xs leading-relaxed text-green-400">
+              <pre className="max-h-96 overflow-auto rounded-b-xl border-x border-b border-glass-border bg-alliance-black p-4 font-mono text-xs leading-relaxed text-amber-400">
                 {script.rawScript}
               </pre>
             </div>

@@ -35,21 +35,21 @@ export function ExecutorCard({ executor }: { executor: Executor }) {
     <Link href={`/executors/${slug}`} className="block">
       <Card className={`group flex flex-col p-5 transition hover:shadow-glow-sm ${
         executor.detected
-          ? "hover:border-red-900/60"
+          ? "hover:border-rose-900/60"
           : executor.updateStatus
-          ? "hover:border-emerald-900/60"
+          ? "hover:border-amber-900/60"
           : "hover:border-amber-900/60"
       }`}>
         <CardContent className="flex flex-col gap-0 p-0">
           <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
             <div className="flex flex-wrap items-center gap-2">
               {executor.updateStatus && !executor.detected && (
-                <Badge variant="outline" className="flex items-center gap-1 bg-emerald-950/60 px-2 py-0.5 text-emerald-400 ring-1 ring-emerald-800/50">
+                <Badge variant="outline" className="flex items-center gap-1 bg-amber-950/60 px-2 py-0.5 text-amber-400 ring-1 ring-amber-800/50">
                   <Wifi className="h-3 w-3" /> Working
                 </Badge>
               )}
               {executor.detected && (
-                <Badge variant="outline" className="flex items-center gap-1 bg-red-950/60 px-2 py-0.5 text-red-400 ring-1 ring-red-800/50">
+                <Badge variant="outline" className="flex items-center gap-1 bg-rose-950/60 px-2 py-0.5 text-rose-400 ring-1 ring-rose-800/50">
                   <ShieldAlert className="h-3 w-3" /> Detected
                 </Badge>
               )}
@@ -59,7 +59,7 @@ export function ExecutorCard({ executor }: { executor: Executor }) {
                 </Badge>
               )}
               {executor.free ? (
-                <Badge variant="outline" className="bg-emerald-950/60 px-2.5 py-0.5 text-emerald-400 ring-1 ring-emerald-800/50 uppercase tracking-wide">Free</Badge>
+                <Badge variant="outline" className="bg-amber-950/60 px-2.5 py-0.5 text-amber-400 ring-1 ring-amber-800/50 uppercase tracking-wide">Free</Badge>
               ) : (
                 <Badge variant="outline" className="bg-amber-950/60 px-2.5 py-0.5 text-amber-400 ring-1 ring-amber-800/50 uppercase tracking-wide">Paid</Badge>
               )}
@@ -95,7 +95,7 @@ export function ExecutorCard({ executor }: { executor: Executor }) {
           <div className="mt-2 flex flex-wrap gap-3 text-xs text-glass-muted">
             {executor.uncStatus && (
               <span className="inline-flex items-center gap-1 rounded bg-glass-darker px-2 py-0.5">
-                <ShieldCheck className="h-3 w-3 text-emerald-400" /> UNC
+                <ShieldCheck className="h-3 w-3 text-amber-400" /> UNC
               </span>
             )}
             {executor.decompiler && (
@@ -125,7 +125,7 @@ export function ExecutorCard({ executor }: { executor: Executor }) {
               </div>
               <div className="mt-0.5 h-1.5 w-full overflow-hidden rounded-full bg-glass-darker">
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-emerald-600 to-emerald-400 transition-all"
+                  className="h-full rounded-full bg-gradient-to-r from-amber-600 to-amber-400 transition-all"
                   style={{ width: `${executor.suncPercentage}%` }}
                 />
               </div>
@@ -141,7 +141,7 @@ export function ExecutorCard({ executor }: { executor: Executor }) {
           )}
 
           {executor.detected && executor.detectionReason && (
-            <p className="mt-1 text-[10px] text-red-400/70">{executor.detectionReason}</p>
+            <p className="mt-1 text-[10px] text-rose-400/70">{executor.detectionReason}</p>
           )}
 
           <div className="mt-4 flex flex-wrap gap-2">

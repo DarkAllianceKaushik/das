@@ -130,7 +130,7 @@ export function AdminDashboard() {
       <div
         className={`flex items-center gap-2 rounded-lg border px-4 py-3 text-sm ${
           githubWrite
-            ? "border-emerald-900/50 bg-emerald-950/30 text-emerald-300"
+            ? "border-amber-900/50 bg-amber-950/30 text-amber-300"
             : githubRepo
               ? "border-amber-900/50 bg-amber-950/30 text-amber-300"
               : "border-amber-900/50 bg-amber-950/30 text-amber-300"

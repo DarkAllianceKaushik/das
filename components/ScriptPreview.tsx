@@ -66,7 +66,7 @@ export function ScriptPreview({ code, title, className = "" }: Props) {
           {title || "Script Preview"}
         </span>
         <button onClick={handleCopy} className="flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs text-glass-muted transition hover:bg-glass-dark hover:text-white">
-          {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+          {copied ? <Check className="h-3.5 w-3.5 text-amber-400" /> : <Copy className="h-3.5 w-3.5" />}
           {copied ? "Copied" : "Copy"}
         </button>
       </div>
@@ -80,7 +80,7 @@ export function ScriptPreview({ code, title, className = "" }: Props) {
                   let cls = "text-gray-200";
                   if (t.type === "keyword") cls = "text-violet-400";
                   else if (t.type === "builtin") cls = "text-sky-400";
-                  else if (t.type === "string") cls = "text-emerald-400";
+                  else if (t.type === "string") cls = "text-amber-400";
                   else if (t.type === "number") cls = "text-amber-400";
                   else if (t.type === "comment") cls = "text-glass-muted/50 italic";
                   return <span key={j} className={cls}>{t.text}</span>;

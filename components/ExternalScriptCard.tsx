@@ -22,7 +22,7 @@ const pricingStyles: Record<
 > = {
   free: {
     label: "Free",
-    className: "border-emerald-800/50 bg-emerald-950/60 text-emerald-400",
+    className: "border-amber-800/50 bg-amber-950/60 text-amber-400",
   },
   paid: {
     label: "Paid",
@@ -66,13 +66,13 @@ export function ExternalScriptCard({ script }: { script: ExternalScript }) {
               {price.label}
             </Badge>
             {script.verified && (
-              <span className="inline-flex items-center gap-0.5 text-xs text-emerald-400">
+              <span className="inline-flex items-center gap-0.5 text-xs text-amber-400">
                 <ShieldCheck className="h-3 w-3" />
                 Verified
               </span>
             )}
             {script.patched && (
-              <span className="text-xs text-red-400/80">Patched</span>
+              <span className="text-xs text-rose-400/80">Patched</span>
             )}
             {script.universal && (
               <Badge variant="outline" className="border-blue-800/40 bg-blue-950/50 text-blue-400 text-[10px] px-1.5 py-0">
@@ -104,7 +104,7 @@ export function ExternalScriptCard({ script }: { script: ExternalScript }) {
             </span>
             {totalRatings > 0 && (
               <span className="inline-flex items-center gap-1">
-                <ThumbsUp className="h-3 w-3 text-emerald-400" />
+                <ThumbsUp className="h-3 w-3 text-amber-400" />
                 {score}%
               </span>
             )}

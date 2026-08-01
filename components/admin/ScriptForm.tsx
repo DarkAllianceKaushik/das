@@ -259,7 +259,7 @@ export function ScriptForm({
           </div>
 
           {error && (
-            <p className="text-sm text-red-400">{error}</p>
+            <p className="text-sm text-rose-400">{error}</p>
           )}
 
           <div className="flex gap-3">

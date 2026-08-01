@@ -228,7 +228,7 @@ export function OnlineScriptsClient() {
           <p className="mt-4">Loading from ScriptBlox & RScripts…</p>
         </div>
       ) : error ? (
-        <div className="card-glass py-12 text-center text-red-300">{error}</div>
+        <div className="card-glass py-12 text-center text-rose-300">{error}</div>
       ) : scripts.length === 0 ? (
         <div className="card-glass py-12 text-center text-glass-muted">
           No scripts found. Try another search or source.

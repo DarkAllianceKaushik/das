@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
-import { Orbitron, Inter } from "next/font/google";
+import { Cinzel, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 
-const display = Orbitron({
+const display = Cinzel({
   subsets: ["latin"],
   variable: "--font-display",
-  weight: ["600", "700", "800"],
+  weight: ["500", "600", "700"],
 });
 
-const body = Inter({
+const body = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-body",
 });
@@ -72,7 +72,7 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body min-h-screen flex flex-col">
-        <div className="fixed inset-0 bg-gradient-to-b from-alliance-red/[0.03] via-transparent to-transparent pointer-events-none" />
+        <div className="fixed inset-0 bg-gradient-to-b from-glass-accent/[0.04] via-transparent to-transparent pointer-events-none" />
         <Header />
         <main className="relative flex-1">
           <ErrorBoundary>{children}</ErrorBoundary>

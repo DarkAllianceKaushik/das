@@ -107,12 +107,12 @@ export function DiscordSettings({ initialUrl, initialWebhookUrl, onSaved }: Disc
             </div>
 
             {error && (
-              <div className="rounded-lg bg-red-950/50 px-3 py-2 text-sm text-red-300 ring-1 ring-red-900/50">
+              <div className="rounded-lg bg-rose-950/50 px-3 py-2 text-sm text-rose-300 ring-1 ring-rose-900/50">
                 {error}
               </div>
             )}
             {success && (
-              <div className="rounded-lg bg-emerald-950/50 px-3 py-2 text-sm text-emerald-300 ring-1 ring-emerald-900/50">
+              <div className="rounded-lg bg-amber-950/50 px-3 py-2 text-sm text-amber-300 ring-1 ring-amber-900/50">
                 Saved!
               </div>
             )}

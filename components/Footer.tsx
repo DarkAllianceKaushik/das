@@ -60,7 +60,7 @@ export function Footer() {
                 href="https://youtube.com/@darkalliancekaushik"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2.5 rounded-xl border border-glass-border/50 bg-alliance-dark/50 px-4 py-2.5 text-sm font-medium text-glass-muted transition-all hover:border-red-500/40 hover:bg-red-950/20 hover:text-red-400"
+                className="group inline-flex items-center gap-2.5 rounded-xl border border-glass-border/50 bg-alliance-dark/50 px-4 py-2.5 text-sm font-medium text-glass-muted transition-all hover:border-rose-500/40 hover:bg-rose-950/20 hover:text-rose-400"
               >
                 <Youtube className="size-4" />
                 YouTube Channel

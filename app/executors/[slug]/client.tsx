@@ -25,8 +25,8 @@ function StatusBadge({ ok, label }: { ok: boolean; label: string }) {
       variant="outline"
       className={`flex items-center gap-1.5 px-3 py-1 text-xs font-semibold ${
         ok
-          ? "border-emerald-800/40 bg-emerald-950/50 text-emerald-400"
-          : "border-red-800/40 bg-red-950/50 text-red-400"
+          ? "border-amber-800/40 bg-amber-950/50 text-amber-400"
+          : "border-rose-800/40 bg-rose-950/50 text-rose-400"
       }`}
     >
       {ok ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
@@ -79,7 +79,7 @@ export function ExecutorDetailClient({ executor }: Props) {
                 variant="outline"
                 className={`flex items-center gap-1.5 px-4 py-1.5 text-sm font-bold ${
                   e.free
-                    ? "border-emerald-800/40 bg-emerald-950/50 text-emerald-400"
+                    ? "border-amber-800/40 bg-amber-950/50 text-amber-400"
                     : "border-amber-800/40 bg-amber-950/50 text-amber-400"
                 }`}
               >
@@ -126,11 +126,11 @@ export function ExecutorDetailClient({ executor }: Props) {
           )}
 
           {e.detected && e.detectionReason && (
-            <div className="mb-6 flex items-start gap-3 rounded-xl border border-red-900/40 bg-red-950/20 p-4">
-              <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-red-400" />
+            <div className="mb-6 flex items-start gap-3 rounded-xl border border-rose-900/40 bg-rose-950/20 p-4">
+              <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-rose-400" />
               <div>
-                <p className="text-sm font-semibold text-red-400">Detected</p>
-                <p className="text-xs text-red-300/80">{e.detectionReason}</p>
+                <p className="text-sm font-semibold text-rose-400">Detected</p>
+                <p className="text-xs text-rose-300/80">{e.detectionReason}</p>
               </div>
             </div>
           )}
@@ -140,10 +140,10 @@ export function ExecutorDetailClient({ executor }: Props) {
               <div className="rounded-xl border border-glass-border/60 bg-glass-darker/50 p-4">
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-glass-muted">sUNC Score</span>
-                  <span className="font-bold text-emerald-400">{e.suncPercentage}%</span>
+                  <span className="font-bold text-amber-400">{e.suncPercentage}%</span>
                 </div>
                 <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-glass-dark">
-                  <div className="h-full rounded-full bg-gradient-to-r from-emerald-700 to-emerald-400" style={{ width: `${e.suncPercentage}%` }} />
+                  <div className="h-full rounded-full bg-gradient-to-r from-amber-700 to-amber-400" style={{ width: `${e.suncPercentage}%` }} />
                 </div>
               </div>
               {typeof e.uncPercentage === "number" && (

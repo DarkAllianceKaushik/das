@@ -26,7 +26,7 @@ interface Props {
 }
 
 const LINK_LABELS: Record<string, { label: string; color: string }> = {
-  pastebin: { label: "Pastebin", color: "text-emerald-400" },
+  pastebin: { label: "Pastebin", color: "text-amber-400" },
   linkvertise: { label: "Linkvertise", color: "text-amber-400" },
   direct: { label: "Direct", color: "text-sky-400" },
   other: { label: "External", color: "text-violet-400" },
@@ -102,7 +102,7 @@ export function ScriptDetailClient({ script, relatedScripts }: Props) {
               <Badge
                 variant="outline"
                 className={script.pricing === "free"
-                  ? "border-emerald-800/40 bg-emerald-950/50 text-emerald-400"
+                  ? "border-amber-800/40 bg-amber-950/50 text-amber-400"
                   : "border-amber-800/40 bg-amber-950/50 text-amber-400"
                 }
               >
@@ -143,7 +143,7 @@ export function ScriptDetailClient({ script, relatedScripts }: Props) {
               onClick={handleShare}
               title={linkCopied ? "Link copied!" : "Copy link"}
             >
-              {linkCopied ? <Check className="size-4 text-emerald-400" /> : <Share2 className="size-4" />}
+              {linkCopied ? <Check className="size-4 text-amber-400" /> : <Share2 className="size-4" />}
             </Button>
             <Button
               variant="ghost"
@@ -241,9 +241,9 @@ export function ScriptDetailClient({ script, relatedScripts }: Props) {
       )}
 
       {reported && (
-        <Card className="mb-8 border-emerald-800/40 bg-emerald-950/30 p-4 text-center text-sm text-emerald-400">
+        <Card className="mb-8 border-amber-800/40 bg-amber-950/30 p-4 text-center text-sm text-amber-400">
           Report submitted. Thank you.
-          <button onClick={() => setReported(false)} className="ml-2 underline hover:text-emerald-300">Dismiss</button>
+          <button onClick={() => setReported(false)} className="ml-2 underline hover:text-amber-300">Dismiss</button>
         </Card>
       )}
 
