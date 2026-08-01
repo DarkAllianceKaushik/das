@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { MessageCircle, Save } from "lucide-react";
+import { MessageCircle, Save, Webhook } from "lucide-react";
 import { Button, Card, Input, Label } from "@heroui/react";
 
 interface DiscordSettingsProps {
@@ -77,21 +77,15 @@ export function DiscordSettings({ initialUrl, initialWebhookUrl, onSaved }: Disc
 
   return (
     <Card className="border border-alliance-border bg-alliance-card/80">
-      <Card.Content className="p-6">
-        <div className="mb-4 flex items-center gap-2">
+      <Card.Content className="space-y-6 p-6">
+        <div className="mb-1 flex items-center gap-2">
           <MessageCircle className="h-5 w-5 text-[#5865F2]" />
-          <h3 className="font-display text-lg font-bold text-white">Discord Invite</h3>
+          <h3 className="font-display text-lg font-bold text-white">Discord Settings</h3>
         </div>
-        <p className="mb-4 text-sm text-alliance-muted">
-          Set your server invite link. A &quot;Join our Discord&quot; button appears
-          on the store when a link is saved. Leave empty to hide it.
-        </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <Label htmlFor="discordUrl">
-              Invite URL
-            </Label>
+            <Label htmlFor="discordUrl">Invite URL</Label>
             <Input
               id="discordUrl"
               type="url"
@@ -102,14 +96,26 @@ export function DiscordSettings({ initialUrl, initialWebhookUrl, onSaved }: Disc
               fullWidth
             />
             <p className="mt-1.5 text-xs text-alliance-muted/70">
-              Example: https://discord.gg/darkalliance
+              A &quot;Join our Discord&quot; button appears on the store when a link is saved.
+              Leave empty to hide it. Example: https://discord.gg/darkalliance
             </p>
           </div>
-          <p className="mb-4 text-sm text-glass-muted">
+          <Button type="submit" variant="secondary" isDisabled={loading}>
+            <Save className="h-4 w-4" />
+            {loading ? "Saving..." : "Save Discord Link"}
+          </Button>
+        </form>
+
+        <div className="border-t border-alliance-border pt-5">
+          <div className="mb-1 flex items-center gap-2">
+            <Webhook className="h-5 w-5 text-[#5865F2]" />
+            <h4 className="font-display text-sm font-bold text-white">Script Webhook</h4>
+          </div>
+          <p className="mb-3 text-sm text-alliance-muted">
             Get notified in a Discord channel when scripts are created or updated.
             Create a webhook in your server settings &gt; Integrations &gt; Webhooks.
           </p>
-          <div className="space-y-4">
+          <div className="space-y-3">
             <div>
               <Label htmlFor="webhookUrl">Webhook URL</Label>
               <Input
@@ -118,20 +124,27 @@ export function DiscordSettings({ initialUrl, initialWebhookUrl, onSaved }: Disc
                 value={webhookUrl}
                 onChange={(e) => setWebhookUrl(e.target.value)}
                 placeholder="https://discord.com/api/webhooks/..."
+                variant="primary"
+                fullWidth
               />
             </div>
-          )}
-          {success && (
-            <div className="rounded-lg bg-emerald-950/50 px-3 py-2 text-sm text-emerald-300 ring-1 ring-emerald-900/50">
-              Discord link saved!
-            </div>
-          )}
+            <Button variant="secondary" isDisabled={loading} onPress={handleWebhookSave}>
+              <Save className="h-4 w-4" />
+              Save Webhook URL
+            </Button>
+          </div>
+        </div>
 
-          <Button type="submit" isDisabled={loading}>
-            <Save className="h-4 w-4" />
-            {loading ? "Saving..." : "Save Discord Link"}
-          </Button>
-        </form>
+        {error && (
+          <div className="rounded-lg bg-red-950/50 px-3 py-2 text-sm text-red-300 ring-1 ring-red-900/50">
+            {error}
+          </div>
+        )}
+        {success && (
+          <div className="rounded-lg bg-emerald-950/50 px-3 py-2 text-sm text-emerald-300 ring-1 ring-emerald-900/50">
+            Discord settings saved!
+          </div>
+        )}
       </Card.Content>
     </Card>
   );

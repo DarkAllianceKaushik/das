@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, ExternalLink, Globe, Disc, CreditCard, Check, X, Wifi } from "lucide-react";
+import { ArrowLeft, ExternalLink, Globe, Disc, CreditCard, Check, X, Wifi, BadgeCheck, Terminal, AlertTriangle } from "lucide-react";
 import type { Executor } from "@/lib/executor-types";
 import { Card, Chip } from "@heroui/react";
 
@@ -95,25 +95,25 @@ export function ExecutorDetailClient({ executor }: Props) {
             {e.clientmods && <StatusBadge ok label="Client Mods" />}
             {e.keysystem && <StatusBadge ok={false} label="Key System" />}
             {e.elementCertified && (
-              <Badge variant="outline" className="flex items-center gap-1 border-sky-800/40 bg-sky-950/50 text-sky-400">
+              <Chip variant="soft" color="accent" size="sm" className="flex items-center gap-1 border-sky-800/40 bg-sky-950/50 text-sky-400">
                 <BadgeCheck className="h-3 w-3" /> Element Certified
-              </Badge>
+              </Chip>
             )}
             {e.longestRunning && (
-              <Badge variant="outline" className="flex items-center gap-1 border-purple-800/40 bg-purple-950/50 text-purple-400">
+              <Chip variant="soft" color="default" size="sm" className="flex items-center gap-1 border-purple-800/40 bg-purple-950/50 text-purple-400">
                 <Terminal className="h-3 w-3" /> Longest Running
-              </Badge>
+              </Chip>
             )}
             {e.beta && (
-              <Badge variant="outline" className="flex items-center gap-1 border-amber-800/40 bg-amber-950/50 text-amber-400">
+              <Chip variant="soft" color="warning" size="sm" className="flex items-center gap-1 border-amber-800/40 bg-amber-950/50 text-amber-400">
                 Beta
-              </Badge>
+              </Chip>
             )}
           </div>
 
           {e.slug?.fullDescription && (
-            <div className="mb-6 rounded-xl border border-glass-border/60 bg-glass-darker/50 p-4">
-              <p className="text-sm leading-relaxed text-glass-muted whitespace-pre-wrap">{e.slug.fullDescription}</p>
+            <div className="mb-6 rounded-xl border border-alliance-border/60 bg-alliance-darker/50 p-4">
+              <p className="text-sm leading-relaxed text-alliance-muted whitespace-pre-wrap">{e.slug.fullDescription}</p>
             </div>
           )}
 
@@ -129,22 +129,22 @@ export function ExecutorDetailClient({ executor }: Props) {
 
           {typeof e.suncPercentage === "number" && (
             <div className="mb-6 grid gap-4 sm:grid-cols-2">
-              <div className="rounded-xl border border-glass-border/60 bg-glass-darker/50 p-4">
+              <div className="rounded-xl border border-alliance-border/60 bg-alliance-darker/50 p-4">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-glass-muted">sUNC Score</span>
+                  <span className="text-alliance-muted">sUNC Score</span>
                   <span className="font-bold text-amber-400">{e.suncPercentage}%</span>
                 </div>
-                <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-glass-dark">
+                <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-alliance-dark">
                   <div className="h-full rounded-full bg-gradient-to-r from-amber-700 to-amber-400" style={{ width: `${e.suncPercentage}%` }} />
                 </div>
               </div>
               {typeof e.uncPercentage === "number" && (
-                <div className="rounded-xl border border-glass-border/60 bg-glass-darker/50 p-4">
+                <div className="rounded-xl border border-alliance-border/60 bg-alliance-darker/50 p-4">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-glass-muted">UNC Score</span>
+                    <span className="text-alliance-muted">UNC Score</span>
                     <span className="font-bold text-sky-400">{e.uncPercentage}%</span>
                   </div>
-                  <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-glass-dark">
+                  <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-alliance-dark">
                     <div className="h-full rounded-full bg-gradient-to-r from-sky-700 to-sky-400" style={{ width: `${e.uncPercentage}%` }} />
                   </div>
                 </div>
@@ -154,10 +154,10 @@ export function ExecutorDetailClient({ executor }: Props) {
 
           {e.slug?.screenshots && e.slug.screenshots.length > 0 && (
             <div className="mb-6">
-              <h2 className="mb-3 font-display text-xs font-bold uppercase tracking-widest text-glass-muted">Screenshots</h2>
+              <h2 className="mb-3 font-display text-xs font-bold uppercase tracking-widest text-alliance-muted">Screenshots</h2>
               <div className="flex gap-3 overflow-x-auto pb-2">
                 {e.slug.screenshots.filter(Boolean).map((src, i) => (
-                  <div key={i} className="h-40 w-72 shrink-0 overflow-hidden rounded-xl border border-glass-border/60 bg-glass-darker">
+                  <div key={i} className="h-40 w-72 shrink-0 overflow-hidden rounded-xl border border-alliance-border/60 bg-alliance-darker">
                     <img src={src} alt="" className="h-full w-full object-cover" />
                   </div>
                 ))}

@@ -67,7 +67,7 @@ export default async function HomePage() {
             </Card>
           ))}
         </div>
-        <div className="absolute -bottom-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-glass-accent/30 to-transparent" />
+        <div className="absolute -bottom-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-alliance-red/30 to-transparent" />
       </section>
 
       <div className="mx-auto max-w-6xl px-4 pb-16 pt-12 sm:px-6 sm:pb-20 sm:pt-16">

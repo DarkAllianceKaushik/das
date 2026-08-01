@@ -21,6 +21,8 @@ interface Props {
 
 export function ExternalScriptDetailClient({ script }: Props) {
   const src = sourceStyles[script.source];
+  const totalRatings = (script.likes ?? 0) + (script.dislikes ?? 0);
+  const score = totalRatings > 0 ? Math.round(((script.likes ?? 0) / totalRatings) * 100) : 0;
 
   return (
     <div className="relative z-10 mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-14">
@@ -71,9 +73,9 @@ export function ExternalScriptDetailClient({ script }: Props) {
               </Chip>
             )}
             {script.mobileReady && (
-              <Badge variant="outline" className="border-purple-800/40 bg-purple-950/50 text-purple-400 gap-1">
+              <Chip color="default" variant="soft" size="sm" className="border-purple-800/40 bg-purple-950/50 text-purple-400 gap-1">
                 <Smartphone className="size-3" /> Mobile
-              </Badge>
+              </Chip>
             )}
           </div>
 
@@ -104,7 +106,7 @@ export function ExternalScriptDetailClient({ script }: Props) {
                 </span>
                 <span className="text-amber-400/80">{score}% positive</span>
                 {totalRatings > 0 && (
-                  <div className="h-1.5 w-24 overflow-hidden rounded-full bg-glass-darker">
+                  <div className="h-1.5 w-24 overflow-hidden rounded-full bg-alliance-darker">
                     <div className="h-full rounded-full bg-amber-500" style={{ width: `${score}%` }} />
                   </div>
                 )}
@@ -116,11 +118,11 @@ export function ExternalScriptDetailClient({ script }: Props) {
           </div>
 
           {script.author && (
-            <div className="mt-4 flex items-center gap-3 text-xs text-glass-muted">
+            <div className="mt-4 flex items-center gap-3 text-xs text-alliance-muted">
               <User className="size-3.5" />
               <span>by <strong className="text-white">{script.author}</strong></span>
               {script.authorDiscord && (
-                <span className="inline-flex items-center gap-1 text-glass-muted/70">
+                <span className="inline-flex items-center gap-1 text-alliance-muted/70">
                   <MessageCircle className="size-3" /> {script.authorDiscord}
                 </span>
               )}
@@ -129,12 +131,12 @@ export function ExternalScriptDetailClient({ script }: Props) {
 
           {script.testedExecutors && script.testedExecutors.length > 0 && (
             <div className="mt-4">
-              <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-glass-muted">Compatible Executors</p>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-alliance-muted">Compatible Executors</p>
               <div className="flex flex-wrap gap-1.5">
                 {script.testedExecutors.map((exe) => (
-                  <Badge key={exe} variant="secondary" className="text-[10px]">
+                  <Chip key={exe} variant="secondary" size="sm" className="text-[10px]">
                     {exe}
-                  </Badge>
+                  </Chip>
                 ))}
               </div>
             </div>

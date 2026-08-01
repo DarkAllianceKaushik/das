@@ -25,6 +25,7 @@ export function AdminDashboard() {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [deleteError, setDeleteError] = useState("");
   const [discordUrl, setDiscordUrl] = useState("");
+  const [webhookUrl, setWebhookUrl] = useState("");
   const [search, setSearch] = useState("");
   const [copyState, setCopyState] = useState<Record<string, boolean>>({});
 
@@ -41,6 +42,7 @@ export function AdminDashboard() {
 
       const settingsData = await settingsRes.json();
       setDiscordUrl(settingsData.settings?.discordUrl || "");
+      setWebhookUrl(settingsData.settings?.webhookUrl || "");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load data");
     } finally {
@@ -158,6 +160,7 @@ export function AdminDashboard() {
 
       <DiscordSettings
         initialUrl={discordUrl}
+        initialWebhookUrl={webhookUrl}
         onSaved={loadData}
       />
 

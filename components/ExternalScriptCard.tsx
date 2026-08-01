@@ -73,9 +73,9 @@ export function ExternalScriptCard({ script }: { script: ExternalScript }) {
               <span className="text-xs text-rose-400/80">Patched</span>
             )}
             {script.universal && (
-              <Badge variant="outline" className="border-blue-800/40 bg-blue-950/50 text-blue-400 text-[10px] px-1.5 py-0">
+              <Chip size="sm" className="border-blue-800/40 bg-blue-950/50 text-blue-400 text-[10px] px-1.5 py-0">
                 Universal
-              </Badge>
+              </Chip>
             )}
             {script.mobileReady && (
               <span className="inline-flex items-center gap-0.5 text-xs text-purple-400">
@@ -103,12 +103,12 @@ export function ExternalScriptCard({ script }: { script: ExternalScript }) {
           {script.testedExecutors && script.testedExecutors.length > 0 && (
             <div className="mt-3 flex flex-wrap gap-1">
               {script.testedExecutors.slice(0, 4).map((exe) => (
-                <span key={exe} className="rounded bg-glass-darker px-1.5 py-0.5 text-[10px] text-glass-muted/80">
+                <span key={exe} className="rounded bg-alliance-darker px-1.5 py-0.5 text-[10px] text-alliance-muted/80">
                   {exe}
                 </span>
               ))}
               {script.testedExecutors.length > 4 && (
-                <span className="text-[10px] text-glass-muted/50">+{script.testedExecutors.length - 4}</span>
+                <span className="text-[10px] text-alliance-muted/50">+{script.testedExecutors.length - 4}</span>
               )}
             </div>
           )}

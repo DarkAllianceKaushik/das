@@ -62,13 +62,13 @@ export function Header() {
             whileTap={{ scale: 0.95 }}
             className="flex h-10 w-10 items-center justify-center rounded-xl bg-alliance-red/20 ring-1 ring-alliance-red/40 transition group-hover:shadow-glow-sm"
           >
-            <Swords className="h-5 w-5 text-glass-accent-bright" />
+            <Swords className="h-5 w-5 text-alliance-red-bright" />
           </motion.div>
           <div>
-            <p className="font-display text-sm font-bold uppercase tracking-widest text-glass-accent-bright">
+            <p className="font-display text-sm font-bold uppercase tracking-widest text-alliance-red-bright">
               Dark Alliance
             </p>
-            <p className="text-[10px] text-glass-muted/70 -mt-0.5">Script Store</p>
+            <p className="text-[10px] text-alliance-muted/70 -mt-0.5">Script Store</p>
           </div>
         </Link>
 
@@ -94,8 +94,8 @@ export function Header() {
               href={l.href}
               className={`flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-200 ${
                 isActive(l.href)
-                  ? "bg-glass-accent/10 text-glass-accent-bright shadow-sm"
-                  : "text-glass-muted hover:bg-alliance-dark/50 hover:text-white"
+                  ? "bg-alliance-red/10 text-alliance-red-bright shadow-sm"
+                  : "text-alliance-muted hover:bg-alliance-dark/50 hover:text-white"
               }`}
             >
               {l.icon && <l.icon className="h-4 w-4" />}
@@ -153,8 +153,8 @@ export function Header() {
                       onClick={() => setMenuOpen(false)}
                       className={`flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-medium transition ${
                         isActive(l.href)
-                          ? "bg-glass-accent/10 text-glass-accent-bright"
-                          : "text-glass-muted hover:bg-alliance-dark hover:text-white"
+                          ? "bg-alliance-red/10 text-alliance-red-bright"
+                          : "text-alliance-muted hover:bg-alliance-dark hover:text-white"
                       }`}
                     >
                       {l.icon && <l.icon className="h-4 w-4" />}

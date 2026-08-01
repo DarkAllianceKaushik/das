@@ -1,8 +1,8 @@
 "use client";
 
-import { Swords, Youtube } from "lucide-react";
+import { ExternalLink, Swords, Youtube } from "lucide-react";
 import { DiscordButton } from "./DiscordButton";
-import { Button, Separator } from "@heroui/react";
+import { Separator } from "@heroui/react";
 import { useEffect, useState } from "react";
 
 export function Footer() {
@@ -16,25 +16,25 @@ export function Footer() {
   }, []);
 
   return (
-    <footer className="relative z-10 mt-auto border-t border-glass-border/60 bg-alliance-darker/80 backdrop-blur-sm">
+    <footer className="relative z-10 mt-auto border-t border-alliance-border/60 bg-alliance-darker/80 backdrop-blur-sm">
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
         <div className="grid gap-10 sm:grid-cols-3">
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-glass-accent/10 ring-1 ring-glass-accent/30">
-                <Swords className="h-4 w-4 text-glass-accent-bright" />
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-alliance-red/10 ring-1 ring-alliance-red/30">
+                <Swords className="h-4 w-4 text-alliance-red-bright" />
               </div>
-              <p className="font-display text-sm font-bold uppercase tracking-widest text-glass-accent-bright">
+              <p className="font-display text-sm font-bold uppercase tracking-widest text-alliance-red-bright">
                 Dark Alliance
               </p>
             </div>
-            <p className="text-sm leading-relaxed text-glass-muted/70 max-w-xs">
+            <p className="max-w-xs text-sm leading-relaxed text-alliance-muted/70">
               Curated Roblox scripts for educational purposes. Browse, search, and discover scripts — all in one place.
             </p>
           </div>
 
           <div>
-            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.15em] text-glass-muted">Quick Links</p>
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.15em] text-alliance-muted">Quick Links</p>
             <div className="flex flex-col gap-2.5">
               {[
                 { href: "/", label: "Script Store" },
@@ -44,10 +44,10 @@ export function Footer() {
                 <a
                   key={link.href}
                   href={link.href}
-                  className="group flex items-center gap-2 text-sm text-glass-muted/60 transition hover:text-glass-accent-bright"
+                  className="group flex items-center gap-2 text-sm text-alliance-muted/60 transition hover:text-alliance-red-bright"
                 >
                   <span>{link.label}</span>
-                  <ExternalLink className="size-3 opacity-0 -translate-x-2 transition-all group-hover:opacity-100 group-hover:translate-x-0" />
+                  <ExternalLink className="size-3 -translate-x-2 opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />
                 </a>
               ))}
             </div>
@@ -65,10 +65,9 @@ export function Footer() {
               >
                 <Youtube className="h-4 w-4" />
                 YouTube Channel
-                <ExternalLink className="size-3 ml-auto opacity-0 transition group-hover:opacity-100" />
               </a>
             </div>
-            <p className="mt-4 text-xs text-glass-muted/40">
+            <p className="mt-4 text-xs text-alliance-muted/40">
               Roblox scripts for educational purposes. Use responsibly.
             </p>
           </div>
@@ -77,12 +76,12 @@ export function Footer() {
         <Separator className="my-8" />
 
         <div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
-          <p className="text-xs text-glass-muted/40">
+          <p className="text-xs text-alliance-muted/40">
             &copy; {new Date().getFullYear()} Dark Alliance. All rights reserved.
           </p>
-          <div className="flex gap-5 text-xs text-glass-muted/40">
-            <a href="/privacy" className="transition hover:text-glass-accent-bright">Privacy</a>
-            <a href="/terms" className="transition hover:text-glass-accent-bright">Terms</a>
+          <div className="flex gap-5 text-xs text-alliance-muted/40">
+            <a href="/privacy" className="transition hover:text-alliance-red-bright">Privacy</a>
+            <a href="/terms" className="transition hover:text-alliance-red-bright">Terms</a>
           </div>
         </div>
       </div>

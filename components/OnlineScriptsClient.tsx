@@ -119,30 +119,55 @@ export function OnlineScriptsClient() {
         </div>
 
         <form onSubmit={handleSearch} className="flex flex-col gap-3 sm:flex-row">
-          <div className="flex-1">
+          <div className="relative flex-1" ref={gameRef}>
             <InputGroup fullWidth>
               <InputGroup.Prefix>
                 <Search className="size-4 text-alliance-muted" />
               </InputGroup.Prefix>
               <InputGroup.Input
                 type="search"
-                placeholder="Search online scripts (game, feature, name)..."
+                placeholder="Search scripts or type a game name..."
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={handleGameSearchInput}
               />
-              {search && (
+              {search && !gameSearching && (
                 <InputGroup.Suffix>
                   <button
                     type="button"
                     aria-label="Clear search"
-                    onClick={() => setSearch("")}
+                    onClick={() => { setSearch(""); setGameSuggestions([]); setShowGames(false); }}
                     className="text-alliance-muted hover:text-white transition-colors"
                   >
                     <X className="size-4" />
                   </button>
                 </InputGroup.Suffix>
               )}
+              {gameSearching && (
+                <InputGroup.Suffix>
+                  <Loader2 className="size-4 animate-spin text-alliance-muted" />
+                </InputGroup.Suffix>
+              )}
             </InputGroup>
+            {showGames && gameSuggestions.length > 0 && (
+              <div className="absolute left-0 right-0 top-full z-50 mt-1 max-h-60 overflow-auto rounded-xl border border-alliance-border bg-alliance-card p-1 shadow-glass backdrop-blur-2xl">
+                <p className="px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-alliance-muted">Games</p>
+                {gameSuggestions.map((g) => (
+                  <button
+                    key={g.id}
+                    type="button"
+                    onClick={() => handleGameSelect(g)}
+                    className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-white transition hover:bg-alliance-red/20"
+                  >
+                    {g.imageUrl && g.imageUrl !== "0" ? (
+                      <img src={g.imageUrl} alt="" className="h-8 w-8 rounded object-cover" />
+                    ) : (
+                      <Gamepad2 className="h-5 w-5 text-alliance-muted" />
+                    )}
+                    <span className="text-left">{g.name}</span>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
           <div className="flex gap-2">
             <Button type="submit" size="lg" className="px-6">
@@ -167,6 +192,21 @@ export function OnlineScriptsClient() {
             )}
           </div>
         </form>
+
+        {game && (
+          <div className="mt-4 flex items-center gap-2 rounded-lg bg-alliance-red/10 px-3 py-2 text-sm text-alliance-red-bright">
+            <Gamepad2 className="size-4" />
+            Browsing scripts for: <strong>{game}</strong>
+            <button
+              type="button"
+              onClick={() => { setGame(""); setPage(1); }}
+              className="ml-auto text-alliance-muted hover:text-white"
+              aria-label="Clear game filter"
+            >
+              <X className="size-4" />
+            </button>
+          </div>
+        )}
 
         <div className="mt-4 flex flex-wrap gap-2">
           {(
