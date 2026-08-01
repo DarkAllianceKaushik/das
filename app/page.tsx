@@ -67,11 +67,14 @@ export default async function HomePage() {
             </Card>
           ))}
         </div>
+        <div className="absolute -bottom-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-glass-accent/30 to-transparent" />
       </section>
 
-      <Suspense fallback={<StoreGridSkeleton />}>
-        <StoreSwitcher scripts={scripts} categories={categories} />
-      </Suspense>
+      <div className="mx-auto max-w-6xl px-4 pb-16 pt-12 sm:px-6 sm:pb-20 sm:pt-16">
+        <Suspense fallback={<StoreGridSkeleton />}>
+          <StoreSwitcher scripts={scripts} categories={categories} />
+        </Suspense>
+      </div>
     </div>
   );
 }

@@ -1,8 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { ExternalScriptCard } from "./ExternalScriptCard";
-import type { ExternalScript, ExternalSourceFilter } from "@/lib/external-types";
+import type { ExternalScript, ExternalSourceFilter, GameSearchResult } from "@/lib/external-types";
 import {
   ChevronLeft,
   ChevronRight,
@@ -10,6 +10,7 @@ import {
   Loader2,
   Search,
   X,
+  Gamepad2,
 } from "lucide-react";
 import { Button, Card, Chip, InputGroup, Pagination } from "@heroui/react";
 
@@ -17,11 +18,27 @@ export function OnlineScriptsClient() {
   const [scripts, setScripts] = useState<ExternalScript[]>([]);
   const [search, setSearch] = useState("");
   const [query, setQuery] = useState("");
+  const [game, setGame] = useState("");
   const [source, setSource] = useState<ExternalSourceFilter>("all");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [gameSuggestions, setGameSuggestions] = useState<GameSearchResult[]>([]);
+  const [showGames, setShowGames] = useState(false);
+  const [gameSearching, setGameSearching] = useState(false);
+  const gameRef = useRef<HTMLDivElement>(null);
+  const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (gameRef.current && !gameRef.current.contains(e.target as Node)) {
+        setShowGames(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
 
   const loadScripts = useCallback(async () => {
     setLoading(true);
@@ -33,6 +50,7 @@ export function OnlineScriptsClient() {
         source,
       });
       if (query) params.set("q", query);
+      if (game) params.set("game", game);
 
       const res = await fetch(`/api/external/scripts?${params}`);
       const data = await res.json();
@@ -51,7 +69,7 @@ export function OnlineScriptsClient() {
     } finally {
       setLoading(false);
     }
-  }, [page, query, source]);
+  }, [page, query, game, source]);
 
   useEffect(() => {
     loadScripts();
@@ -61,6 +79,31 @@ export function OnlineScriptsClient() {
     e.preventDefault();
     setPage(1);
     setQuery(search.trim());
+    setGame("");
+  }
+
+  function handleGameSelect(g: GameSearchResult) {
+    setGame(g.name);
+    setSearch("");
+    setQuery("");
+    setPage(1);
+    setShowGames(false);
+  }
+
+  function handleGameSearchInput(e: React.ChangeEvent<HTMLInputElement>) {
+    const val = e.target.value;
+    setSearch(val);
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    if (val.length < 2) { setGameSuggestions([]); setShowGames(false); return; }
+    debounceRef.current = setTimeout(async () => {
+      setGameSearching(true);
+      try {
+        const res = await fetch(`/api/external/games?q=${encodeURIComponent(val)}`);
+        const data = await res.json();
+        setGameSuggestions(data.games || []);
+        setShowGames(true);
+      } catch { setGameSuggestions([]); } finally { setGameSearching(false); }
+    }, 300);
   }
 
   return (
@@ -71,8 +114,7 @@ export function OnlineScriptsClient() {
           <p>
             Live results from{" "}
             <strong className="text-white">ScriptBlox</strong> and{" "}
-            <strong className="text-white">RScripts</strong>. Scripts open on
-            their original site — Dark Alliance does not host third-party files.
+            <strong className="text-white">RScripts</strong>. Search by keyword or browse scripts for a specific game.
           </p>
         </div>
 
@@ -106,7 +148,7 @@ export function OnlineScriptsClient() {
             <Button type="submit" size="lg" className="px-6">
               Search
             </Button>
-            {query && (
+            {(query || game) && (
               <Button
                 type="button"
                 variant="outline"
@@ -114,7 +156,10 @@ export function OnlineScriptsClient() {
                 onPress={() => {
                   setSearch("");
                   setQuery("");
+                  setGame("");
                   setPage(1);
+                  setGameSuggestions([]);
+                  setShowGames(false);
                 }}
               >
                 Clear

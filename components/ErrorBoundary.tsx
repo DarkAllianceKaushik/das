@@ -32,8 +32,8 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       return (
         <div className="flex flex-col items-center justify-center py-20 text-center">
           <div className="card-surface mx-auto max-w-md p-8">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-red-950/40 ring-1 ring-red-800/50">
-              <span className="text-2xl text-red-400">!</span>
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-rose-950/40 ring-1 ring-rose-800/50">
+              <span className="text-2xl text-rose-400">!</span>
             </div>
             <h2 className="mt-4 font-display text-lg font-bold text-white">Something went wrong</h2>
             <p className="mt-2 text-sm text-alliance-muted">{this.state.error?.message || "An unexpected error occurred."}</p>

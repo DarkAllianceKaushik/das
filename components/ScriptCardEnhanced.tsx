@@ -166,7 +166,7 @@ export function ScriptCardEnhanced({ script, onTagClick }: Props) {
           className="rounded-md bg-alliance-black/60 p-1.5 text-alliance-muted transition hover:bg-alliance-black hover:text-sky-400"
           title={copied ? "Copied!" : "Copy script"}
         >
-          {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+          {copied ? <Check className="h-3.5 w-3.5 text-amber-400" /> : <Copy className="h-3.5 w-3.5" />}
         </motion.button>
         <motion.button
           whileHover={{ scale: 1.1 }}
@@ -246,7 +246,7 @@ export function ScriptCardEnhanced({ script, onTagClick }: Props) {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="absolute left-0 right-0 top-0 z-30 rounded-xl border border-emerald-800/50 bg-emerald-950/80 p-4 text-center text-sm text-emerald-400 backdrop-blur-sm"
+            className="absolute left-0 right-0 top-0 z-30 rounded-xl border border-amber-800/50 bg-amber-950/80 p-4 text-center text-sm text-amber-400 backdrop-blur-sm"
           >
             Report submitted. Thank you.
             <button onClick={() => setReported(false)} className="ml-2 underline">Dismiss</button>

@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
-import { Orbitron, Inter } from "next/font/google";
+import { Cinzel, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 
-const display = Orbitron({
+const display = Cinzel({
   subsets: ["latin"],
   variable: "--font-orbitron",
   weight: ["600", "700", "800"],
 });
 
-const body = Inter({
+const body = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-inter",
 });

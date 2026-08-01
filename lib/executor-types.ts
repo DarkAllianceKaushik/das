@@ -17,6 +17,24 @@ export interface Executor {
   raknet?: boolean;
   suncStatus?: boolean;
   elementVerified?: boolean;
+  extype?: string;
+  suncPercentage?: number;
+  uncPercentage?: number;
+  clientmods?: boolean;
+  keysystem?: boolean;
+  elementCertified?: boolean;
+  longestRunning?: boolean;
+  beta?: boolean;
+  hidden?: boolean;
+  private?: boolean;
+  hasIssues?: boolean;
+  detectionReason?: string;
+  slug?: {
+    fullDescription?: string;
+    logo?: string;
+    screenshots?: string[];
+    owner?: string;
+  };
 }
 
 export interface WEAOResponse {

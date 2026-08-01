@@ -9,6 +9,14 @@ interface Props {
   executor: Executor;
 }
 
+const extypeLabels: Record<string, string> = {
+  wexecutor: "Internal Executor",
+  wexternal: "External Executor",
+  aexecutor: "Android Executor",
+  mexecutor: "Mac Executor",
+  iexecutor: "iOS Executor",
+};
+
 function StatusBadge({ ok, label }: { ok: boolean; label: string }) {
   return (
     <Chip
@@ -17,8 +25,8 @@ function StatusBadge({ ok, label }: { ok: boolean; label: string }) {
       size="sm"
       className={`px-3 py-1 text-xs font-semibold ${
         ok
-          ? "border-emerald-800/40 bg-emerald-950/50 text-emerald-400"
-          : "border-red-800/40 bg-red-950/50 text-red-400"
+          ? "border-amber-800/40 bg-amber-950/50 text-amber-400"
+          : "border-rose-800/40 bg-rose-950/50 text-rose-400"
       }`}
     >
       {ok ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
@@ -29,6 +37,7 @@ function StatusBadge({ ok, label }: { ok: boolean; label: string }) {
 
 export function ExecutorDetailClient({ executor }: Props) {
   const e = executor;
+  const extypeLabel = extypeLabels[e.extype || ""] || e.extype || "N/A";
 
   return (
     <div className="relative z-10 mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-14">
@@ -48,14 +57,6 @@ export function ExecutorDetailClient({ executor }: Props) {
                   <h1 className="font-display text-2xl font-extrabold text-white sm:text-3xl">{e.title}</h1>
                   <p className="text-sm text-alliance-muted">v{e.version}</p>
                 </div>
-              </div>
-              <div className="mt-3 flex flex-wrap gap-2">
-                <StatusBadge ok={!e.detected} label={e.detected ? "Detected" : "Undetected"} />
-                <StatusBadge ok={e.uncStatus} label="UNC" />
-                <StatusBadge ok={e.updateStatus} label="Up to Date" />
-                {e.multiInject && <StatusBadge ok label="Multi Inject" />}
-                {e.decompiler && <StatusBadge ok label="Decompiler" />}
-                {e.raknet && <StatusBadge ok label="RakNet" />}
               </div>
             </div>
 
@@ -83,6 +84,86 @@ export function ExecutorDetailClient({ executor }: Props) {
               </Chip>
             </div>
           </div>
+
+          <div className="mb-6 flex flex-wrap gap-2">
+            <StatusBadge ok={!e.detected} label={e.detected ? "Detected" : "Undetected"} />
+            <StatusBadge ok={e.uncStatus} label="UNC" />
+            <StatusBadge ok={e.updateStatus} label="Up to Date" />
+            {e.multiInject && <StatusBadge ok label="Multi Inject" />}
+            {e.decompiler && <StatusBadge ok label="Decompiler" />}
+            {e.raknet && <StatusBadge ok label="RakNet" />}
+            {e.clientmods && <StatusBadge ok label="Client Mods" />}
+            {e.keysystem && <StatusBadge ok={false} label="Key System" />}
+            {e.elementCertified && (
+              <Badge variant="outline" className="flex items-center gap-1 border-sky-800/40 bg-sky-950/50 text-sky-400">
+                <BadgeCheck className="h-3 w-3" /> Element Certified
+              </Badge>
+            )}
+            {e.longestRunning && (
+              <Badge variant="outline" className="flex items-center gap-1 border-purple-800/40 bg-purple-950/50 text-purple-400">
+                <Terminal className="h-3 w-3" /> Longest Running
+              </Badge>
+            )}
+            {e.beta && (
+              <Badge variant="outline" className="flex items-center gap-1 border-amber-800/40 bg-amber-950/50 text-amber-400">
+                Beta
+              </Badge>
+            )}
+          </div>
+
+          {e.slug?.fullDescription && (
+            <div className="mb-6 rounded-xl border border-glass-border/60 bg-glass-darker/50 p-4">
+              <p className="text-sm leading-relaxed text-glass-muted whitespace-pre-wrap">{e.slug.fullDescription}</p>
+            </div>
+          )}
+
+          {e.detected && e.detectionReason && (
+            <div className="mb-6 flex items-start gap-3 rounded-xl border border-rose-900/40 bg-rose-950/20 p-4">
+              <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-rose-400" />
+              <div>
+                <p className="text-sm font-semibold text-rose-400">Detected</p>
+                <p className="text-xs text-rose-300/80">{e.detectionReason}</p>
+              </div>
+            </div>
+          )}
+
+          {typeof e.suncPercentage === "number" && (
+            <div className="mb-6 grid gap-4 sm:grid-cols-2">
+              <div className="rounded-xl border border-glass-border/60 bg-glass-darker/50 p-4">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-glass-muted">sUNC Score</span>
+                  <span className="font-bold text-amber-400">{e.suncPercentage}%</span>
+                </div>
+                <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-glass-dark">
+                  <div className="h-full rounded-full bg-gradient-to-r from-amber-700 to-amber-400" style={{ width: `${e.suncPercentage}%` }} />
+                </div>
+              </div>
+              {typeof e.uncPercentage === "number" && (
+                <div className="rounded-xl border border-glass-border/60 bg-glass-darker/50 p-4">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-glass-muted">UNC Score</span>
+                    <span className="font-bold text-sky-400">{e.uncPercentage}%</span>
+                  </div>
+                  <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-glass-dark">
+                    <div className="h-full rounded-full bg-gradient-to-r from-sky-700 to-sky-400" style={{ width: `${e.uncPercentage}%` }} />
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {e.slug?.screenshots && e.slug.screenshots.length > 0 && (
+            <div className="mb-6">
+              <h2 className="mb-3 font-display text-xs font-bold uppercase tracking-widest text-glass-muted">Screenshots</h2>
+              <div className="flex gap-3 overflow-x-auto pb-2">
+                {e.slug.screenshots.filter(Boolean).map((src, i) => (
+                  <div key={i} className="h-40 w-72 shrink-0 overflow-hidden rounded-xl border border-glass-border/60 bg-glass-darker">
+                    <img src={src} alt="" className="h-full w-full object-cover" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className="grid gap-3 sm:grid-cols-3">
             {e.websitelink && (

@@ -1,6 +1,7 @@
 "use client";
 
-import { ShieldCheck, ShieldAlert, Wifi, WifiOff, ExternalLink, Disc, Smartphone, Monitor, Apple } from "lucide-react";
+import Link from "next/link";
+import { ShieldCheck, ShieldAlert, Wifi, WifiOff, ExternalLink, Disc, Smartphone, Monitor, Apple, Cpu, BadgeCheck, KeyRound, Layers } from "lucide-react";
 import type { Executor } from "@/lib/executor-types";
 import { Button, Card, Chip } from "@heroui/react";
 
@@ -10,8 +11,23 @@ const platformIcon: Record<string, typeof Monitor> = {
   Android: Smartphone,
 };
 
+const extypeLabels: Record<string, string> = {
+  wexecutor: "Internal",
+  wexternal: "External",
+  aexecutor: "Android",
+  mexecutor: "Mac",
+  iexecutor: "iOS",
+};
+
+function toSlug(title: string): string {
+  return title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
 export function ExecutorCard({ executor }: { executor: Executor }) {
   const Icon = platformIcon[executor.platform] || Monitor;
+  const slug = toSlug(executor.title);
+  const extypeLabel = extypeLabels[executor.extype || ""] || executor.extype || "";
+  const hasSunc = typeof executor.suncPercentage === "number";
 
   return (
     <Card className={`group flex flex-col p-5 transition hover:shadow-glow-sm ${
@@ -81,9 +97,9 @@ export function ExecutorCard({ executor }: { executor: Executor }) {
           Updated: {executor.updatedDate}
         </p>
 
-        {executor.cost && (
-          <p className="mt-1 text-xs text-amber-400">{executor.cost}</p>
-        )}
+          {executor.detected && executor.detectionReason && (
+            <p className="mt-1 text-[10px] text-rose-400/70">{executor.detectionReason}</p>
+          )}
 
         <div className="mt-4 flex flex-wrap gap-2">
           {executor.websitelink && (

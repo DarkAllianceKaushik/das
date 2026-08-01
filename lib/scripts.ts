@@ -23,7 +23,7 @@ const DEFAULT_CATEGORIES = [
   "Misc",
 ];
 
-const DEFAULT_SETTINGS = { discordUrl: "" };
+const DEFAULT_SETTINGS = { discordUrl: "", webhookUrl: "" };
 
 function normalizeData(parsed: Partial<ScriptsData>): ScriptsData {
   const scripts = Array.isArray(parsed.scripts) ? parsed.scripts : [];
@@ -35,11 +35,15 @@ function normalizeData(parsed: Partial<ScriptsData>): ScriptsData {
     typeof parsed.settings?.discordUrl === "string"
       ? parsed.settings.discordUrl.trim()
       : DEFAULT_SETTINGS.discordUrl;
+  const webhookUrl =
+    typeof parsed.settings?.webhookUrl === "string"
+      ? parsed.settings.webhookUrl.trim()
+      : "";
 
   return {
     scripts,
     categories,
-    settings: { discordUrl },
+    settings: { discordUrl, webhookUrl: webhookUrl || undefined },
   };
 }
 
@@ -213,4 +217,16 @@ export async function updateDiscordUrl(url: string): Promise<SiteSettings> {
   data.settings.discordUrl = url.trim();
   await saveData(data, "Update Discord invite link");
   return data.settings;
+}
+
+export async function updateWebhookUrl(url: string): Promise<SiteSettings> {
+  const data = await loadData();
+  data.settings.webhookUrl = url.trim() || undefined;
+  await saveData(data, "Update Discord webhook URL");
+  return data.settings;
+}
+
+export async function getWebhookUrl(): Promise<string | undefined> {
+  const data = await loadData();
+  return data.settings.webhookUrl;
 }

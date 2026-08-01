@@ -280,11 +280,11 @@
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-alliance-border bg-alliance-dark px-5 py-2.5 text-sm font-semibold text-white transition-all hover:border-alliance-red/50 hover:bg-alliance-card hover:shadow-glow-sm focus:outline-none focus:ring-2 focus:ring-alliance-red/50 active:scale-[0.97] disabled:opacity-50 disabled:active:scale-100;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-glass-border bg-alliance-dark px-5 py-2.5 text-sm font-semibold text-white transition-all hover:border-glass-accent/50 hover:bg-alliance-card hover:shadow-glow-sm focus:outline-none focus:ring-2 focus:ring-glass-accent/50 active:scale-[0.97] disabled:opacity-50 disabled:active:scale-100;
   }
 
   .btn-danger {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-red-900/60 bg-red-950/40 px-4 py-2 text-sm font-semibold text-red-300 transition-all hover:bg-red-900/40 hover:shadow-glow-sm focus:outline-none active:scale-[0.97] disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-rose-900/60 bg-rose-950/40 px-4 py-2 text-sm font-semibold text-rose-300 transition-all hover:bg-rose-900/40 hover:shadow-glow-sm focus:outline-none active:scale-[0.97] disabled:opacity-50;
   }
 
   .btn-outline {
@@ -296,15 +296,15 @@
   }
 
   .input-field {
-    @apply w-full rounded-lg border border-alliance-border bg-alliance-darker px-4 py-2.5 text-sm text-white placeholder:text-alliance-muted/60 transition-all focus:border-alliance-red focus:outline-none focus:ring-1 focus:ring-alliance-red;
+    @apply w-full rounded-xl border border-glass-border bg-alliance-darker px-4 py-2.5 text-sm text-white placeholder:text-glass-muted/60 transition-all focus:border-glass-accent focus:outline-none focus:ring-1 focus:ring-glass-accent;
   }
 
   .label-field {
-    @apply mb-1.5 block text-sm font-medium text-alliance-muted;
+    @apply mb-1.5 block text-sm font-medium text-glass-muted;
   }
 
   .card-surface {
-    @apply rounded-xl border border-alliance-border bg-alliance-card/80 backdrop-blur-sm transition-all duration-200;
+    @apply rounded-2xl border border-glass-border bg-alliance-card/80 backdrop-blur-sm transition-all duration-200;
   }
 
   .card-surface-hover {
@@ -312,15 +312,15 @@
   }
 
   .glow-line {
-    @apply h-px w-full bg-gradient-to-r from-transparent via-alliance-red/40 to-transparent;
+    @apply h-px w-full bg-gradient-to-r from-transparent via-glass-accent/40 to-transparent;
   }
 
   .text-gradient {
-    @apply bg-gradient-to-r from-alliance-red-bright via-alliance-red to-alliance-crimson bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-amber-400 via-amber-300 to-amber-600 bg-clip-text text-transparent;
   }
 
   .animated-gradient {
-    background: linear-gradient(-45deg, #dc2626, #ef4444, #991b1b, #7f1d1d);
+    background: linear-gradient(-45deg, #f59e0b, #fbbf24, #d97706, #92400e);
     background-size: 400% 400%;
     animation: gradient-shift 6s ease infinite;
   }

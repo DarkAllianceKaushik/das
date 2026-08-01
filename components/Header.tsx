@@ -62,17 +62,13 @@ export function Header() {
             whileTap={{ scale: 0.95 }}
             className="flex h-10 w-10 items-center justify-center rounded-xl bg-alliance-red/20 ring-1 ring-alliance-red/40 transition group-hover:shadow-glow-sm"
           >
-            <Swords className="h-5 w-5 text-alliance-red-bright" />
+            <Swords className="h-5 w-5 text-glass-accent-bright" />
           </motion.div>
-          <div className="hidden sm:block">
-            <motion.p
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="font-display text-sm font-bold uppercase tracking-widest text-alliance-red-bright"
-            >
+          <div>
+            <p className="font-display text-sm font-bold uppercase tracking-widest text-glass-accent-bright">
               Dark Alliance
-            </motion.p>
-            <p className="text-xs text-alliance-muted">Script Store</p>
+            </p>
+            <p className="text-[10px] text-glass-muted/70 -mt-0.5">Script Store</p>
           </div>
         </Link>
 
@@ -96,10 +92,10 @@ export function Header() {
             <Link
               key={l.href}
               href={l.href}
-              className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm transition-all ${
+              className={`flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-200 ${
                 isActive(l.href)
-                  ? "bg-alliance-red/10 text-alliance-red-bright"
-                  : "text-alliance-muted hover:text-alliance-red-bright"
+                  ? "bg-glass-accent/10 text-glass-accent-bright shadow-sm"
+                  : "text-glass-muted hover:bg-alliance-dark/50 hover:text-white"
               }`}
             >
               {l.icon && <l.icon className="h-4 w-4" />}
@@ -155,10 +151,10 @@ export function Header() {
                     <Link
                       href={l.href}
                       onClick={() => setMenuOpen(false)}
-                      className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition ${
+                      className={`flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-medium transition ${
                         isActive(l.href)
-                          ? "bg-alliance-red/10 text-alliance-red-bright"
-                          : "text-alliance-muted hover:bg-alliance-dark hover:text-white"
+                          ? "bg-glass-accent/10 text-glass-accent-bright"
+                          : "text-glass-muted hover:bg-alliance-dark hover:text-white"
                       }`}
                     >
                       {l.icon && <l.icon className="h-4 w-4" />}

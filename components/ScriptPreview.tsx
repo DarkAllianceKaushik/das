@@ -86,7 +86,7 @@ export function ScriptPreview({ code, title, className = "" }: Props) {
                   let cls = "text-gray-200";
                   if (t.type === "keyword") cls = "text-violet-400";
                   else if (t.type === "builtin") cls = "text-sky-400";
-                  else if (t.type === "string") cls = "text-emerald-400";
+                  else if (t.type === "string") cls = "text-amber-400";
                   else if (t.type === "number") cls = "text-amber-400";
                   else if (t.type === "comment") cls = "text-alliance-muted/50 italic";
                   return <span key={j} className={cls}>{t.text}</span>;

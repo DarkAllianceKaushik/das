@@ -1,4 +1,4 @@
-import { ExternalLink, Eye, Key, ShieldCheck } from "lucide-react";
+import { ExternalLink, Eye, Key, ShieldCheck, Smartphone, ThumbsUp, ThumbsDown } from "lucide-react";
 import type { ExternalScript } from "@/lib/external-types";
 import { Card, Chip, Button } from "@heroui/react";
 
@@ -19,7 +19,7 @@ const pricingStyles: Record<
 > = {
   free: {
     label: "Free",
-    className: "border-emerald-800/50 bg-emerald-950/60 text-emerald-400",
+    className: "border-amber-800/50 bg-amber-950/60 text-amber-400",
   },
   paid: {
     label: "Paid",
@@ -34,6 +34,8 @@ const pricingStyles: Record<
 export function ExternalScriptCard({ script }: { script: ExternalScript }) {
   const src = sourceStyles[script.source];
   const price = pricingStyles[script.pricing];
+  const totalRatings = (script.likes ?? 0) + (script.dislikes ?? 0);
+  const score = totalRatings > 0 ? Math.round(((script.likes ?? 0) / totalRatings) * 100) : 0;
 
   return (
     <a href={script.url} target="_blank" rel="noopener noreferrer" className="block">
@@ -62,13 +64,24 @@ export function ExternalScriptCard({ script }: { script: ExternalScript }) {
               {price.label}
             </Chip>
             {script.verified && (
-              <span className="inline-flex items-center gap-0.5 text-xs text-emerald-400">
+              <span className="inline-flex items-center gap-0.5 text-xs text-amber-400">
                 <ShieldCheck className="h-3 w-3" />
                 Verified
               </span>
             )}
             {script.patched && (
-              <span className="text-xs text-red-400/80">Patched</span>
+              <span className="text-xs text-rose-400/80">Patched</span>
+            )}
+            {script.universal && (
+              <Badge variant="outline" className="border-blue-800/40 bg-blue-950/50 text-blue-400 text-[10px] px-1.5 py-0">
+                Universal
+              </Badge>
+            )}
+            {script.mobileReady && (
+              <span className="inline-flex items-center gap-0.5 text-xs text-purple-400">
+                <Smartphone className="h-3 w-3" />
+                Mobile
+              </span>
             )}
           </div>
 
@@ -86,6 +99,19 @@ export function ExternalScriptCard({ script }: { script: ExternalScript }) {
             <Eye className="h-3.5 w-3.5" />
             {script.views.toLocaleString()} views
           </div>
+
+          {script.testedExecutors && script.testedExecutors.length > 0 && (
+            <div className="mt-3 flex flex-wrap gap-1">
+              {script.testedExecutors.slice(0, 4).map((exe) => (
+                <span key={exe} className="rounded bg-glass-darker px-1.5 py-0.5 text-[10px] text-glass-muted/80">
+                  {exe}
+                </span>
+              ))}
+              {script.testedExecutors.length > 4 && (
+                <span className="text-[10px] text-glass-muted/50">+{script.testedExecutors.length - 4}</span>
+              )}
+            </div>
+          )}
 
           <div className="mt-4 flex gap-2">
             <Button variant="secondary" fullWidth className="flex-1 text-sm">

@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import {
   ArrowLeft, ExternalLink, Eye, Globe, ShieldCheck, Key,
-  AlertTriangle, Gamepad2,
+  AlertTriangle, Gamepad2, Smartphone, ThumbsUp, ThumbsDown,
+  User, MessageCircle, Code, Copy, Check, Loader2,
 } from "lucide-react";
 import type { ExternalScript } from "@/lib/external-types";
 import { Button, Card, Chip, ChipLabel } from "@heroui/react";
@@ -68,6 +70,11 @@ export function ExternalScriptDetailClient({ script }: Props) {
                 <ChipLabel>Universal</ChipLabel>
               </Chip>
             )}
+            {script.mobileReady && (
+              <Badge variant="outline" className="border-purple-800/40 bg-purple-950/50 text-purple-400 gap-1">
+                <Smartphone className="size-3" /> Mobile
+              </Badge>
+            )}
           </div>
 
           <h1 className="font-display text-2xl font-extrabold text-white sm:text-3xl">
@@ -87,10 +94,51 @@ export function ExternalScriptDetailClient({ script }: Props) {
             <span className="inline-flex items-center gap-1.5">
               <Eye className="size-3.5" /> {script.views.toLocaleString()} views
             </span>
+            {totalRatings > 0 && (
+              <>
+                <span className="inline-flex items-center gap-1">
+                  <ThumbsUp className="size-3 text-amber-400" /> {script.likes}
+                </span>
+                <span className="inline-flex items-center gap-1">
+                  <ThumbsDown className="size-3 text-rose-400" /> {script.dislikes}
+                </span>
+                <span className="text-amber-400/80">{score}% positive</span>
+                {totalRatings > 0 && (
+                  <div className="h-1.5 w-24 overflow-hidden rounded-full bg-glass-darker">
+                    <div className="h-full rounded-full bg-amber-500" style={{ width: `${score}%` }} />
+                  </div>
+                )}
+              </>
+            )}
             <span className="inline-flex items-center gap-1.5">
               <Globe className="size-3.5" /> Source: {src.label}
             </span>
           </div>
+
+          {script.author && (
+            <div className="mt-4 flex items-center gap-3 text-xs text-glass-muted">
+              <User className="size-3.5" />
+              <span>by <strong className="text-white">{script.author}</strong></span>
+              {script.authorDiscord && (
+                <span className="inline-flex items-center gap-1 text-glass-muted/70">
+                  <MessageCircle className="size-3" /> {script.authorDiscord}
+                </span>
+              )}
+            </div>
+          )}
+
+          {script.testedExecutors && script.testedExecutors.length > 0 && (
+            <div className="mt-4">
+              <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-glass-muted">Compatible Executors</p>
+              <div className="flex flex-wrap gap-1.5">
+                {script.testedExecutors.map((exe) => (
+                  <Badge key={exe} variant="secondary" className="text-[10px]">
+                    {exe}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className="mt-6 flex flex-wrap gap-3">
             <a href={script.url} target="_blank" rel="noopener noreferrer" className="btn-primary">

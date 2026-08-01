@@ -12,11 +12,12 @@ interface Props {
 }
 
 export function ExecutorPageClient({ executors }: Props) {
-  const [errored, setErrored] = useState(executors.length === 0);
   const [search, setSearch] = useState("");
   const [platform, setPlatform] = useState("all");
   const [status, setStatus] = useState("all");
   const [price, setPrice] = useState("all");
+
+  const errored = executors.length === 0;
 
   const platforms = useMemo(() => {
     const s = new Set(executors.map(e => e.platform).filter(Boolean));
@@ -69,8 +70,8 @@ export function ExecutorPageClient({ executors }: Props) {
               Live status from <span className="font-semibold text-white">WEAO</span> — check which executors are working, detected, or outdated.
             </p>
             <div className="mt-10 grid animate-fade-in grid-cols-3 gap-3 sm:flex sm:flex-wrap sm:justify-center sm:gap-4">
-              <StatCard value={working} label="Working" icon={<ShieldCheck className="size-3.5" />} color="text-emerald-400" />
-              <StatCard value={detected} label="Detected" icon={<AlertTriangle className="size-3.5" />} color="text-red-400" />
+              <StatCard value={working} label="Working" icon={<ShieldCheck className="size-3.5" />} color="text-amber-400" />
+              <StatCard value={detected} label="Detected" icon={<AlertTriangle className="size-3.5" />} color="text-rose-400" />
               <StatCard value={executors.length} label="Total Tracked" icon={<List className="size-3.5" />} color="text-white" />
             </div>
           </div>

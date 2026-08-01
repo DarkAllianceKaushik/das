@@ -10,6 +10,8 @@ import {
   Skull,
   RefreshCw,
   Terminal,
+  Upload,
+  Globe,
 } from "lucide-react";
 import { Button, Card, Chip, TextArea } from "@heroui/react";
 import { ScrollReveal } from "@/components/ScrollReveal";
@@ -33,7 +35,7 @@ const PRESETS = [
   },
   {
     name: "Full (Luraph-like)",
-    options: { ...DEFAULT_OPTIONS, insertJunk: true, controlFlow: true, vmEncode: false },
+    options: { ...DEFAULT_OPTIONS, insertJunk: true, controlFlow: true, vmEncode: true },
   },
   {
     name: "VM Encoded",
@@ -63,6 +65,8 @@ export default function ObfuscatorPage() {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [copied, setCopied] = useState(false);
+  const [pastebinLoading, setPastebinLoading] = useState(false);
+  const [pastebinUrl, setPastebinUrl] = useState("");
   const [options, setOptions] = useState<ObfuscatorOptions>({
     ...DEFAULT_OPTIONS,
   });
@@ -84,6 +88,23 @@ export default function ObfuscatorPage() {
     await navigator.clipboard.writeText(output);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  }, [output]);
+
+  const handlePastebin = useCallback(async () => {
+    if (!output) return;
+    setPastebinLoading(true);
+    setPastebinUrl("");
+    try {
+      const formData = new FormData();
+      formData.append("api_option", "paste");
+      formData.append("api_dev_key", "hX4fyCb_elE5jUt-bqHXy3hBSA_HCPzh");
+      formData.append("api_paste_code", output);
+      formData.append("api_paste_name", `obfuscated_${Date.now()}`);
+      formData.append("api_paste_private", "1");
+      const res = await fetch("https://pastebin.com/api/api_post.php", { method: "POST", body: formData });
+      const url = await res.text();
+      if (url.startsWith("https://pastebin.com/")) setPastebinUrl(url);
+    } catch { /* ignore */ } finally { setPastebinLoading(false); }
   }, [output]);
 
   const handlePreset = useCallback((name: string, opts: ObfuscatorOptions) => {

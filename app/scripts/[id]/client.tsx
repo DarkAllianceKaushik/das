@@ -23,7 +23,7 @@ interface Props {
 }
 
 const LINK_LABELS: Record<string, { label: string; color: string }> = {
-  pastebin: { label: "Pastebin", color: "text-emerald-400" },
+  pastebin: { label: "Pastebin", color: "text-amber-400" },
   linkvertise: { label: "Linkvertise", color: "text-amber-400" },
   direct: { label: "Direct", color: "text-sky-400" },
   other: { label: "External", color: "text-violet-400" },
@@ -144,7 +144,7 @@ export function ScriptDetailClient({ script, relatedScripts }: Props) {
               onPress={handleShare}
               aria-label={linkCopied ? "Link copied!" : "Copy link"}
             >
-              {linkCopied ? <Check className="size-4 text-emerald-400" /> : <Share2 className="size-4" />}
+              {linkCopied ? <Check className="size-4 text-amber-400" /> : <Share2 className="size-4" />}
             </Button>
             <Button
               variant="ghost"
@@ -260,7 +260,7 @@ export function ScriptDetailClient({ script, relatedScripts }: Props) {
       {reported && (
         <Card className="mb-8 border border-emerald-800/40 bg-emerald-950/30 p-4 text-center text-sm text-emerald-400">
           Report submitted. Thank you.
-          <button onClick={() => setReported(false)} className="ml-2 underline hover:text-emerald-300">Dismiss</button>
+          <button onClick={() => setReported(false)} className="ml-2 underline hover:text-amber-300">Dismiss</button>
         </Card>
       )}
 
