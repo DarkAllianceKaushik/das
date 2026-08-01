@@ -40,6 +40,7 @@ export function AdminDashboard() {
       setScripts(scriptsData.scripts);
       setCategories(scriptsData.categories || []);
 
+      if (!settingsRes.ok) throw new Error("Failed to load settings");
       const settingsData = await settingsRes.json();
       setDiscordUrl(settingsData.settings?.discordUrl || "");
       setWebhookUrl(settingsData.settings?.webhookUrl || "");
@@ -85,26 +86,6 @@ export function AdminDashboard() {
     }
   }
 
-  async function handleChangePassword() {
-    const current = window.prompt("Current password:");
-    if (!current) return;
-    const next = window.prompt("New password (min 8 chars):");
-    if (!next) return;
-
-    try {
-      const res = await fetch("/api/auth/password", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ currentPassword: current, newPassword: next }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Password change failed");
-      alert("Password updated");
-    } catch (err) {
-      alert(err instanceof Error ? err.message : "Password change failed");
-    }
-  }
-
   const filtered = search.trim()
     ? scripts.filter((s) =>
         (s.name + " " + (s.category ?? "")).toLowerCase().includes(search.toLowerCase())
@@ -127,9 +108,6 @@ export function AdminDashboard() {
           <p className="text-sm text-alliance-muted">Manage scripts, categories and settings.</p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" onPress={handleChangePassword}>
-            Change Password
-          </Button>
           <Button
             onPress={() => {
               setEditing(null);

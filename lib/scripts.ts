@@ -117,6 +117,11 @@ export async function getScriptsData(): Promise<ScriptsData> {
   return loadData();
 }
 
+export async function getSiteSettings(): Promise<SiteSettings> {
+  const data = await loadData();
+  return data.settings;
+}
+
 export async function getAllScripts(): Promise<Script[]> {
   const data = await loadData();
   return data.scripts.sort(

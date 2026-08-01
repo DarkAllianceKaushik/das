@@ -26,7 +26,7 @@ export function AdminLogin({ onSuccess }: AdminLoginProps) {
         body: JSON.stringify({ username, password }),
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
       if (!res.ok) {
         setError(data.error || "Login failed");
         return;

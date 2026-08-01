@@ -30,7 +30,7 @@ export function DiscordSettings({ initialUrl, initialWebhookUrl, onSaved }: Disc
         body: JSON.stringify({ discordUrl }),
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
       if (!res.ok) {
         const err = data.error;
         if (typeof err === "object" && err.discordUrl) {

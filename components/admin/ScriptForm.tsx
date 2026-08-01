@@ -74,7 +74,7 @@ export function ScriptForm({
         ),
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
       if (!res.ok) {
         setError(typeof data.error === "string" ? data.error : "Save failed");
         return;
