@@ -12,10 +12,7 @@ import { ScriptCardEnhanced } from "@/components/ScriptCardEnhanced";
 import { isFavorite, toggleFavorite } from "@/lib/favorites";
 import { getViewCount, trackView } from "@/lib/analytics";
 import { submitReport } from "@/lib/reporting";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea";
+import { Button, Card, Chip, Select, Label, ListBox, TextArea } from "@heroui/react";
 import type { Script } from "@/lib/types";
 
 const TRENDING_THRESHOLD = 10;
@@ -88,49 +85,52 @@ export function ScriptDetailClient({ script, relatedScripts }: Props) {
 
   return (
     <div className="relative z-10 mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-14">
-      <Link href="/" className="mb-6 inline-flex items-center gap-1.5 text-sm text-glass-muted transition hover:text-white">
+      <Link href="/" className="mb-6 inline-flex items-center gap-1.5 text-sm text-alliance-muted transition hover:text-white">
         <ArrowLeft className="size-4" /> Back to Store
       </Link>
 
-      <Card className="mb-8 p-6 sm:p-8">
+      <Card className="mb-8 border border-alliance-border bg-alliance-card/80 p-6 sm:p-8">
         <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
           <div className="flex-1">
             <div className="mb-3 flex flex-wrap items-center gap-2">
-              <Badge variant="outline" className="bg-glass-darker text-glass-muted border-glass-border">
+              <Chip variant="secondary" size="sm" className="bg-alliance-darker text-alliance-muted">
                 {script.category}
-              </Badge>
-              <Badge
-                variant="outline"
-                className={script.pricing === "free"
-                  ? "border-emerald-800/40 bg-emerald-950/50 text-emerald-400"
-                  : "border-amber-800/40 bg-amber-950/50 text-amber-400"
+              </Chip>
+              <Chip
+                color={script.pricing === "free" ? "success" : "warning"}
+                variant="soft"
+                size="sm"
+                className={
+                  script.pricing === "free"
+                    ? "border-emerald-800/40 bg-emerald-950/50 text-emerald-400"
+                    : "border-amber-800/40 bg-amber-950/50 text-amber-400"
                 }
               >
                 {script.pricing === "free" ? "Free" : "Paid"}
-              </Badge>
+              </Chip>
               {script.featured && (
-                <Badge variant="outline" className="border-glass-accent/30 bg-glass-accent/20 text-glass-accent-bright">
+                <Chip color="accent" variant="soft" size="sm">
                   Featured
-                </Badge>
+                </Chip>
               )}
               {isTrending && (
-                <Badge variant="outline" className="border-amber-800/40 bg-amber-950/50 text-amber-400">
+                <Chip color="warning" variant="soft" size="sm">
                   <TrendingUp className="mr-0.5 size-3" />Trending
-                </Badge>
+                </Chip>
               )}
               {script.version && (
-                <Badge variant="outline" className="font-mono bg-glass-darker text-glass-muted border-glass-border/50">
+                <Chip variant="secondary" size="sm" className="font-mono bg-alliance-darker text-alliance-muted">
                   v{script.version}
-                </Badge>
+                </Chip>
               )}
             </div>
             <h1 className="font-display text-2xl font-extrabold text-white sm:text-3xl">{script.name}</h1>
             {script.tags.length > 0 && (
               <div className="mt-3 flex flex-wrap gap-2">
                 {script.tags.map((t) => (
-                  <Badge key={t} variant="ghost" className="gap-1">
+                  <Chip key={t} variant="secondary" size="sm" className="gap-1 bg-alliance-darker text-alliance-muted">
                     <Tag className="size-3" /> {t}
-                  </Badge>
+                  </Chip>
                 ))}
               </div>
             )}
@@ -139,43 +139,46 @@ export function ScriptDetailClient({ script, relatedScripts }: Props) {
           <div className="flex items-center gap-1">
             <Button
               variant="ghost"
-              size="icon-sm"
-              onClick={handleShare}
-              title={linkCopied ? "Link copied!" : "Copy link"}
+              size="sm"
+              isIconOnly
+              onPress={handleShare}
+              aria-label={linkCopied ? "Link copied!" : "Copy link"}
             >
               {linkCopied ? <Check className="size-4 text-emerald-400" /> : <Share2 className="size-4" />}
             </Button>
             <Button
               variant="ghost"
-              size="icon-sm"
-              onClick={handleFav}
-              title={faved ? "Remove from favorites" : "Add to favorites"}
+              size="sm"
+              isIconOnly
+              onPress={handleFav}
+              aria-label={faved ? "Remove from favorites" : "Add to favorites"}
             >
-              <Heart className={`size-4 ${faved ? "fill-glass-accent-bright text-glass-accent-bright" : ""}`} />
+              <Heart className={`size-4 ${faved ? "fill-alliance-red-bright text-alliance-red-bright" : ""}`} />
             </Button>
             <Button
               variant="ghost"
-              size="icon-sm"
-              onClick={() => setShowReport(!showReport)}
-              title="Report script"
+              size="sm"
+              isIconOnly
+              onPress={() => setShowReport(!showReport)}
+              aria-label="Report script"
             >
               <Flag className="size-4" />
             </Button>
           </div>
         </div>
 
-        <p className="mb-6 text-base leading-relaxed text-glass-muted">{script.description}</p>
+        <p className="mb-6 text-base leading-relaxed text-alliance-muted">{script.description}</p>
 
         {script.changelog && (
-          <div className="mb-6 rounded-xl border border-glass-border/60 bg-glass-darker/50 p-4">
-            <h4 className="mb-2 flex items-center gap-1.5 font-display text-xs font-bold uppercase tracking-widest text-glass-muted">
+          <div className="mb-6 rounded-xl border border-alliance-border/60 bg-alliance-darker/50 p-4">
+            <h4 className="mb-2 flex items-center gap-1.5 font-display text-xs font-bold uppercase tracking-widest text-alliance-muted">
               <Clock className="size-3" /> Changelog {script.version ? `(v${script.version})` : ""}
             </h4>
-            <p className="text-sm text-glass-muted whitespace-pre-wrap">{script.changelog}</p>
+            <p className="text-sm text-alliance-muted whitespace-pre-wrap">{script.changelog}</p>
           </div>
         )}
 
-        <div className="mb-6 flex flex-wrap items-center gap-4 text-xs text-glass-muted">
+        <div className="mb-6 flex flex-wrap items-center gap-4 text-xs text-alliance-muted">
           <span className="inline-flex items-center gap-1.5">
             <Eye className="size-3.5" /> {views} views
           </span>
@@ -188,52 +191,66 @@ export function ScriptDetailClient({ script, relatedScripts }: Props) {
         </div>
 
         <div className="flex flex-wrap gap-3">
-          <Button
-            render={<a href={script.downloadUrl} target="_blank" rel="noopener noreferrer" />}
+          <a
+            href={script.downloadUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary"
           >
             <Download className="size-4" /> Download <ExternalLink className="size-3" />
-          </Button>
-          <Badge
-            variant="outline"
-            className={`gap-1.5 border-current/30 px-3 py-1.5 text-xs font-semibold ${linkInfo.color}`}
+          </a>
+          <Chip
+            variant="secondary"
+            size="md"
+            className={`gap-1.5 px-3 py-1.5 text-xs font-semibold ${linkInfo.color}`}
           >
             <Globe className="size-3.5" /> {linkInfo.label}
-          </Badge>
+          </Chip>
         </div>
       </Card>
 
       {showReport && (
-        <Card className="mb-8 border-amber-800/40 p-6">
+        <Card className="mb-8 border border-amber-800/40 bg-alliance-card/80 p-6">
           <div className="mb-4 flex items-center justify-between">
             <h3 className="flex items-center gap-2 font-display text-sm font-bold uppercase tracking-widest text-amber-400">
               <Flag className="size-4" />Report Script
             </h3>
-            <Button variant="ghost" size="icon-xs" onClick={() => setShowReport(false)}>
+            <Button variant="ghost" size="sm" isIconOnly onPress={() => setShowReport(false)}>
               <X className="size-4" />
             </Button>
           </div>
-          <select
-            value={reportReason}
-            onChange={e => setReportReason(e.target.value)}
-            className="mb-3 h-9 w-full rounded-xl border border-glass-border bg-glass-darker/50 px-3 text-sm text-white outline-none transition-all duration-300 focus-visible:border-glass-accent/50 focus-visible:shadow-lg focus-visible:shadow-glass-accent/10 hover:border-glass-border/80"
+          <Select
+            selectedKey={reportReason || undefined}
+            onSelectionChange={(k) => setReportReason(k === null ? "" : String(k))}
+            placeholder="Select reason..."
+            variant="primary"
+            className="mb-3"
           >
-            <option value="" className="bg-glass-darker">Select reason...</option>
-            <option value="broken" className="bg-glass-darker">Broken / Not working</option>
-            <option value="outdated" className="bg-glass-darker">Outdated</option>
-            <option value="malicious" className="bg-glass-darker">Malicious / Virus</option>
-            <option value="wrong" className="bg-glass-darker">Wrong category / Info</option>
-            <option value="other" className="bg-glass-darker">Other</option>
-          </select>
-          <Textarea
+            <Select.Trigger>
+              <Select.Value />
+              <Select.Indicator />
+            </Select.Trigger>
+            <Select.Popover placement="bottom">
+              <ListBox>
+                <ListBox.Item id="broken"><Label>Broken / Not working</Label></ListBox.Item>
+                <ListBox.Item id="outdated"><Label>Outdated</Label></ListBox.Item>
+                <ListBox.Item id="malicious"><Label>Malicious / Virus</Label></ListBox.Item>
+                <ListBox.Item id="wrong"><Label>Wrong category / Info</Label></ListBox.Item>
+                <ListBox.Item id="other"><Label>Other</Label></ListBox.Item>
+              </ListBox>
+            </Select.Popover>
+          </Select>
+          <TextArea
             value={reportDetail}
-            onChange={e => setReportDetail(e.target.value)}
+            onChange={(e) => setReportDetail(e.target.value)}
             placeholder="Additional details (optional)"
-            className="mb-4 h-24 resize-none"
+            variant="primary"
+            className="mb-4 min-h-24 resize-none"
           />
           <Button
-            variant="destructive"
-            disabled={!reportReason}
-            onClick={handleReport}
+            variant="danger"
+            isDisabled={!reportReason}
+            onPress={handleReport}
           >
             <Flag className="size-4" /> Submit Report
           </Button>
@@ -241,22 +258,22 @@ export function ScriptDetailClient({ script, relatedScripts }: Props) {
       )}
 
       {reported && (
-        <Card className="mb-8 border-emerald-800/40 bg-emerald-950/30 p-4 text-center text-sm text-emerald-400">
+        <Card className="mb-8 border border-emerald-800/40 bg-emerald-950/30 p-4 text-center text-sm text-emerald-400">
           Report submitted. Thank you.
           <button onClick={() => setReported(false)} className="ml-2 underline hover:text-emerald-300">Dismiss</button>
         </Card>
       )}
 
-      <Card className="overflow-hidden">
-        <div className="flex items-center justify-between border-b border-glass-border/60 bg-glass-darker/80 px-5 py-3">
-          <h2 className="flex items-center gap-2 font-display text-xs font-bold uppercase tracking-widest text-glass-muted">
+      <Card className="overflow-hidden border border-alliance-border bg-alliance-card/80">
+        <div className="flex items-center justify-between border-b border-alliance-border/60 bg-alliance-darker/80 px-5 py-3">
+          <h2 className="flex items-center gap-2 font-display text-xs font-bold uppercase tracking-widest text-alliance-muted">
             <AlertTriangle className="size-3.5" /> Script Code
           </h2>
           <Button
             variant="outline"
             size="sm"
-            onClick={loadCode}
-            disabled={codeLoading || code !== null}
+            onPress={loadCode}
+            isDisabled={codeLoading || code !== null}
           >
             <RefreshCw className={`size-3.5 ${codeLoading ? "animate-spin" : ""}`} />
             {codeLoading ? "Loading..." : code !== null ? "Loaded" : "Load Code"}
@@ -266,9 +283,9 @@ export function ScriptDetailClient({ script, relatedScripts }: Props) {
           <ScriptPreview code={code} title={script.name} />
         ) : (
           <div className="flex flex-col items-center justify-center py-16 text-center">
-            <Lock className="mb-3 size-10 text-glass-muted/30" />
-            <p className="font-display text-sm text-glass-muted">Code hidden</p>
-            <p className="mt-1 text-xs text-glass-muted/60">
+            <Lock className="mb-3 size-10 text-alliance-muted/30" />
+            <p className="font-display text-sm text-alliance-muted">Code hidden</p>
+            <p className="mt-1 text-xs text-alliance-muted/60">
               Click <strong className="text-white">Load Code</strong> above to fetch the script source from {linkInfo.label}.
             </p>
           </div>
@@ -277,7 +294,7 @@ export function ScriptDetailClient({ script, relatedScripts }: Props) {
 
       {relatedScripts && relatedScripts.length > 0 && (
         <section className="mt-10">
-          <h2 className="mb-4 font-display text-sm font-bold uppercase tracking-widest text-glass-muted">
+          <h2 className="mb-4 font-display text-sm font-bold uppercase tracking-widest text-alliance-muted">
             Related Scripts
           </h2>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

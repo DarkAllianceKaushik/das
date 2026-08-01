@@ -3,12 +3,7 @@
 import { useState } from "react";
 import type { Script, ScriptInput } from "@/lib/types";
 import { Plus, Save, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
+import { Button, Card, Checkbox, Input, Label, Select, ListBox, TextArea } from "@heroui/react";
 
 const emptyForm: ScriptInput = {
   name: "",
@@ -95,13 +90,13 @@ export function ScriptForm({
 
   return (
     <form onSubmit={handleSubmit}>
-      <Card className="card-glass">
-        <CardContent className="space-y-4 p-6">
+      <Card className="border border-alliance-border bg-alliance-card/80">
+        <Card.Content className="space-y-4 p-6">
           <div className="flex items-center justify-between">
-            <h3 className="font-display text-lg font-bold">
+            <h3 className="font-display text-lg font-bold text-white">
               {editing ? "Edit Script" : "Post New Script"}
             </h3>
-            <Button type="button" variant="ghost" size="icon-sm" onClick={onCancel}>
+            <Button type="button" variant="ghost" size="sm" isIconOnly onPress={onCancel}>
               <X className="h-5 w-5" />
             </Button>
           </div>
@@ -113,16 +108,20 @@ export function ScriptForm({
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 placeholder="e.g. Auto Farm Pro"
+                variant="primary"
+                fullWidth
                 required
               />
             </div>
 
             <div className="sm:col-span-2">
               <Label>Uses / Description</Label>
-              <Textarea
+              <TextArea
                 value={form.description}
                 onChange={(e) => setForm({ ...form, description: e.target.value })}
                 placeholder="What does this script do?"
+                variant="primary"
+                fullWidth
                 required
               />
             </div>
@@ -130,17 +129,23 @@ export function ScriptForm({
             <div>
               <Label>Category</Label>
               <Select
-                value={form.category}
-                onValueChange={(value) => value !== null && setForm({ ...form, category: value })}
+                selectedKey={form.category || undefined}
+                onSelectionChange={(k) => k !== null && setForm({ ...form, category: String(k) })}
+                placeholder="Select category"
+                variant="primary"
+                fullWidth
               >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select category" />
-                </SelectTrigger>
-                <SelectContent>
-                  {categories.map((c) => (
-                    <SelectItem key={c} value={c}>{c}</SelectItem>
-                  ))}
-                </SelectContent>
+                <Select.Trigger>
+                  <Select.Value />
+                  <Select.Indicator />
+                </Select.Trigger>
+                <Select.Popover placement="bottom">
+                  <ListBox>
+                    {categories.map((c) => (
+                      <ListBox.Item key={c} id={c}><Label>{c}</Label></ListBox.Item>
+                    ))}
+                  </ListBox>
+                </Select.Popover>
               </Select>
               <div className="mt-2 flex gap-2">
                 <Input
@@ -148,12 +153,14 @@ export function ScriptForm({
                   placeholder="Or type new category"
                   value={newCategory}
                   onChange={(e) => setNewCategory(e.target.value)}
+                  variant="primary"
                 />
                 <Button
                   type="button"
                   variant="outline"
+                  size="sm"
                   className="shrink-0 px-3"
-                  onClick={() => {
+                  onPress={() => {
                     if (newCategory.trim()) {
                       setForm({ ...form, category: newCategory.trim() });
                       setNewCategory("");
@@ -168,22 +175,27 @@ export function ScriptForm({
             <div>
               <Label>Pricing</Label>
               <Select
-                value={form.pricing}
-                onValueChange={(value) =>
-                  value !== null &&
+                selectedKey={form.pricing}
+                onSelectionChange={(k) =>
+                  k !== null &&
                   setForm({
                     ...form,
-                    pricing: value as "free" | "paid",
+                    pricing: String(k) as "free" | "paid",
                   })
                 }
+                variant="primary"
+                fullWidth
               >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="free">Free</SelectItem>
-                  <SelectItem value="paid">Paid</SelectItem>
-                </SelectContent>
+                <Select.Trigger>
+                  <Select.Value />
+                  <Select.Indicator />
+                </Select.Trigger>
+                <Select.Popover placement="bottom">
+                  <ListBox>
+                    <ListBox.Item id="free"><Label>Free</Label></ListBox.Item>
+                    <ListBox.Item id="paid"><Label>Paid</Label></ListBox.Item>
+                  </ListBox>
+                </Select.Popover>
               </Select>
             </div>
 
@@ -194,6 +206,8 @@ export function ScriptForm({
                 value={form.downloadUrl}
                 onChange={(e) => setForm({ ...form, downloadUrl: e.target.value })}
                 placeholder="https://pastebin.com/... or Linkvertise URL"
+                variant="primary"
+                fullWidth
                 required
               />
             </div>
@@ -204,33 +218,42 @@ export function ScriptForm({
                 value={form.version ?? ""}
                 onChange={(e) => setForm({ ...form, version: e.target.value })}
                 placeholder="e.g. 2.1.0"
+                variant="primary"
+                fullWidth
               />
             </div>
 
             <div>
               <Label>Link Type</Label>
               <Select
-                value={form.linkType}
-                onValueChange={(value) => value !== null && setForm({ ...form, linkType: value as ScriptInput["linkType"] })}
+                selectedKey={form.linkType}
+                onSelectionChange={(k) => k !== null && setForm({ ...form, linkType: String(k) as ScriptInput["linkType"] })}
+                variant="primary"
+                fullWidth
               >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="pastebin">Pastebin</SelectItem>
-                  <SelectItem value="linkvertise">Linkvertise</SelectItem>
-                  <SelectItem value="direct">Direct Link</SelectItem>
-                  <SelectItem value="other">Other</SelectItem>
-                </SelectContent>
+                <Select.Trigger>
+                  <Select.Value />
+                  <Select.Indicator />
+                </Select.Trigger>
+                <Select.Popover placement="bottom">
+                  <ListBox>
+                    <ListBox.Item id="pastebin"><Label>Pastebin</Label></ListBox.Item>
+                    <ListBox.Item id="linkvertise"><Label>Linkvertise</Label></ListBox.Item>
+                    <ListBox.Item id="direct"><Label>Direct Link</Label></ListBox.Item>
+                    <ListBox.Item id="other"><Label>Other</Label></ListBox.Item>
+                  </ListBox>
+                </Select.Popover>
               </Select>
             </div>
 
             <div className="sm:col-span-2">
               <Label>Changelog (optional)</Label>
-              <Textarea
+              <TextArea
                 value={form.changelog ?? ""}
                 onChange={(e) => setForm({ ...form, changelog: e.target.value })}
                 placeholder="What changed in this version?"
+                variant="primary"
+                fullWidth
               />
             </div>
 
@@ -240,21 +263,18 @@ export function ScriptForm({
                 value={tagsInput}
                 onChange={(e) => setTagsInput(e.target.value)}
                 placeholder="admin, farm, autofarm"
+                variant="primary"
+                fullWidth
               />
             </div>
 
             <div className="sm:col-span-2">
-              <label className="flex cursor-pointer items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={form.featured ?? false}
-                  onChange={(e) =>
-                    setForm({ ...form, featured: e.target.checked })
-                  }
-                  className="h-4 w-4 rounded border-glass-border bg-glass-darker text-glass-accent focus:ring-glass-accent"
-                />
-                <span>Featured script (shown at top)</span>
-              </label>
+              <Checkbox
+                isSelected={form.featured ?? false}
+                onChange={(selected) => setForm({ ...form, featured: selected })}
+              >
+                Featured script (shown at top)
+              </Checkbox>
             </div>
           </div>
 
@@ -263,15 +283,15 @@ export function ScriptForm({
           )}
 
           <div className="flex gap-3">
-            <Button type="submit" disabled={loading}>
+            <Button type="submit" isDisabled={loading}>
               <Save className="h-4 w-4" />
               {loading ? "Saving..." : editing ? "Update Script" : "Post Script"}
             </Button>
-            <Button type="button" variant="outline" onClick={onCancel}>
+            <Button type="button" variant="outline" onPress={onCancel}>
               Cancel
             </Button>
           </div>
-        </CardContent>
+        </Card.Content>
       </Card>
     </form>
   );

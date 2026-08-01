@@ -2,6 +2,8 @@ import { StoreSwitcher } from "@/components/StoreSwitcher";
 import { DiscordButton } from "@/components/DiscordButton";
 import { getScriptsData } from "@/lib/scripts";
 import { Flame } from "lucide-react";
+import { Chip } from "@heroui/react/chip";
+import { Card } from "@heroui/react/card";
 import { StoreGridSkeleton } from "@/components/LoadingSkeleton";
 import { Suspense } from "react";
 
@@ -16,9 +18,16 @@ export default async function HomePage() {
   return (
     <div className="relative z-10 mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
       <section className="mb-12 text-center">
-        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-alliance-red/30 bg-alliance-red/10 px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-alliance-red-bright">
-          <Flame className="h-3.5 w-3.5" />
-          Roblox Scripts
+        <div className="mb-4 flex justify-center">
+          <Chip
+            variant="soft"
+            color="accent"
+            size="md"
+            className="border border-alliance-red/30 bg-alliance-red/10 px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-alliance-red-bright"
+          >
+            <Flame className="h-3.5 w-3.5" />
+            Roblox Scripts
+          </Chip>
         </div>
         <h1 className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl">
           <span className="text-white">Dark Alliance</span>
@@ -45,12 +54,17 @@ export default async function HomePage() {
             { value: paidCount, label: "Paid", color: "text-amber-400" },
             { value: categories.length, label: "Categories", color: "text-white" },
           ].map((stat) => (
-            <div key={stat.label} className="card-surface px-6 py-3 text-center min-w-[120px]">
-              <p className={`font-display text-2xl font-bold ${stat.color}`}>
-                {stat.value}
-              </p>
-              <p className="text-xs text-alliance-muted">{stat.label}</p>
-            </div>
+            <Card
+              key={stat.label}
+              className="min-w-[120px] border border-alliance-border bg-alliance-card/80 backdrop-blur-sm"
+            >
+              <Card.Content className="px-6 py-3 text-center">
+                <p className={`font-display text-2xl font-bold ${stat.color}`}>
+                  {stat.value}
+                </p>
+                <p className="text-xs text-alliance-muted">{stat.label}</p>
+              </Card.Content>
+            </Card>
           ))}
         </div>
       </section>

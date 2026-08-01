@@ -2,10 +2,7 @@
 
 import { useState } from "react";
 import { Lock, LogIn } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button, Card, Input, Label } from "@heroui/react";
 
 interface AdminLoginProps {
   onSuccess: () => void;
@@ -45,19 +42,19 @@ export function AdminLogin({ onSuccess }: AdminLoginProps) {
 
   return (
     <div className="mx-auto max-w-md">
-      <Card className="card-glass shadow-glow">
-        <CardContent className="p-8">
+      <Card className="border border-alliance-border bg-alliance-card/80 shadow-glow">
+        <Card.Content className="p-8">
           <div className="mb-6 flex justify-center">
-            <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-glass-accent/20 ring-1 ring-glass-accent/50">
-              <Lock className="h-7 w-7 text-glass-accent-bright" />
+            <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-alliance-red/20 ring-1 ring-alliance-red/50">
+              <Lock className="h-7 w-7 text-alliance-red-bright" />
             </div>
           </div>
-          <CardHeader className="p-0 text-center">
-            <CardTitle>Admin Login</CardTitle>
-            <CardDescription>
+          <div className="text-center">
+            <h2 className="font-display text-xl font-bold text-white">Admin Login</h2>
+            <p className="mt-1 text-sm text-alliance-muted">
               Owner access only. Manage scripts and categories.
-            </CardDescription>
-          </CardHeader>
+            </p>
+          </div>
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-4">
             <div>
@@ -68,6 +65,8 @@ export function AdminLogin({ onSuccess }: AdminLoginProps) {
                 autoComplete="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                variant="primary"
+                fullWidth
                 required
               />
             </div>
@@ -79,6 +78,8 @@ export function AdminLogin({ onSuccess }: AdminLoginProps) {
                 autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                variant="primary"
+                fullWidth
                 required
               />
             </div>
@@ -89,12 +90,12 @@ export function AdminLogin({ onSuccess }: AdminLoginProps) {
               </p>
             )}
 
-            <Button type="submit" disabled={loading} className="w-full">
+            <Button type="submit" isDisabled={loading} fullWidth>
               <LogIn className="h-4 w-4" />
               {loading ? "Signing in..." : "Sign In"}
             </Button>
           </form>
-        </CardContent>
+        </Card.Content>
       </Card>
     </div>
   );

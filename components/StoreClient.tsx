@@ -6,8 +6,7 @@ import { ScriptCardEnhanced } from "./ScriptCardEnhanced";
 import { StoreFilters } from "./StoreFilters";
 import type { Script } from "@/lib/types";
 import { PackageOpen, ChevronDown } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button, Card } from "@heroui/react";
 import { ScrollReveal } from "@/components/ScrollReveal";
 
 const PAGE_SIZE = 9;
@@ -83,16 +82,16 @@ export function StoreClient({ scripts, categories }: StoreClientProps) {
 
       {filtered.length === 0 ? (
         <ScrollReveal delay={1}>
-          <Card>
-            <CardContent className="flex flex-col items-center justify-center py-16 text-center">
-              <PackageOpen className="h-12 w-12 text-glass-muted/40" />
-              <p className="mt-4 font-display text-lg text-glass-muted">
+          <Card className="border border-alliance-border bg-alliance-card/80">
+            <Card.Content className="flex flex-col items-center justify-center py-16 text-center">
+              <PackageOpen className="h-12 w-12 text-alliance-muted/40" />
+              <p className="mt-4 font-display text-lg text-alliance-muted">
                 No scripts found
               </p>
-              <p className="mt-1 text-sm text-glass-muted/70">
+              <p className="mt-1 text-sm text-alliance-muted/70">
                 Try adjusting your filters or check back later.
               </p>
-            </CardContent>
+            </Card.Content>
           </Card>
         </ScrollReveal>
       ) : (
@@ -100,7 +99,7 @@ export function StoreClient({ scripts, categories }: StoreClientProps) {
           {featured.length > 0 && (
             <ScrollReveal delay={1}>
               <section>
-                <h2 className="section-accent mb-5 font-display text-sm font-bold uppercase tracking-widest text-glass-accent-bright">
+                <h2 className="mb-5 font-display text-sm font-bold uppercase tracking-widest text-alliance-red-bright">
                   Featured
                 </h2>
                 <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -115,7 +114,7 @@ export function StoreClient({ scripts, categories }: StoreClientProps) {
           <ScrollReveal delay={featured.length > 0 ? 2 : 1}>
             <section>
               {rest.length > 0 && (
-                <h2 className="section-accent mb-5 font-display text-sm font-bold uppercase tracking-widest text-glass-muted">
+                <h2 className="mb-5 font-display text-sm font-bold uppercase tracking-widest text-alliance-muted">
                   {featured.length > 0 ? "All Scripts" : `Scripts (${filtered.length})`}
                 </h2>
               )}
@@ -126,7 +125,7 @@ export function StoreClient({ scripts, categories }: StoreClientProps) {
               </div>
               {hasMore && (
                 <div className="mt-8 text-center">
-                  <Button variant="secondary" onClick={handleLoadMore}>
+                  <Button variant="secondary" onPress={handleLoadMore}>
                     <ChevronDown className="h-4 w-4" /> Load More ({rest.length - totalVisible} remaining)
                   </Button>
                 </div>

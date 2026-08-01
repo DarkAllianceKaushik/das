@@ -7,13 +7,13 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 const display = Orbitron({
   subsets: ["latin"],
-  variable: "--font-display",
+  variable: "--font-orbitron",
   weight: ["600", "700", "800"],
 });
 
 const body = Inter({
   subsets: ["latin"],
-  variable: "--font-body",
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
@@ -64,14 +64,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable}`}>
+    <html lang="en" className={`dark ${display.variable} ${body.variable}`}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="font-body min-h-screen flex flex-col">
+      <body className="bg-alliance-black font-body min-h-screen flex flex-col">
         <div className="fixed inset-0 bg-gradient-to-b from-alliance-red/[0.03] via-transparent to-transparent pointer-events-none" />
         <Header />
         <main className="relative flex-1">

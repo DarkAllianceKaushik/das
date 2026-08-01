@@ -2,10 +2,7 @@
 
 import { useState } from "react";
 import { MessageCircle, Save } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { Button, Card, Input, Label } from "@heroui/react";
 
 interface DiscordSettingsProps {
   initialUrl: string;
@@ -54,13 +51,13 @@ export function DiscordSettings({ initialUrl, onSaved }: DiscordSettingsProps) {
   }
 
   return (
-    <Card className="card-glass">
-      <CardContent className="p-6">
+    <Card className="border border-alliance-border bg-alliance-card/80">
+      <Card.Content className="p-6">
         <div className="mb-4 flex items-center gap-2">
           <MessageCircle className="h-5 w-5 text-[#5865F2]" />
-          <CardTitle className="font-display text-lg">Discord Invite</CardTitle>
+          <h3 className="font-display text-lg font-bold text-white">Discord Invite</h3>
         </div>
-        <p className="mb-4 text-sm text-glass-muted">
+        <p className="mb-4 text-sm text-alliance-muted">
           Set your server invite link. A &quot;Join our Discord&quot; button appears
           on the store when a link is saved. Leave empty to hide it.
         </p>
@@ -76,8 +73,10 @@ export function DiscordSettings({ initialUrl, onSaved }: DiscordSettingsProps) {
               value={discordUrl}
               onChange={(e) => setDiscordUrl(e.target.value)}
               placeholder="https://discord.gg/your-invite"
+              variant="primary"
+              fullWidth
             />
-            <p className="mt-1.5 text-xs text-glass-muted/70">
+            <p className="mt-1.5 text-xs text-alliance-muted/70">
               Example: https://discord.gg/darkalliance
             </p>
           </div>
@@ -93,12 +92,12 @@ export function DiscordSettings({ initialUrl, onSaved }: DiscordSettingsProps) {
             </div>
           )}
 
-          <Button type="submit" disabled={loading}>
+          <Button type="submit" isDisabled={loading}>
             <Save className="h-4 w-4" />
             {loading ? "Saving..." : "Save Discord Link"}
           </Button>
         </form>
-      </CardContent>
+      </Card.Content>
     </Card>
   );
 }

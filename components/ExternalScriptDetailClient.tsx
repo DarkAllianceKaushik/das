@@ -6,19 +6,11 @@ import {
   AlertTriangle, Gamepad2,
 } from "lucide-react";
 import type { ExternalScript } from "@/lib/external-types";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
+import { Button, Card, Chip, ChipLabel } from "@heroui/react";
 
 const sourceStyles = {
   scriptblox: { label: "ScriptBlox", color: "text-sky-400", bg: "bg-sky-950/50" },
   rscripts: { label: "RScripts", color: "text-violet-400", bg: "bg-violet-950/50" },
-};
-
-const pricingStyles = {
-  free: { label: "Free", className: "bg-emerald-950/60 text-emerald-400 border border-emerald-800/40" },
-  paid: { label: "Paid", className: "bg-amber-950/60 text-amber-400 border border-amber-800/40" },
-  key: { label: "Key", className: "bg-orange-950/60 text-orange-400 border border-orange-800/40" },
 };
 
 interface Props {
@@ -27,49 +19,54 @@ interface Props {
 
 export function ExternalScriptDetailClient({ script }: Props) {
   const src = sourceStyles[script.source];
-  const price = pricingStyles[script.pricing];
 
   return (
     <div className="relative z-10 mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-14">
-      <Link href="/" className="mb-6 inline-flex items-center gap-1.5 text-sm text-glass-muted transition hover:text-white">
+      <Link href="/" className="mb-6 inline-flex items-center gap-1.5 text-sm text-alliance-muted transition hover:text-white">
         <ArrowLeft className="h-4 w-4" /> Back to Store
       </Link>
 
-      <Card className="mb-8 overflow-hidden">
+      <Card className="mb-8 overflow-hidden border border-alliance-border bg-alliance-card/80 shadow-glow">
         {script.imageUrl && (
-          <div className="relative h-48 w-full bg-glass-darker sm:h-64">
+          <div className="relative h-48 w-full bg-alliance-black sm:h-64">
             <img
               src={script.imageUrl}
               alt=""
               className="h-full w-full object-cover opacity-60"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-glass-card via-glass-card/60 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-alliance-card via-alliance-card/60 to-transparent" />
           </div>
         )}
 
-        <CardContent className="p-6 sm:p-8">
+        <Card.Content className="p-6 sm:p-8">
           <div className="mb-4 flex flex-wrap items-center gap-2">
-            <Badge variant="outline" className={`${src.bg} ${src.color} border-current/30`}>
-              {src.label}
-            </Badge>
-            <Badge variant="outline" className={price.className}>
-              {script.pricing === "key" && <Key className="mr-0.5 inline size-3" />}
-              {price.label}
-            </Badge>
+            <Chip color="accent" variant="soft" size="sm">
+              <ChipLabel>{src.label}</ChipLabel>
+            </Chip>
+            <Chip
+              color={script.pricing === "free" ? "success" : script.pricing === "paid" ? "warning" : "accent"}
+              variant="soft"
+              size="sm"
+            >
+              <ChipLabel>
+                {script.pricing === "key" && <Key className="mr-0.5 inline size-3" />}
+                {script.pricing}
+              </ChipLabel>
+            </Chip>
             {script.verified && (
-              <Badge variant="outline" className="border-emerald-800/40 bg-emerald-950/50 text-emerald-400 gap-1">
-                <ShieldCheck className="size-3.5" /> Verified
-              </Badge>
+              <Chip color="success" variant="soft" size="sm">
+                <ChipLabel><ShieldCheck className="mr-0.5 inline size-3.5" /> Verified</ChipLabel>
+              </Chip>
             )}
             {script.patched && (
-              <Badge variant="outline" className="border-red-800/40 bg-red-950/50 text-red-400">
-                Patched
-              </Badge>
+              <Chip color="danger" variant="soft" size="sm">
+                <ChipLabel>Patched</ChipLabel>
+              </Chip>
             )}
             {script.universal && (
-              <Badge variant="outline" className="border-blue-800/40 bg-blue-950/50 text-blue-400">
-                Universal
-              </Badge>
+              <Chip color="default" variant="soft" size="sm">
+                <ChipLabel>Universal</ChipLabel>
+              </Chip>
             )}
           </div>
 
@@ -77,16 +74,16 @@ export function ExternalScriptDetailClient({ script }: Props) {
             {script.name}
           </h1>
 
-          <div className="mt-2 flex items-center gap-2 text-sm text-glass-accent/70">
+          <div className="mt-2 flex items-center gap-2 text-sm text-alliance-accent/70">
             <Gamepad2 className="size-4" />
             {script.game}
           </div>
 
-          <p className="mt-4 text-base leading-relaxed text-glass-muted">
+          <p className="mt-4 text-base leading-relaxed text-alliance-muted">
             {script.description}
           </p>
 
-          <div className="mt-6 flex flex-wrap items-center gap-4 text-xs text-glass-muted">
+          <div className="mt-6 flex flex-wrap items-center gap-4 text-xs text-alliance-muted">
             <span className="inline-flex items-center gap-1.5">
               <Eye className="size-3.5" /> {script.views.toLocaleString()} views
             </span>
@@ -96,26 +93,26 @@ export function ExternalScriptDetailClient({ script }: Props) {
           </div>
 
           <div className="mt-6 flex flex-wrap gap-3">
-            <Button render={<a href={script.url} target="_blank" rel="noopener noreferrer" />}>
+            <a href={script.url} target="_blank" rel="noopener noreferrer" className="btn-primary">
               <ExternalLink className="size-4" /> View on {src.label}
-            </Button>
+            </a>
           </div>
-        </CardContent>
+        </Card.Content>
       </Card>
 
-      <Card className="p-6">
-        <CardContent className="p-0">
+      <Card className="border border-alliance-border bg-alliance-card/80">
+        <Card.Content className="p-6">
           <div className="flex items-start gap-3 pb-4">
             <AlertTriangle className="mt-0.5 size-5 shrink-0 text-amber-400" />
-            <p className="text-xs text-glass-muted">
+            <p className="text-xs text-alliance-muted">
               This script is hosted on <strong className="text-white">{src.label}</strong>.
               Pricing, availability, and functionality are managed by the original platform.
             </p>
           </div>
-          <p className="text-xs text-glass-muted/60">
+          <p className="text-xs text-alliance-muted/60">
             Powered by {src.label}
           </p>
-        </CardContent>
+        </Card.Content>
       </Card>
     </div>
   );

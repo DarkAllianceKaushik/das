@@ -103,27 +103,27 @@ export function Darky() {
     <div className="fixed bottom-4 right-4 z-50 flex flex-col items-end gap-2 sm:bottom-6 sm:right-6">
       {isOpen && (
         <div className="relative animate-fade-in">
-          <div className="absolute -bottom-1.5 right-5 h-3 w-3 rotate-45 rounded-sm bg-glass-dark" />
-          <div className="max-w-[260px] rounded-2xl border border-glass-border bg-glass-dark p-3 shadow-glass backdrop-blur-[24px] sm:max-w-[300px]">
+          <div className="absolute -bottom-1.5 right-5 h-3 w-3 rotate-45 rounded-sm bg-alliance-dark" />
+          <div className="max-w-[260px] rounded-2xl border border-alliance-border bg-alliance-dark p-3 shadow-glass backdrop-blur-[24px] sm:max-w-[300px]">
             <div className="mb-1.5 flex items-center justify-between">
-              <span className="flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-glass-accent-bright">
+              <span className="flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-alliance-red-bright">
                 <Sparkles className="h-3 w-3" />
                 {pageTips.title}
               </span>
               <button
                 onClick={() => setDismissed(true)}
-                className="rounded-lg p-0.5 text-glass-muted transition hover:bg-glass-black hover:text-white"
+                className="rounded-lg p-0.5 text-alliance-muted transition hover:bg-alliance-black hover:text-white"
               >
                 <X className="h-3.5 w-3.5" />
               </button>
             </div>
-            <p className="text-sm leading-relaxed text-glass-muted">
+            <p className="text-sm leading-relaxed text-alliance-muted">
               {currentTip}
             </p>
             {pageTips.messages.length > 1 && (
               <button
                 onClick={nextTip}
-                className="mt-2 flex items-center gap-1 text-xs font-medium text-glass-accent-bright/70 transition hover:text-glass-accent-bright"
+                className="mt-2 flex items-center gap-1 text-xs font-medium text-alliance-red-bright/70 transition hover:text-alliance-red-bright"
               >
                 More tips <ChevronRight className="h-3 w-3" />
               </button>
@@ -134,25 +134,25 @@ export function Darky() {
 
       <button
         onClick={() => { setIsOpen(!isOpen); setDismissed(false); }}
-        className={`group relative h-14 w-14 rounded-full border-2 border-glass-accent/40 bg-glass-darker shadow-glass-sm backdrop-blur-[16px] transition-all hover:border-glass-accent-bright/60 hover:shadow-glass hover:scale-110 active:scale-95 ${wave ? "animate-wave" : ""}`}
+        className={`group relative h-14 w-14 rounded-full border-2 border-alliance-red/40 bg-alliance-darker shadow-glass-sm backdrop-blur-[16px] transition-all hover:border-alliance-red-bright/60 hover:shadow-glass hover:scale-110 active:scale-95 ${wave ? "animate-wave" : ""}`}
         title={isOpen ? "Hide Darky" : "Hey! Click me!"}
       >
-        <div className="absolute inset-0 animate-pulse-slow rounded-full bg-gradient-to-br from-glass-accent/10 to-transparent" />
+        <div className="absolute inset-0 animate-pulse-slow rounded-full bg-gradient-to-br from-alliance-red/10 to-transparent" />
         <div className="relative flex h-full w-full items-center justify-center">
           <svg viewBox="0 0 48 48" className="h-8 w-8" fill="none">
-            <circle cx="24" cy="24" r="22" className="fill-glass-accent-dim/30 stroke-glass-accent/50" strokeWidth="2" />
-            <ellipse cx="24" cy="32" rx="10" ry="7" className="fill-glass-black/60 stroke-glass-accent/40" strokeWidth="1.5" />
+            <circle cx="24" cy="24" r="22" className="fill-alliance-crimson/30 stroke-alliance-red/50" strokeWidth="2" />
+            <ellipse cx="24" cy="32" rx="10" ry="7" className="fill-alliance-black/60 stroke-alliance-red/40" strokeWidth="1.5" />
             <circle cx="19" cy="22" r="2.5" fill="#fff" />
             <circle cx="29" cy="22" r="2.5" fill="#fff" />
-            <circle cx="19" cy="22" r="1.2" className="fill-glass-accent-bright" />
-            <circle cx="29" cy="22" r="1.2" className="fill-glass-accent-bright" />
-            <path d="M18 30 Q24 36 30 30" className="stroke-glass-accent-bright/60" strokeWidth="2" strokeLinecap="round" fill="none" />
+            <circle cx="19" cy="22" r="1.2" className="fill-alliance-red-bright" />
+            <circle cx="29" cy="22" r="1.2" className="fill-alliance-red-bright" />
+            <path d="M18 30 Q24 36 30 30" className="stroke-alliance-red-bright/60" strokeWidth="2" strokeLinecap="round" fill="none" />
             <g className={wave ? "animate-wave-hand" : ""} style={{ transformOrigin: "20px 22px" }}>
-              <path d="M10 20 Q8 16 12 14" className="stroke-glass-accent/40" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+              <path d="M10 20 Q8 16 12 14" className="stroke-alliance-red/40" strokeWidth="2.5" strokeLinecap="round" fill="none" />
             </g>
           </svg>
         </div>
-        <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-glass-accent text-[10px] font-bold text-white shadow-sm">
+        <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-alliance-red text-[10px] font-bold text-white shadow-sm">
           D
         </span>
       </button>

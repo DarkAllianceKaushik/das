@@ -8,6 +8,7 @@ import { isFavorite, toggleFavorite } from "@/lib/favorites";
 import { getViewCount, trackView } from "@/lib/analytics";
 import { submitReport } from "@/lib/reporting";
 import { Heart, Flag, Eye, X, Copy, Check, TrendingUp, Sparkles } from "lucide-react";
+import { Button, Card, Chip, Select, Label, ListBox, TextArea } from "@heroui/react";
 
 const TRENDING_THRESHOLD = 10;
 
@@ -78,41 +79,42 @@ export function ScriptCardEnhanced({ script, onTagClick }: Props) {
       className="relative"
     >
       <Link href={`/scripts/${script.id}`} className="block">
-        <div className="card-surface group flex flex-col p-5 transition-all duration-200 hover:border-alliance-red/40 hover:shadow-glow-sm">
+        <Card className="group flex flex-col p-5 transition-all duration-200 hover:border-alliance-red/40 hover:shadow-glow-sm">
           <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
             <div className="flex flex-wrap items-center gap-2">
               {script.featured && (
                 <motion.span
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  className="inline-flex items-center gap-1 rounded-full bg-alliance-red/20 px-2 py-0.5 text-xs font-medium text-alliance-red-bright"
                 >
-                  <Sparkles className="h-3 w-3" />
-                  Featured
+                  <Chip color="accent" variant="soft" size="sm">
+                    <Sparkles className="h-3 w-3" />
+                    Featured
+                  </Chip>
                 </motion.span>
               )}
               {isTrending && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-amber-950/60 px-2 py-0.5 text-xs font-medium text-amber-400 ring-1 ring-amber-800/50">
+                <Chip color="warning" variant="soft" size="sm">
                   <TrendingUp className="h-3 w-3" />
                   Trending
-                </span>
+                </Chip>
               )}
-              <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide ${
-                script.pricing === "free"
-                  ? "bg-emerald-950/60 text-emerald-400 ring-1 ring-emerald-800/50"
-                  : "bg-amber-950/60 text-amber-400 ring-1 ring-amber-800/50"
-              }`}>
+              <Chip
+                color={script.pricing === "free" ? "success" : "warning"}
+                variant="soft"
+                size="sm"
+              >
                 {script.pricing === "free" ? "Free" : "Paid"}
-              </span>
+              </Chip>
               {script.version && (
-                <span className="rounded-full bg-alliance-darker px-2 py-0.5 text-xs text-alliance-muted ring-1 ring-alliance-border/50">
+                <Chip variant="secondary" size="sm" className="bg-alliance-darker text-alliance-muted">
                   v{script.version}
-                </span>
+                </Chip>
               )}
             </div>
-            <span className="rounded-md bg-alliance-darker px-2 py-1 text-xs text-alliance-muted">
+            <Chip variant="secondary" size="sm" className="bg-alliance-darker text-alliance-muted">
               {script.category}
-            </span>
+            </Chip>
           </div>
 
           <h3 className="font-display text-lg font-bold text-white transition group-hover:text-alliance-red-bright">
@@ -144,7 +146,7 @@ export function ScriptCardEnhanced({ script, onTagClick }: Props) {
               {views}
             </span>
           </div>
-        </div>
+        </Card>
       </Link>
 
       <div className="absolute right-3 top-3 flex gap-1">
@@ -195,19 +197,44 @@ export function ScriptCardEnhanced({ script, onTagClick }: Props) {
                 <X className="h-4 w-4" />
               </motion.button>
             </div>
-            <select value={reportReason} onChange={e => setReportReason(e.target.value)} className="input-field mb-2 text-xs">
-              <option value="">Select reason...</option>
-              <option value="broken">Broken / Not working</option>
-              <option value="outdated">Outdated</option>
-              <option value="malicious">Malicious / Virus</option>
-              <option value="wrong">Wrong category / Info</option>
-              <option value="other">Other</option>
-            </select>
-            <textarea value={reportDetail} onChange={e => setReportDetail(e.target.value)} placeholder="Additional details (optional)" className="input-field mb-3 h-20 resize-none text-xs" />
+            <Select
+              selectedKey={reportReason || undefined}
+              onSelectionChange={(k) => setReportReason(k === null ? "" : String(k))}
+              placeholder="Select reason..."
+              variant="primary"
+              className="mb-2"
+            >
+              <Select.Trigger>
+                <Select.Value />
+                <Select.Indicator />
+              </Select.Trigger>
+              <Select.Popover placement="bottom">
+                <ListBox>
+                  <ListBox.Item id="broken"><Label>Broken / Not working</Label></ListBox.Item>
+                  <ListBox.Item id="outdated"><Label>Outdated</Label></ListBox.Item>
+                  <ListBox.Item id="malicious"><Label>Malicious / Virus</Label></ListBox.Item>
+                  <ListBox.Item id="wrong"><Label>Wrong category / Info</Label></ListBox.Item>
+                  <ListBox.Item id="other"><Label>Other</Label></ListBox.Item>
+                </ListBox>
+              </Select.Popover>
+            </Select>
+            <TextArea
+              value={reportDetail}
+              onChange={(e) => setReportDetail(e.target.value)}
+              placeholder="Additional details (optional)"
+              variant="primary"
+              className="mb-3 min-h-20 resize-none text-xs"
+            />
             <div className="flex gap-2">
-              <button onClick={handleReport} disabled={!reportReason} className="btn-danger flex-1 text-xs">
+              <Button
+                variant="danger"
+                size="sm"
+                isDisabled={!reportReason}
+                onPress={handleReport}
+                className="flex-1 text-xs"
+              >
                 <Flag className="h-3 w-3" /> Submit Report
-              </button>
+              </Button>
             </div>
           </motion.div>
         )}

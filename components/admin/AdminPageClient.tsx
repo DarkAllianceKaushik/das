@@ -16,7 +16,7 @@ export function AdminPageClient() {
 
   if (authenticated === null) {
     return (
-      <p className="text-center text-glass-muted">Checking session...</p>
+      <p className="text-center text-alliance-muted">Checking session...</p>
     );
   }
 

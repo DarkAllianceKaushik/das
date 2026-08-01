@@ -2,9 +2,7 @@
 
 import { ShieldCheck, ShieldAlert, Wifi, WifiOff, ExternalLink, Disc, Smartphone, Monitor, Apple } from "lucide-react";
 import type { Executor } from "@/lib/executor-types";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Button, Card, Chip } from "@heroui/react";
 
 const platformIcon: Record<string, typeof Monitor> = {
   Windows: Monitor,
@@ -23,59 +21,63 @@ export function ExecutorCard({ executor }: { executor: Executor }) {
         ? "hover:border-emerald-900/60"
         : "hover:border-amber-900/60"
     }`}>
-      <CardContent className="flex flex-col gap-0 p-0">
+      <Card.Content className="flex flex-col gap-0 p-0">
         <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
           <div className="flex flex-wrap items-center gap-2">
             {executor.updateStatus && !executor.detected && (
-              <Badge variant="outline" className="flex items-center gap-1 bg-emerald-950/60 px-2 py-0.5 text-emerald-400 ring-1 ring-emerald-800/50">
+              <Chip color="success" variant="soft" size="sm" className="bg-emerald-950/60 text-emerald-400 ring-1 ring-emerald-800/50">
                 <Wifi className="h-3 w-3" /> Working
-              </Badge>
+              </Chip>
             )}
             {executor.detected && (
-              <Badge variant="outline" className="flex items-center gap-1 bg-red-950/60 px-2 py-0.5 text-red-400 ring-1 ring-red-800/50">
+              <Chip color="danger" variant="soft" size="sm" className="bg-red-950/60 text-red-400 ring-1 ring-red-800/50">
                 <ShieldAlert className="h-3 w-3" /> Detected
-              </Badge>
+              </Chip>
             )}
             {!executor.updateStatus && !executor.detected && (
-              <Badge variant="outline" className="flex items-center gap-1 bg-amber-950/60 px-2 py-0.5 text-amber-400 ring-1 ring-amber-800/50">
+              <Chip color="warning" variant="soft" size="sm" className="bg-amber-950/60 text-amber-400 ring-1 ring-amber-800/50">
                 <WifiOff className="h-3 w-3" /> Outdated
-              </Badge>
+              </Chip>
             )}
             {executor.free ? (
-              <Badge variant="outline" className="bg-emerald-950/60 px-2.5 py-0.5 text-emerald-400 ring-1 ring-emerald-800/50 uppercase tracking-wide">Free</Badge>
+              <Chip color="success" variant="soft" size="sm" className="bg-emerald-950/60 text-emerald-400 ring-1 ring-emerald-800/50 uppercase tracking-wide">
+                Free
+              </Chip>
             ) : (
-              <Badge variant="outline" className="bg-amber-950/60 px-2.5 py-0.5 text-amber-400 ring-1 ring-amber-800/50 uppercase tracking-wide">Paid</Badge>
+              <Chip color="warning" variant="soft" size="sm" className="bg-amber-950/60 text-amber-400 ring-1 ring-amber-800/50 uppercase tracking-wide">
+                Paid
+              </Chip>
             )}
           </div>
-          <span className="inline-flex items-center gap-1 rounded-md bg-glass-darker px-2 py-1 text-xs text-glass-muted">
+          <span className="inline-flex items-center gap-1 rounded-md bg-alliance-darker px-2 py-1 text-xs text-alliance-muted">
             <Icon className="h-3 w-3" />
             {executor.platform}
           </span>
         </div>
 
-        <h3 className="font-display text-lg font-bold text-white transition group-hover:text-glass-accent-bright">
+        <h3 className="font-display text-lg font-bold text-white transition group-hover:text-alliance-red-bright">
           {executor.title}
-          <span className="ml-2 text-sm font-normal text-glass-muted">v{executor.version}</span>
+          <span className="ml-2 text-sm font-normal text-alliance-muted">v{executor.version}</span>
         </h3>
 
-        <div className="mt-2 flex flex-wrap gap-3 text-xs text-glass-muted">
+        <div className="mt-2 flex flex-wrap gap-3 text-xs text-alliance-muted">
           {executor.uncStatus && (
-            <span className="inline-flex items-center gap-1 rounded bg-glass-darker px-2 py-0.5">
+            <span className="inline-flex items-center gap-1 rounded bg-alliance-darker px-2 py-0.5">
               <ShieldCheck className="h-3 w-3 text-emerald-400" /> UNC
             </span>
           )}
           {executor.decompiler && (
-            <span className="inline-flex items-center gap-1 rounded bg-glass-darker px-2 py-0.5">Decompiler</span>
+            <span className="inline-flex items-center gap-1 rounded bg-alliance-darker px-2 py-0.5">Decompiler</span>
           )}
           {executor.multiInject && (
-            <span className="inline-flex items-center gap-1 rounded bg-glass-darker px-2 py-0.5">Multi-Inject</span>
+            <span className="inline-flex items-center gap-1 rounded bg-alliance-darker px-2 py-0.5">Multi-Inject</span>
           )}
           {executor.raknet && (
-            <span className="inline-flex items-center gap-1 rounded bg-glass-darker px-2 py-0.5">Raknet</span>
+            <span className="inline-flex items-center gap-1 rounded bg-alliance-darker px-2 py-0.5">Raknet</span>
           )}
         </div>
 
-        <p className="mt-3 text-xs text-glass-muted">
+        <p className="mt-3 text-xs text-alliance-muted">
           Updated: {executor.updatedDate}
         </p>
 
@@ -85,22 +87,37 @@ export function ExecutorCard({ executor }: { executor: Executor }) {
 
         <div className="mt-4 flex flex-wrap gap-2">
           {executor.websitelink && (
-            <Button variant="secondary" size="sm" render={<a href={executor.websitelink} target="_blank" rel="noopener noreferrer" />} className="flex-1 text-xs">
+            <a
+              href={executor.websitelink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-secondary btn-sm flex-1"
+            >
               <ExternalLink className="h-3 w-3" /> Website
-            </Button>
+            </a>
           )}
           {executor.discordlink && (
-            <Button variant="secondary" size="sm" render={<a href={executor.discordlink} target="_blank" rel="noopener noreferrer" />} className="flex-1 text-xs">
+            <a
+              href={executor.discordlink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-secondary btn-sm flex-1"
+            >
               <Disc className="h-3 w-3" /> Discord
-            </Button>
+            </a>
           )}
           {executor.purchaselink && (
-            <Button variant="default" size="sm" render={<a href={executor.purchaselink} target="_blank" rel="noopener noreferrer" />} className="flex-1 text-xs">
+            <a
+              href={executor.purchaselink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary btn-sm flex-1"
+            >
               <ExternalLink className="h-3 w-3" /> Purchase
-            </Button>
+            </a>
           )}
         </div>
-      </CardContent>
+      </Card.Content>
     </Card>
   );
 }

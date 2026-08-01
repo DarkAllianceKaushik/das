@@ -11,8 +11,7 @@ import {
   Search,
   X,
 } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Button, Card, Chip, InputGroup, Pagination } from "@heroui/react";
 
 export function OnlineScriptsClient() {
   const [scripts, setScripts] = useState<ExternalScript[]>([]);
@@ -66,9 +65,9 @@ export function OnlineScriptsClient() {
 
   return (
     <div className="space-y-6">
-      <div className="card-glass space-y-5 p-5">
-        <div className="flex items-start gap-3 rounded-xl border border-glass-border bg-glass-dark/50 p-3 text-sm text-glass-muted">
-          <Globe className="mt-0.5 h-4 w-4 shrink-0 text-glass-accent-bright" />
+      <div className="rounded-2xl border border-alliance-border bg-alliance-card p-5 shadow-glass backdrop-blur-2xl">
+        <div className="mb-5 flex items-start gap-3 rounded-xl border border-alliance-border bg-alliance-dark/50 p-3 text-sm text-alliance-muted">
+          <Globe className="mt-0.5 h-4 w-4 shrink-0 text-alliance-red-bright" />
           <p>
             Live results from{" "}
             <strong className="text-white">ScriptBlox</strong> and{" "}
@@ -78,24 +77,30 @@ export function OnlineScriptsClient() {
         </div>
 
         <form onSubmit={handleSearch} className="flex flex-col gap-3 sm:flex-row">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-glass-muted" />
-            <Input
-              type="search"
-              placeholder="Search online scripts (game, feature, name)..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="h-10 pl-10 pr-10"
-            />
-            {search && (
-              <button
-                type="button"
-                onClick={() => setSearch("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-glass-muted hover:text-white transition-colors"
-              >
-                <X className="size-4" />
-              </button>
-            )}
+          <div className="flex-1">
+            <InputGroup fullWidth>
+              <InputGroup.Prefix>
+                <Search className="size-4 text-alliance-muted" />
+              </InputGroup.Prefix>
+              <InputGroup.Input
+                type="search"
+                placeholder="Search online scripts (game, feature, name)..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              {search && (
+                <InputGroup.Suffix>
+                  <button
+                    type="button"
+                    aria-label="Clear search"
+                    onClick={() => setSearch("")}
+                    className="text-alliance-muted hover:text-white transition-colors"
+                  >
+                    <X className="size-4" />
+                  </button>
+                </InputGroup.Suffix>
+              )}
+            </InputGroup>
           </div>
           <div className="flex gap-2">
             <Button type="submit" size="lg" className="px-6">
@@ -106,7 +111,7 @@ export function OnlineScriptsClient() {
                 type="button"
                 variant="outline"
                 size="lg"
-                onClick={() => {
+                onPress={() => {
                   setSearch("");
                   setQuery("");
                   setPage(1);
@@ -118,7 +123,7 @@ export function OnlineScriptsClient() {
           </div>
         </form>
 
-        <div className="flex flex-wrap gap-2">
+        <div className="mt-4 flex flex-wrap gap-2">
           {(
             [
               ["all", "Both APIs"],
@@ -126,36 +131,41 @@ export function OnlineScriptsClient() {
               ["rscripts", "RScripts"],
             ] as const
           ).map(([value, label]) => (
-            <button
+            <Button
               key={value}
-              type="button"
-              onClick={() => {
+              size="sm"
+              variant={source === value ? "primary" : "secondary"}
+              className={
+                source === value
+                  ? "cursor-pointer bg-gradient-to-br from-alliance-red via-alliance-crimson to-alliance-red text-white shadow-lg shadow-alliance-red/25"
+                  : "cursor-pointer border border-alliance-border bg-alliance-dark/60 text-alliance-muted hover:border-alliance-red/30 hover:bg-alliance-card/50"
+              }
+              onPress={() => {
                 setSource(value);
                 setPage(1);
               }}
-              className={`rounded-xl px-4 py-2 text-sm font-medium transition-all duration-300 ${
-                source === value
-                  ? "bg-gradient-to-br from-glass-accent via-glass-accent-dim to-glass-accent text-white shadow-lg shadow-glass-accent/25"
-                  : "border border-glass-border bg-glass-dark/60 text-glass-muted hover:text-white hover:border-glass-accent/30 hover:bg-glass-card/50 backdrop-blur-[8px]"
-              }`}
             >
               {label}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
 
       {loading ? (
-        <div className="flex flex-col items-center justify-center py-20 text-glass-muted">
-          <Loader2 className="h-10 w-10 animate-spin text-glass-accent" />
+        <div className="flex flex-col items-center justify-center py-20 text-alliance-muted">
+          <Loader2 className="h-10 w-10 animate-spin text-alliance-red" />
           <p className="mt-4">Loading from ScriptBlox & RScripts…</p>
         </div>
       ) : error ? (
-        <div className="card-glass py-12 text-center text-red-300">{error}</div>
+        <Card className="border border-red-900/40 bg-red-950/20">
+          <Card.Content className="py-12 text-center text-red-300">{error}</Card.Content>
+        </Card>
       ) : scripts.length === 0 ? (
-        <div className="card-glass py-12 text-center text-glass-muted">
-          No scripts found. Try another search or source.
-        </div>
+        <Card className="border border-alliance-border bg-alliance-card/80">
+          <Card.Content className="py-12 text-center text-alliance-muted">
+            No scripts found. Try another search or source.
+          </Card.Content>
+        </Card>
       ) : (
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {scripts.map((script) => (
@@ -165,26 +175,37 @@ export function OnlineScriptsClient() {
       )}
 
       {!loading && totalPages > 1 && (
-        <div className="flex items-center justify-center gap-4">
-          <Button
-            variant="outline"
-            disabled={page <= 1}
-            onClick={() => setPage((p) => p - 1)}
-          >
-            <ChevronLeft className="size-4" />
-            Previous
-          </Button>
-          <span className="text-sm text-glass-muted">
-            Page {page} of {totalPages}
-          </span>
-          <Button
-            variant="outline"
-            disabled={page >= totalPages}
-            onClick={() => setPage((p) => p + 1)}
-          >
-            Next
-            <ChevronRight className="size-4" />
-          </Button>
+        <div className="flex justify-center">
+          <Pagination size="md">
+            <Pagination.Content>
+              <Pagination.Item>
+                <Pagination.Previous
+                  isDisabled={page <= 1}
+                  onPress={() => setPage((p) => p - 1)}
+                >
+                  <ChevronLeft className="size-4" />
+                </Pagination.Previous>
+              </Pagination.Item>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
+                <Pagination.Item key={n}>
+                  <Pagination.Link
+                    isActive={n === page}
+                    onPress={() => setPage(n)}
+                  >
+                    {n}
+                  </Pagination.Link>
+                </Pagination.Item>
+              ))}
+              <Pagination.Item>
+                <Pagination.Next
+                  isDisabled={page >= totalPages}
+                  onPress={() => setPage((p) => p + 1)}
+                >
+                  <ChevronRight className="size-4" />
+                </Pagination.Next>
+              </Pagination.Item>
+            </Pagination.Content>
+          </Pagination>
         </div>
       )}
     </div>

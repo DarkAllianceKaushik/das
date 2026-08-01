@@ -5,7 +5,7 @@ import { StoreClient } from "./StoreClient";
 import { OnlineScriptsClient } from "./OnlineScriptsClient";
 import type { Script } from "@/lib/types";
 import { Globe, Swords, Loader2 } from "lucide-react";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs } from "@heroui/react";
 
 type StoreMode = "alliance" | "online";
 
@@ -18,29 +18,39 @@ export function StoreSwitcher({ scripts, categories }: StoreSwitcherProps) {
   const [mode, setMode] = useState<StoreMode>("alliance");
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-        <Tabs value={mode} onValueChange={(v) => setMode(v as StoreMode)} className="w-auto">
-          <TabsList className="rounded-2xl border border-glass-border bg-glass-dark/60 p-1 backdrop-blur-[16px]">
-            <TabsTrigger value="alliance" className="flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold data-[state=active]:bg-glass-accent/20 data-[state=active]:text-glass-accent-bright data-[state=active]:shadow-glass-sm data-[state=active]:border data-[state=active]:border-glass-accent/30">
+    <Tabs
+      selectedKey={mode}
+      onSelectionChange={(key) => setMode(key as StoreMode)}
+      className="w-full"
+    >
+      <div className="flex justify-center">
+        <Tabs.ListContainer>
+          <Tabs.List
+            aria-label="Store sources"
+            className="rounded-2xl border border-alliance-border bg-alliance-dark/60 p-1 backdrop-blur-[16px]"
+          >
+            <Tabs.Tab id="alliance" className="flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold">
               <Swords className="h-4 w-4" />
               Dark Alliance Scripts
-            </TabsTrigger>
-            <TabsTrigger value="online" className="flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold data-[state=active]:bg-glass-accent/20 data-[state=active]:text-glass-accent-bright data-[state=active]:shadow-glass-sm data-[state=active]:border data-[state=active]:border-glass-accent/30">
+              <Tabs.Indicator />
+            </Tabs.Tab>
+            <Tabs.Tab id="online" className="flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold">
               <Globe className="h-4 w-4" />
               Online Scripts
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
+              <Tabs.Indicator />
+            </Tabs.Tab>
+          </Tabs.List>
+        </Tabs.ListContainer>
       </div>
 
-      {mode === "alliance" ? (
-        <Suspense fallback={<div className="flex justify-center py-12"><Loader2 className="h-8 w-8 animate-spin text-glass-accent" /></div>}>
+      <Tabs.Panel id="alliance" className="pt-8">
+        <Suspense fallback={<div className="flex justify-center py-12"><Loader2 className="h-8 w-8 animate-spin text-alliance-red" /></div>}>
           <StoreClient scripts={scripts} categories={categories} />
         </Suspense>
-      ) : (
+      </Tabs.Panel>
+      <Tabs.Panel id="online" className="pt-8">
         <OnlineScriptsClient />
-      )}
-    </div>
+      </Tabs.Panel>
+    </Tabs>
   );
 }
