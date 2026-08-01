@@ -45,6 +45,40 @@ export function ExecutorDetailClient({ executor }: Props) {
         <ArrowLeft className="h-4 w-4" /> Back to Executors
       </Link>
 
+      {e.possibleBanwave && (
+        <div className="mb-6 flex items-start gap-3 rounded-xl border border-rose-900/50 bg-rose-950/25 p-4">
+          <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-rose-400" />
+          <div>
+            <p className="text-sm font-semibold text-rose-300">Possible Banwave Detected</p>
+            <p className="text-xs text-rose-300/70">This executor has been flagged for a possible banwave. Use at your own risk.</p>
+          </div>
+        </div>
+      )}
+
+      {e.unknown && (
+        <div className="mb-6 flex items-start gap-3 rounded-xl border border-amber-800/50 bg-amber-950/20 p-4">
+          <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-400" />
+          <div>
+            <p className="text-sm font-semibold text-amber-300">Unknown Status</p>
+            <p className="text-xs text-amber-300/70">WEAO currently has no verified status data for this executor.</p>
+          </div>
+        </div>
+      )}
+
+      {e.hasIssues && (
+        <div className="mb-6 flex items-start gap-3 rounded-xl border border-orange-800/50 bg-orange-950/20 p-4">
+          <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-orange-400" />
+          <div>
+            <p className="text-sm font-semibold text-orange-300">Known Issues</p>
+            {e.detectionReason ? (
+              <p className="text-xs text-orange-300/70">{e.detectionReason}</p>
+            ) : (
+              <p className="text-xs text-orange-300/70">This executor currently has reported issues.</p>
+            )}
+          </div>
+        </div>
+      )}
+
       <Card className="mb-8 border border-alliance-border bg-alliance-card/80">
         <Card.Content className="p-6 sm:p-8">
           <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
@@ -221,9 +255,45 @@ export function ExecutorDetailClient({ executor }: Props) {
             </div>
             <div className="rounded-lg bg-alliance-darker/50 p-4">
               <dt className="text-xs font-medium uppercase tracking-wider text-alliance-muted">Type</dt>
-              <dd className="mt-1 text-sm text-white">{e.type || "N/A"}</dd>
+              <dd className="mt-1 text-sm text-white">{e.type || extypeLabel || "N/A"}</dd>
             </div>
+            {e.rbxversion && (
+              <div className="rounded-lg bg-alliance-darker/50 p-4">
+                <dt className="text-xs font-medium uppercase tracking-wider text-alliance-muted">Roblox Version</dt>
+                <dd className="mt-1 text-sm text-white">{e.rbxversion}</dd>
+              </div>
+            )}
+            {e.slug?.owner && (
+              <div className="rounded-lg bg-alliance-darker/50 p-4">
+                <dt className="text-xs font-medium uppercase tracking-wider text-alliance-muted">Owner</dt>
+                <dd className="mt-1 text-sm text-white">{e.slug.owner}</dd>
+              </div>
+            )}
           </dl>
+
+          {e.sunc && (typeof e.sunc.suncScrap === "number" || typeof e.sunc.suncKey === "number") && (
+            <dl className="mt-4 grid gap-4 sm:grid-cols-2">
+              {typeof e.sunc.suncScrap === "number" && (
+                <div className="rounded-lg bg-alliance-darker/50 p-4">
+                  <dt className="text-xs font-medium uppercase tracking-wider text-alliance-muted">sUNC (Scrap)</dt>
+                  <dd className="mt-1 text-sm font-bold text-amber-400">{e.sunc.suncScrap}%</dd>
+                </div>
+              )}
+              {typeof e.sunc.suncKey === "number" && (
+                <div className="rounded-lg bg-alliance-darker/50 p-4">
+                  <dt className="text-xs font-medium uppercase tracking-wider text-alliance-muted">sUNC (Key)</dt>
+                  <dd className="mt-1 text-sm font-bold text-amber-400">{e.sunc.suncKey}%</dd>
+                </div>
+              )}
+            </dl>
+          )}
+
+          {e.recommendedReason && (
+            <div className="mt-4 rounded-lg bg-alliance-darker/50 p-4">
+              <dt className="text-xs font-medium uppercase tracking-wider text-alliance-muted">Why Recommended</dt>
+              <dd className="mt-1 text-sm text-alliance-muted">{e.recommendedReason}</dd>
+            </div>
+          )}
         </Card.Content>
       </Card>
     </div>

@@ -88,10 +88,21 @@ export function ExecutorCard({ executor }: { executor: Executor }) {
           {executor.multiInject && (
             <span className="inline-flex items-center gap-1 rounded bg-alliance-darker px-2 py-0.5">Multi-Inject</span>
           )}
-          {executor.raknet && (
-            <span className="inline-flex items-center gap-1 rounded bg-alliance-darker px-2 py-0.5">Raknet</span>
+            {executor.raknet && (
+              <span className="inline-flex items-center gap-1 rounded bg-alliance-darker px-2 py-0.5">Raknet</span>
+            )}
+          </div>
+
+          {executor.possibleBanwave && (
+            <span className="mt-2 inline-flex items-center gap-1 rounded-md bg-red-950/50 px-2 py-0.5 text-[10px] font-semibold text-red-400 ring-1 ring-red-900/60">
+              <ShieldAlert className="h-3 w-3" /> Possible Banwave
+            </span>
           )}
-        </div>
+          {executor.unknown && (
+            <span className="mt-2 inline-flex items-center gap-1 rounded-md bg-amber-950/50 px-2 py-0.5 text-[10px] font-semibold text-amber-400 ring-1 ring-amber-900/60">
+              <WifiOff className="h-3 w-3" /> Unknown Status
+            </span>
+          )}
 
         <p className="mt-3 text-xs text-alliance-muted">
           Updated: {executor.updatedDate}

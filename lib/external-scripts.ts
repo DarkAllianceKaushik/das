@@ -1,8 +1,11 @@
 import type {
   ExternalScript,
   ExternalScriptsResult,
+  ExternalSource,
   ExternalSourceFilter,
+  ExternalSort,
   GameSearchResult,
+  TrendingResult,
 } from "./external-types";
 
 const SCRIPTBLOX_API = "https://scriptblox.com/api";
@@ -22,10 +25,31 @@ function cachedFetch<T>(key: string, fetcher: () => Promise<T>): Promise<T> {
   });
 }
 
+async function fetchWithRetry<T>(
+  fetcher: () => Promise<T>,
+  attempts = 3,
+  delayMs = 700
+): Promise<T> {
+  let lastError: unknown;
+  for (let i = 0; i < attempts; i++) {
+    try {
+      return await fetcher();
+    } catch (err) {
+      lastError = err;
+      if (i < attempts - 1) await new Promise((r) => setTimeout(r, delayMs * (i + 1)));
+    }
+  }
+  throw lastError;
+}
+
 async function fetchJson<T>(url: string, cacheKey?: string): Promise<T> {
   const doFetch = () =>
     fetch(url, {
-      headers: { Accept: "application/json" },
+      headers: {
+        Accept: "application/json",
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36",
+      },
       cache: "no-store",
     }).then((res) => {
       if (!res.ok) throw new Error(`Request failed (${res.status}): ${url}`);
@@ -33,7 +57,7 @@ async function fetchJson<T>(url: string, cacheKey?: string): Promise<T> {
     });
 
   if (cacheKey) return cachedFetch(cacheKey, doFetch);
-  return doFetch();
+  return fetchWithRetry(doFetch);
 }
 
 function truncate(text: string, max = 280): string {
@@ -134,11 +158,12 @@ function mapRScripts(raw: Record<string, unknown>): ExternalScript {
 async function fetchScriptBlox(
   query: string,
   page: number,
-  isBrowse: boolean
+  isBrowse: boolean,
+  sort: ExternalSort
 ): Promise<{ scripts: ExternalScript[]; totalPages: number }> {
-  const cacheKey = `sb:${query}:${page}:${isBrowse}`;
+  const cacheKey = `sb:${query}:${page}:${isBrowse}:${sort}`;
 
-  if (isBrowse && page === 1) {
+  if (sort === "trending" && page === 1) {
     const trending = await fetchJson<{
       result?: { scripts?: Record<string, unknown>[] };
     }>(`${SCRIPTBLOX_API}/script/trending`, `${cacheKey}:trending`);
@@ -159,8 +184,13 @@ async function fetchScriptBlox(
     cacheKey
   );
 
+  let scripts = (data.result?.scripts || []).map((s) => mapScriptBlox(s));
+  if (sort === "views") {
+    scripts = scripts.sort((a, b) => b.views - a.views);
+  }
+
   return {
-    scripts: (data.result?.scripts || []).map((s) => mapScriptBlox(s)),
+    scripts,
     totalPages: data.result?.totalPages || 1,
   };
 }
@@ -168,15 +198,30 @@ async function fetchScriptBlox(
 async function fetchRScripts(
   query: string,
   page: number,
-  isBrowse: boolean
+  isBrowse: boolean,
+  sort: ExternalSort
 ): Promise<{ scripts: ExternalScript[]; totalPages: number }> {
   const limit = isBrowse ? PER_SOURCE_LIMIT : 30;
-  const cacheKey = `rs:${query}:${page}:${isBrowse}`;
+  const cacheKey = `rs:${query}:${page}:${isBrowse}:${sort}`;
+
+  if (sort === "trending" && page === 1) {
+    const trending = await fetchJson<{
+      success?: { views?: number; script?: Record<string, unknown> }[];
+    }>(`${RSCRIPTS_API}/trending`, `${cacheKey}:trending`);
+
+    const scripts = (trending.success || [])
+      .map((t) => mapRScripts(t.script || {}))
+      .filter((s) => s.name !== "Untitled")
+      .slice(0, PER_SOURCE_LIMIT);
+    return { scripts, totalPages: 50 };
+  }
 
   const params = new URLSearchParams({ page: String(page), limit: String(limit) });
   if (!isBrowse && query) params.set("q", query);
-  else if (isBrowse) params.set("orderBy", "date");
   else params.set("orderBy", "date");
+  params.set("orderDir", "desc");
+  if (sort === "views") params.set("orderBy", "views");
+  else if (sort === "newest") params.set("orderBy", "date");
 
   const data = await fetchJson<{
     scripts?: Record<string, unknown>[];
@@ -289,11 +334,13 @@ export async function fetchExternalScripts(options: {
   source?: ExternalSourceFilter;
   page?: number;
   game?: string;
+  sort?: ExternalSort;
 }): Promise<ExternalScriptsResult> {
   const source = options.source || "all";
   const page = Math.max(1, options.page || 1);
   const query = (options.query || "").trim();
-  const isBrowse = query.length === 0;
+  const sort: ExternalSort = options.sort || (query || options.game ? "views" : "trending");
+  const isBrowse = query.length === 0 && !options.game;
 
   if (options.game && (source === "all" || source === "scriptblox")) {
     const result = await fetchScriptBloxByGame(options.game, page);
@@ -303,16 +350,17 @@ export async function fetchExternalScripts(options: {
       totalPages: result.totalPages,
       query: options.game,
       source,
+      sort,
     };
   }
 
   const tasks: Promise<{ scripts: ExternalScript[]; totalPages: number }>[] = [];
 
   if (source === "all" || source === "scriptblox") {
-    tasks.push(fetchScriptBlox(query, page, isBrowse));
+    tasks.push(fetchScriptBlox(query, page, isBrowse, sort));
   }
   if (source === "all" || source === "rscripts") {
-    tasks.push(fetchRScripts(query, page, isBrowse));
+    tasks.push(fetchRScripts(query, page, isBrowse, sort));
   }
 
   const results = await Promise.allSettled(tasks);
@@ -329,7 +377,14 @@ export async function fetchExternalScripts(options: {
     }
   }
 
-  scripts.sort((a, b) => b.views - a.views);
+  if (sort === "views") scripts.sort((a, b) => b.views - a.views);
+  else if (sort === "newest") {
+    scripts.sort((a, b) => {
+      const aName = a.name.toLowerCase();
+      const bName = b.name.toLowerCase();
+      return aName.localeCompare(bName);
+    });
+  }
 
   if (source === "all") {
     scripts = scripts.slice(0, PER_SOURCE_LIMIT * 2);
@@ -341,5 +396,76 @@ export async function fetchExternalScripts(options: {
     totalPages,
     query,
     source,
+    sort,
   };
+}
+
+export async function fetchExternalTrending(): Promise<TrendingResult> {
+  const results = await Promise.allSettled([
+    fetchJson<{ result?: { scripts?: Record<string, unknown>[] } }>(
+      `${SCRIPTBLOX_API}/script/trending`,
+      "sb:trending"
+    ),
+    fetchJson<{ success?: { views?: number; script?: Record<string, unknown> }[] }>(
+      `${RSCRIPTS_API}/trending`,
+      "rs:trending"
+    ),
+  ]);
+
+  const scripts: ExternalScript[] = [];
+  const sources: TrendingResult["sources"] = { scriptblox: 0, rscripts: 0 };
+
+  if (results[0].status === "fulfilled") {
+    const sb = (results[0].value.result?.scripts || [])
+      .slice(0, PER_SOURCE_LIMIT)
+      .map((s) => mapScriptBlox(s));
+    scripts.push(...sb);
+    sources.scriptblox = sb.length;
+  }
+  if (results[1].status === "fulfilled") {
+    const rs = (results[1].value.success || [])
+      .map((t) => mapRScripts((t.script || {}) as Record<string, unknown>))
+      .filter((s) => s.name !== "Untitled")
+      .slice(0, PER_SOURCE_LIMIT);
+    scripts.push(...rs);
+    sources.rscripts = rs.length;
+  }
+
+  scripts.sort((a, b) => b.views - a.views);
+  return { scripts: scripts.slice(0, 12), sources };
+}
+
+export async function fetchExternalRawScript(
+  id: string
+): Promise<{ content: string; source: ExternalSource } | null> {
+  if (id.startsWith("scriptblox-")) {
+    const scriptId = id.slice("scriptblox-".length);
+    const data = await fetchJson<{ script?: Record<string, unknown> }>(
+      `${SCRIPTBLOX_API}/script/${encodeURIComponent(scriptId)}`,
+      `sb:detail:${scriptId}`
+    );
+    const raw = data?.script?.script;
+    if (typeof raw === "string" && raw.trim()) {
+      return { content: raw, source: "scriptblox" };
+    }
+    return null;
+  }
+
+  if (id.startsWith("rscripts-")) {
+    const scriptId = id.slice("rscripts-".length);
+    const data = await fetchJson<{ script?: Record<string, unknown> }>(
+      `${RSCRIPTS_API}/script?id=${encodeURIComponent(scriptId)}`,
+      `rs:detail:${scriptId}`
+    );
+    const rawUrl = data?.script?.rawScript;
+    if (typeof rawUrl === "string" && rawUrl.startsWith("https://")) {
+      const text = await fetch(rawUrl, { cache: "no-store" })
+        .then((res) => (res.ok ? res.text() : ""))
+        .catch(() => "");
+      if (text.trim()) return { content: text, source: "rscripts" };
+    }
+    return null;
+  }
+
+  return null;
 }

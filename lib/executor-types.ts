@@ -29,6 +29,17 @@ export interface Executor {
   private?: boolean;
   hasIssues?: boolean;
   detectionReason?: string;
+  rbxversion?: string;
+  roleId?: string;
+  index?: number;
+  unknown?: boolean;
+  possibleBanwave?: boolean;
+  trackerId?: string;
+  recommendedReason?: string;
+  sunc?: {
+    suncScrap?: number;
+    suncKey?: number;
+  };
   slug?: {
     fullDescription?: string;
     logo?: string;

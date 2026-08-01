@@ -12,7 +12,9 @@ async function fetchFromWEAO(): Promise<Executor[]> {
     if (!res.ok) return [];
     const data = await res.json();
     const list = Array.isArray(data) ? data : data.result ?? [];
-    return list.filter((e: Executor) => e?.title);
+    return list
+      .filter((e: Executor) => e?.title)
+      .filter((e: Executor) => !e.hidden && !e.private);
   } catch {
     return [];
   }

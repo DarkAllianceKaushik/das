@@ -1,5 +1,6 @@
 import { StoreSwitcher } from "@/components/StoreSwitcher";
 import { DiscordButton } from "@/components/DiscordButton";
+import { TrendingStrip } from "@/components/TrendingStrip";
 import { getScriptsData } from "@/lib/scripts";
 import { Flame } from "lucide-react";
 import { Chip } from "@heroui/react/chip";
@@ -71,6 +72,7 @@ export default async function HomePage() {
       </section>
 
       <div className="mx-auto max-w-6xl px-4 pb-16 pt-12 sm:px-6 sm:pb-20 sm:pt-16">
+        <TrendingStrip />
         <Suspense fallback={<StoreGridSkeleton />}>
           <StoreSwitcher scripts={scripts} categories={categories} />
         </Suspense>

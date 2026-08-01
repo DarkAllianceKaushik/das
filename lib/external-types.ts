@@ -1,5 +1,6 @@
 export type ExternalSource = "scriptblox" | "rscripts";
 export type ExternalSourceFilter = "all" | ExternalSource;
+export type ExternalSort = "trending" | "views" | "newest";
 
 export type ExternalPricing = "free" | "paid" | "key";
 
@@ -33,6 +34,12 @@ export interface ExternalScriptsResult {
   totalPages: number;
   query: string;
   source: ExternalSourceFilter;
+  sort: ExternalSort;
+}
+
+export interface TrendingResult {
+  scripts: ExternalScript[];
+  sources: { scriptblox: number; rscripts: number };
 }
 
 export interface GameSearchResult {

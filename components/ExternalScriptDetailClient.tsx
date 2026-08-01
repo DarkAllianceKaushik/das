@@ -23,6 +23,45 @@ export function ExternalScriptDetailClient({ script }: Props) {
   const src = sourceStyles[script.source];
   const totalRatings = (script.likes ?? 0) + (script.dislikes ?? 0);
   const score = totalRatings > 0 ? Math.round(((script.likes ?? 0) / totalRatings) * 100) : 0;
+  const [showCode, setShowCode] = useState(false);
+  const [code, setCode] = useState("");
+  const [codeLoading, setCodeLoading] = useState(false);
+  const [codeError, setCodeError] = useState("");
+  const [copied, setCopied] = useState(false);
+
+  async function loadCode() {
+    if (showCode) {
+      setShowCode(false);
+      return;
+    }
+    setShowCode(true);
+    if (code) return;
+    setCodeLoading(true);
+    setCodeError("");
+    try {
+      const res = await fetch(`/api/external/raw?id=${encodeURIComponent(script.id)}`);
+      const data = await res.json();
+      if (!res.ok || !data.raw) {
+        setCodeError(data.error || "Raw script unavailable");
+        return;
+      }
+      setCode(data.raw);
+    } catch {
+      setCodeError("Network error while fetching the script.");
+    } finally {
+      setCodeLoading(false);
+    }
+  }
+
+  async function copyCode() {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      /* clipboard unavailable */
+    }
+  }
 
   return (
     <div className="relative z-10 mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-14">
@@ -143,10 +182,42 @@ export function ExternalScriptDetailClient({ script }: Props) {
           )}
 
           <div className="mt-6 flex flex-wrap gap-3">
+            <button type="button" onClick={loadCode} className="btn-secondary">
+              {showCode ? "Hide Code" : <><Code className="size-4" /> View Code</>}
+            </button>
             <a href={script.url} target="_blank" rel="noopener noreferrer" className="btn-primary">
               <ExternalLink className="size-4" /> View on {src.label}
             </a>
           </div>
+
+          {showCode && (
+            <div className="mt-6 overflow-hidden rounded-xl border border-alliance-border bg-alliance-black/80">
+              <div className="flex items-center justify-between border-b border-alliance-border bg-alliance-darker/60 px-4 py-2.5">
+                <span className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-alliance-muted">
+                  <Code className="size-3.5 text-alliance-red" /> Raw Script
+                </span>
+                {code && (
+                  <button type="button" onClick={copyCode} className="inline-flex items-center gap-1.5 text-xs text-alliance-muted transition hover:text-white">
+                    {copied ? <Check className="size-3.5 text-emerald-400" /> : <Copy className="size-3.5" />}
+                    {copied ? "Copied" : "Copy"}
+                  </button>
+                )}
+              </div>
+              <div className="max-h-[480px] overflow-auto p-4">
+                {codeLoading ? (
+                  <div className="flex items-center justify-center gap-2 py-10 text-sm text-alliance-muted">
+                    <Loader2 className="size-4 animate-spin text-alliance-red" /> Fetching script…
+                  </div>
+                ) : codeError ? (
+                  <p className="py-6 text-center text-sm text-red-300">{codeError}</p>
+                ) : (
+                  <pre className="whitespace-pre-wrap break-words font-mono text-[12px] leading-relaxed text-alliance-light">
+                    {code}
+                  </pre>
+                )}
+              </div>
+            </div>
+          )}
         </Card.Content>
       </Card>
 

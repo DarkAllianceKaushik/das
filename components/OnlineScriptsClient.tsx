@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState, useRef } from "react";
 import { ExternalScriptCard } from "./ExternalScriptCard";
-import type { ExternalScript, ExternalSourceFilter, GameSearchResult } from "@/lib/external-types";
+import type { ExternalScript, ExternalSort, ExternalSourceFilter, GameSearchResult } from "@/lib/external-types";
 import {
   ChevronLeft,
   ChevronRight,
@@ -12,7 +12,13 @@ import {
   X,
   Gamepad2,
 } from "lucide-react";
-import { Button, Card, Chip, InputGroup, Pagination } from "@heroui/react";
+import { Button, Card, Chip, InputGroup, Pagination, Select, Label, ListBox } from "@heroui/react";
+
+const SORT_OPTIONS: { value: ExternalSort; label: string }[] = [
+  { value: "trending", label: "Trending" },
+  { value: "views", label: "Most Viewed" },
+  { value: "newest", label: "Latest" },
+];
 
 export function OnlineScriptsClient() {
   const [scripts, setScripts] = useState<ExternalScript[]>([]);
@@ -20,6 +26,7 @@ export function OnlineScriptsClient() {
   const [query, setQuery] = useState("");
   const [game, setGame] = useState("");
   const [source, setSource] = useState<ExternalSourceFilter>("all");
+  const [sort, setSort] = useState<ExternalSort>("trending");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -48,6 +55,7 @@ export function OnlineScriptsClient() {
       const params = new URLSearchParams({
         page: String(page),
         source,
+        sort,
       });
       if (query) params.set("q", query);
       if (game) params.set("game", game);
@@ -69,7 +77,7 @@ export function OnlineScriptsClient() {
     } finally {
       setLoading(false);
     }
-  }, [page, query, game, source]);
+  }, [page, query, game, source, sort]);
 
   useEffect(() => {
     loadScripts();
@@ -208,7 +216,7 @@ export function OnlineScriptsClient() {
           </div>
         )}
 
-        <div className="mt-4 flex flex-wrap gap-2">
+        <div className="mt-4 flex flex-wrap items-center gap-2">
           {(
             [
               ["all", "Both APIs"],
@@ -233,6 +241,34 @@ export function OnlineScriptsClient() {
               {label}
             </Button>
           ))}
+          <div className="ml-auto">
+            <Select
+              selectedKey={sort}
+              onSelectionChange={(k) => {
+                if (k === null) return;
+                setSort(String(k) as ExternalSort);
+                setPage(1);
+              }}
+              placeholder="Sort by"
+              variant="primary"
+              className="w-auto min-w-[150px]"
+              aria-label="Sort scripts"
+            >
+              <Select.Trigger>
+                <Select.Value />
+                <Select.Indicator />
+              </Select.Trigger>
+              <Select.Popover placement="bottom">
+                <ListBox>
+                  {SORT_OPTIONS.map((o) => (
+                    <ListBox.Item key={o.value} id={o.value}>
+                      <Label>{o.label}</Label>
+                    </ListBox.Item>
+                  ))}
+                </ListBox>
+              </Select.Popover>
+            </Select>
+          </div>
         </div>
       </div>
 
